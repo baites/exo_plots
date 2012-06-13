@@ -156,6 +156,8 @@ class Canvas(object):
 
                     pad.SetMargin(0.15, 0.03, 0.1, 0.1)
                     pad.SetGrid()
+
+                canvas.cd(1)
             else:
                 pad = canvas.cd(1)
                 pad.SetMargin(0.15, 0.03, 0.15, 0.15)
