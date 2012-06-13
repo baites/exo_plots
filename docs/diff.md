@@ -13,6 +13,16 @@ The function returns a list with four items
 2. common to both files keys
 3. keys that are found in the second file only
 
+## Run
+
+The module can also be run as a stand-alone script, e.g.:
+
+```bash
+python root/diff.py file1.root file2.root
+# the script will return 0 if files are the same and 1 otherwise
+echo $?
+```
+
 ## Example
 
 ```python

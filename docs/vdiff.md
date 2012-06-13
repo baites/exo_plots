@@ -5,6 +5,16 @@ the ones that are different. The
 [TH1::Integral](http://root.cern.ch/root/html/TH1.html#TH1:Integral)
 is used to check if histograms are the same.
 
+## Run
+
+The module can also be run as a stand-alone script, e.g.:
+
+```bash
+python root/vdiff.py file1.root file2.root
+# the script will return 0 if files are the same and 1 otherwise
+echo $?
+```
+
 ## Example
 
 ```python
