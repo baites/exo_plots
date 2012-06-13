@@ -1,8 +1,8 @@
 ## timer.py
 
 Timer class is a function or method decorator to measure the performance of the
-wrapped object. It tracks number of calls made to the object and how much time
-it took to execute it.
+wrapped object. It tracks the number of calls made to the object and how much
+time it took to execute it.
 
 Such decorator has ```__str__``` method implemented for pretty print with all
 of the above information displayed. The total elapsed time is shown as well as
