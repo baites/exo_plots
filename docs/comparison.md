@@ -74,6 +74,7 @@ class ComparePlots(Canvas):
 
         # Draw ratio in the bottom pad
         canvas.cd(2)                                                                         
-        self.ratio(first, second).Draw("e 9")                                                                    
+        self.ratio(first, second).Draw("e 9")
+
         canvas.Update()                                                                      
 ```
