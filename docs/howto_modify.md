@@ -3,6 +3,9 @@
 This is the open-source project and anyone is welcome to contribute. You'll
 find the most basic workflow description on how to do this.
 
+You may find more complete description of the work process on a
+[GitHub:Help](https://help.github.com/articles/fork-a-repo)
+
 ## HowTo
 
 - register on GitHub if you don't have an account yet
