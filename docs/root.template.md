@@ -29,3 +29,25 @@ TemplateLoader has two outlet functions:
 ```TemplateLoader::process_folder(folder, path)```. This can be overriden in
 the child classes to define policy on what plots to store or what folders to
 skip
+
+## Example
+
+Let's review a very simple example of custom template loader that skips all the
+folders and only loads plots that start with _mass_ word.
+
+```python
+class MassLoader(TemplateLoader):
+    def __init__(self):
+        TemplateLoader.__init__(self)
+
+    def process_folder(self, folder, path):
+        '''Skip all folders'''
+
+        pass
+
+    def process_plot(self, template):
+        '''Store only templates whose name's start with mass'''
+
+        if template.name.startswith("mass"):
+            TemplateLoader.process_plot(template)
+```
