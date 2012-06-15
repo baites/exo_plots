@@ -29,7 +29,8 @@ def load(filename):
     if not cfg:
         raise RuntimeError("failed to read yaml config: " + filename)
 
-    # Convert colors from list to the value
+    # Convert colors from list to the value, e.g.:
+    # [10, 5] -> 15
     #
     for x in cfg["channel"]:
         if "color" not in x:
