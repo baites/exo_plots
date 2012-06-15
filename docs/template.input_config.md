@@ -1,4 +1,4 @@
-## template.config.py
+## template.input_config.py
 
 Load YAML configuration that defines: input normalizations, channels and styles.
 
