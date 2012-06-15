@@ -1,53 +1,42 @@
 ## root.template
 
-This is the base class for all the template(s) loading. The module contains
-two classes:
+This is the plots loader. It recursively scans ROOT file and processed
+each and every found plot or directory. All other objects are skipped.
 
-* **Template** is a wrapper around ROOT.TH1 that stores a bunch of inromation
-about the plot:
-    * _filename_ from which the template was loaded
-    * _path_ inside the file where histogram was found
-    * _name_ of the plot object
-    * _dimension_ of the histogram
-    * _hist_ plot object
-* **TemplateLoader** a Template(s) loader from ROOT file
+The user class(es) should inherit this back-end to process histograms and
+folders. These are skipped by default.
 
 ## How it works
 
-The TemplateLoader class entry method is
-```TemplateLoader::load("filename.root")```. It will open file and go over all
-the keys.
+The Loader class entry method is ```Loader::load("filename.root")```. It will
+open file and scan over all keys found at the top level.
 
-The template is loaded if corresponding object is a histogram. In case of
-TDirectory the loader will jump into that folder and load all the histograms
-from that folder.
+There are two outlets in the class that are called if TH1 or TDirectory like
+object is found:
 
-The code will go all the way deep into directory tree to load all found plots.
-
-TemplateLoader has two outlet functions:
-```TemplateLoader::process_plot(template)``` and
-```TemplateLoader::process_folder(folder, path)```. This can be overriden in
-the child classes to define policy on what plots to store or what folders to
-skip
+* process_plot
+* process_dir
 
 ## Example
 
-Let's review a very simple example of custom template loader that skips all the
-folders and only loads plots that start with _mass_ word.
+Consider the case when all plots need to be loaded up to one level deep
 
 ```python
-class MassLoader(TemplateLoader):
+from root import template
+
+class PlotLoader(Loader):
     def __init__(self):
-        TemplateLoader.__init__(self)
+        self._plots = []
+        self._depth = 0
 
-    def process_folder(self, folder, path):
-        '''Skip all folders'''
+    def process_dir(self, dir_):
+        if 1 < self._depth:
+            continue
 
-        pass
+        self._depth += 1
+        self._load(dir_)
+        self._depth -= 1
 
-    def process_plot(self, template):
-        '''Store only templates whose name's start with mass'''
-
-        if template.name.startswith("mass"):
-            TemplateLoader.process_plot(template)
+    def process_plot(self, hist):
+        self._plots.append(hist.Clone())
 ```
