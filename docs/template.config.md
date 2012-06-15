@@ -34,11 +34,13 @@ from loaded configuration except:
 ## Example
 
 The most basic example is given below.
+
 **Warning**: _all the numbers are miningless_
 
 ```yaml
 luminosity: 10.20 # in 1/pico-barns [pb-1]
 # Define inputs to be loaded (if enabled)
+#
 input:
     - name: ttbar
       events: 10200300 
@@ -59,7 +61,6 @@ input:
 # Define policy on how inputs can be grouped into channels
 #
 channel:
-    # Define how inputs can be grouped into channels
     - name: ttbar
       inputs: [ttbar]
       legend: !!str "QCD t#bar{t}"
