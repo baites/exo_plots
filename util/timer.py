@@ -74,6 +74,8 @@ class Timer(object):
             return self
 
         def wrapper(*parg, **karg):
+            '''Make it work as if it were a function'''
+
             return self(instance, *parg, **karg)
 
         return wrapper
@@ -144,55 +146,73 @@ class Timer(object):
 
 if "__main__" == __name__:
     @Timer
-    def list_comprehension_silent_timer(size):
+    def list_comp_silent_timer(size):
+        '''Measure function performance: silent mode'''
+
         return [x ** 2 for x in range(size)]
 
     @Timer(verbose = True)
-    def list_comprehension_verbose_timer(size):
+    def list_comp_verbose_timer(size):
+        '''Measure function performance: verbose mode'''
+
         return [x ** 2 for x in range(size)]
 
     @Timer(label = "[List Comprehension]", verbose = True)
-    def list_comprehension_verbose_timer_with_label(size):
+    def list_comp_verbose_timer_label(size):
+        '''Measure function performance: verbose mode with label'''
+
         return [x ** 2 for x in range(size)]
 
     class ListComprensionSilent(object):
+        '''Measure method performance: silent mode'''
+
         @Timer
         def __call__(self, size):
             return [x ** 2 for x in range(size)]
 
         def __str__(self):
-            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"], None, None)
+            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"],
+                                None, None)
+
             return "<{Class} at 0x{ID:x}> {info}".format(
                         Class = self.__class__.__name__,
                         ID = id(self),
                         info = str(obj).rsplit('>')[1])
 
     class ListComprensionVerbose(object):
+        '''Measure method performance: verbose mode'''
+
         @Timer(verbose = True)
         def __call__(self, size):
             return [x ** 2 for x in range(size)]
 
         def __str__(self):
-            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"], None, None)
+            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"],
+                                None, None)
+
             return "<{Class} at 0x{ID:x}> {info}".format(
                         Class = self.__class__.__name__,
                         ID = id(self),
                         info = str(obj).rsplit('>')[1])
 
     class ListComprensionVerboseWithLabel(object):
+        '''Measure method performance: verbose mode with label'''
+
         @Timer(verbose = True, label = "[ListComprensionVerboseWithLabel]")
         def __call__(self, size):
             return [x ** 2 for x in range(size)]
 
         def __str__(self):
-            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"], None, None)
+            obj = Timer.__get__(ListComprensionSilent.__dict__["__call__"],
+                                None, None)
+
             return str(obj)
 
 
 
-    for function in [list_comprehension_silent_timer,
-                     list_comprehension_verbose_timer,
-                     list_comprehension_verbose_timer_with_label,
+    for function in [list_comp_silent_timer,
+                     list_comp_verbose_timer,
+                     list_comp_verbose_timer_label,
                      ListComprensionSilent(),
                      ListComprensionVerbose(),
                      ListComprensionVerboseWithLabel()]:

@@ -106,7 +106,7 @@ class Template(object):
             # Make sure template has supported dimension
             dim = obj.GetDimension()
             if dim not in [1, 2, 3]:
-                raise ValueError("unsupported template dimension {0}".format(dim))
+                raise ValueError("unsupported template dimension: " + str(dim))
 
             directory = obj.GetDirectory()
             if directory:
@@ -313,25 +313,29 @@ if "__main__" == __name__:
 
         def test_hist_2d_path(self):
             template = Template()
-            template.hist = ROOT.TH2F("hist_2d", "hist_2d", 10, 0, 10, 10, 0, 10)
+            template.hist = ROOT.TH2F("hist_2d", "hist_2d",
+                                      10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.path, "")
 
         def test_hist_2d_name(self):
             template = Template()
-            template.hist = ROOT.TH2F("hist_2d", "hist_2d", 10, 0, 10, 10, 0, 10)
+            template.hist = ROOT.TH2F("hist_2d", "hist_2d",
+                                      10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.name, "hist_2d")
 
         def test_hist_2d_dim(self):
             template = Template()
-            template.hist = ROOT.TH2F("hist_2d", "hist_2d", 10, 0, 10, 10, 0, 10)
+            template.hist = ROOT.TH2F("hist_2d", "hist_2d",
+                                      10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.dimension, 2)
 
         def test_hist_2d_hist(self):
             template = Template()
-            hist = ROOT.TH2F("hist_2d", "hist_2d", 10, 0, 10, 10, 0, 10)
+            hist = ROOT.TH2F("hist_2d", "hist_2d",
+                             10, 0, 10, 10, 0, 10)
             template.hist = hist
 
             self.assertEqual(template.hist, hist)
@@ -339,28 +343,28 @@ if "__main__" == __name__:
         def test_hist_3d_path(self):
             template = Template()
             template.hist = ROOT.TH3F("hist_3d", "hist_3d",
-                    10, 0, 10, 10, 0, 10, 10, 0, 10)
+                                      10, 0, 10, 10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.path, "")
 
         def test_hist_3d_name(self):
             template = Template()
             template.hist = ROOT.TH3F("hist_3d", "hist_3d",
-                    10, 0, 10, 10, 0, 10, 10, 0, 10)
+                                      10, 0, 10, 10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.name, "hist_3d")
 
         def test_hist_3d_dim(self):
             template = Template()
             template.hist = ROOT.TH3F("hist_3d", "hist_3d",
-                    10, 0, 10, 10, 0, 10, 10, 0, 10)
+                                      10, 0, 10, 10, 0, 10, 10, 0, 10)
 
             self.assertEqual(template.dimension, 3)
 
         def test_hist_3d_hist(self):
             template = Template()
             hist = ROOT.TH3F("hist_3d", "hist_3d",
-                    10, 0, 10, 10, 0, 10, 10, 0, 10)
+                             10, 0, 10, 10, 0, 10, 10, 0, 10)
             template.hist = hist
 
             self.assertEqual(template.hist, hist)

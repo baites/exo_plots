@@ -24,30 +24,30 @@ def compare(function):
         '''
 
         # let custom function calculate ratio and set all titles
-        ratio = function(*parg, **karg)
+        ratio_ = function(*parg, **karg)
 
         # adjust style of the ratio plot
-        axis = ratio.GetXaxis()
+        axis = ratio_.GetXaxis()
         axis.SetTitleSize(0.1)
         axis.SetTitleOffset(1.2)
 
-        axis = ratio.GetYaxis()
+        axis = ratio_.GetYaxis()
         axis.SetTitleSize(0.1)
         axis.SetTitleOffset(0.7)
         axis.SetNdivisions(4)
         axis.SetRangeUser(-1, 1)
 
-        for axis in ratio.GetYaxis(), ratio.GetXaxis():
+        for axis in ratio_.GetYaxis(), ratio_.GetXaxis():
             axis.SetLabelSize(0.09)
 
-        ratio.SetMarkerSize(1)
-        ratio.SetMarkerStyle(20)
-        ratio.SetLineWidth(2)
-        ratio.SetLineColor(ROOT.kGray + 2)
-        ratio.SetLineStyle(1)
-        ratio.SetMarkerColor(ROOT.kBlack)
+        ratio_.SetMarkerSize(1)
+        ratio_.SetMarkerStyle(20)
+        ratio_.SetLineWidth(2)
+        ratio_.SetLineColor(ROOT.kGray + 2)
+        ratio_.SetLineStyle(1)
+        ratio_.SetMarkerColor(ROOT.kBlack)
 
-        return ratio
+        return ratio_
 
     return compare_decorator
 
@@ -55,23 +55,25 @@ def compare(function):
 def ratio(numerator, denominator):
     '''Return ratio of two plots: numerator / denominator'''
 
-    h = numerator.Clone()
-    h.SetDirectory(0)
-    h.Reset()
+    hist = numerator.Clone()
+    hist.SetDirectory(0)
+    hist.Reset()
 
-    h.Divide(numerator, denominator)
+    hist.Divide(numerator, denominator)
 
-    return h
+    return hist
 
 @compare
 def data_mins_bg_over_bg(data, background):
-    h = data.Clone()
-    h.SetDirectory(0)
+    '''Return ratio of two plots: (data - bg) / bg'''
 
-    h.Add(background, -1)
-    h.Divide(background)
+    hist = data.Clone()
+    hist.SetDirectory(0)
 
-    return h
+    hist.Add(background, -1)
+    hist.Divide(background)
+
+    return hist
 
 class Canvas(object):
     '''
@@ -126,7 +128,7 @@ class Canvas(object):
         self._pads = pads
 
         if not lazy_init:
-            self.canvas
+            self._canvas = self._create_canvas()
 
     @property
     def canvas(self):
@@ -135,38 +137,41 @@ class Canvas(object):
         '''
 
         if not self._canvas:
-            # create canvas
-            canvas = ROOT.TCanvas()
-            canvas.SetWindowSize(640, 560 if 1 == self._pads else 800)
-
-            if 1 != self._pads:
-                canvas.Divide(1, self._pads)
-
-                # prepare top pad for original plots to be drawn overlayed
-                pad = canvas.cd(1)
-                pad.SetPad(0, 0.3, 1, 1)
-                pad.SetMargin(0.15, 0.03, 0.1, 0.1)
-
-                # prepare bottom pad for comparison/ratio draw
-                pad_height = 0.3 / (self._pads - 1) if 1 != self._pads else 0.3
-                for pad_number in range(1, self._pads):
-                    pad = canvas.cd(pad_number + 1)
-                    pad.SetPad(0, 0.3 - pad_number * pad_height,
-                               1, 0.3 - (pad_number - 1) * pad_height)
-
-                    pad.SetMargin(0.15, 0.03, 0.1, 0.1)
-                    pad.SetGrid()
-
-                canvas.cd(1)
-            else:
-                pad = canvas.cd(1)
-                pad.SetMargin(0.15, 0.03, 0.15, 0.15)
-
-            self._canvas = canvas
+            self._canvas = self._create_canvas()
 
         return self._canvas
 
+    def _create_canvas(self):
+        '''Create canvas object and split into specified nubmer of pads'''
 
+        # create canvas
+        canvas = ROOT.TCanvas()
+        canvas.SetWindowSize(640, 560 if 1 == self._pads else 800)
+
+        if 1 != self._pads:
+            canvas.Divide(1, self._pads)
+
+            # prepare top pad for original plots to be drawn overlayed
+            pad = canvas.cd(1)
+            pad.SetPad(0, 0.3, 1, 1)
+            pad.SetMargin(0.15, 0.03, 0.1, 0.1)
+
+            # prepare bottom pad for comparison/ratio draw
+            pad_height = 0.3 / (self._pads - 1) if 1 != self._pads else 0.3
+            for pad_number in range(1, self._pads):
+                pad = canvas.cd(pad_number + 1)
+                pad.SetPad(0, 0.3 - pad_number * pad_height,
+                           1, 0.3 - (pad_number - 1) * pad_height)
+
+                pad.SetMargin(0.15, 0.03, 0.1, 0.1)
+                pad.SetGrid()
+
+            canvas.cd(1)
+        else:
+            pad = canvas.cd(1)
+            pad.SetMargin(0.15, 0.03, 0.15, 0.15)
+
+        return canvas
 
 if "__main__" == __name__:
     # Prepare function for later random fill
@@ -177,28 +182,34 @@ if "__main__" == __name__:
     my_gaus2.SetParameters(1, 40, 10)
 
     # Create plot and randomly fill with above function
-    plot1 = ROOT.TH1F("plot1", "plot1", 50, 0, 100);
+    plot1 = ROOT.TH1F("plot1", "plot1", 50, 0, 100)
     plot1.FillRandom("my_gaus1", 10000)
     plot1.SetLineColor(ROOT.kRed + 1)
     plot1.GetXaxis().SetTitle("jet P_{T} [GeV]")
     plot1.GetYaxis().SetTitle("event yield")
 
-    plot2 = ROOT.TH1F("plot2", "plot2", 50, 0, 100);
+    plot2 = ROOT.TH1F("plot2", "plot2", 50, 0, 100)
     plot2.FillRandom("my_gaus2", 10000)
     plot2.GetXaxis().SetTitle("jet P_{T} [GeV]")
     plot2.GetYaxis().SetTitle("event yield")
 
     class ComparePlots(Canvas):
+        '''Example of the compare canvas'''
+
+        @staticmethod
         @compare
-        def ratio(self, first, second):
-            ratio = first.Clone()
-            ratio.SetDirectory(0)
-            ratio.Reset()
+        def ratio(first, second):
+            '''Simple ratio calculator'''
 
-            ratio.Divide(first, second)
-            ratio.GetYaxis().SetTitle("#frac{" + first.GetName() + "}{" + second.GetName() + "}")
+            ratio_ = first.Clone()
+            ratio_.SetDirectory(0)
+            ratio_.Reset()
 
-            return ratio
+            ratio_.Divide(first, second)
+            ratio_.GetYaxis().SetTitle("#frac{" + first.GetName() +
+                                      "}{" + second.GetName() + "}")
+
+            return ratio_
 
         def __call__(self, first, second):
             canvas = self.canvas
@@ -213,9 +224,9 @@ if "__main__" == __name__:
             stack.GetYaxis().SetTitle(first.GetYaxis().GetTitle())
 
             canvas.cd(2)
-            ratio = self.ratio(first, second)
-            ratio.GetXaxis().SetLabelSize(0)
-            ratio.Draw("e 9")
+            ratio_ = ComparePlots.ratio(first, second)
+            ratio_.GetXaxis().SetLabelSize(0)
+            ratio_.Draw("e 9")
 
             canvas.Update()
             

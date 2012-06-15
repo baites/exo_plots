@@ -3,16 +3,14 @@
 '''
 Created by Samvel Khalatyan, Feb 14, 2012
 Copyright 2011, All rights reserved
+
+Collection of stadard labels used in histograms. These should be used in all
+plots to ensure standard look.
 '''
 
 from __future__ import print_function, division
 
 import ROOT
-
-'''
-Collection of stadard labels used in histograms. These should be used in all
-plots to ensure standard look.
-'''
 
 class Label(object):
     '''
@@ -49,9 +47,9 @@ class Label(object):
             label = ROOT.TLegend(*self.__box_coordinates)
 
             label.SetTextSize(self.__text_size)
-            label.SetMargin(0.12);
-            label.SetFillColor(10);
-            label.SetBorderSize(0);
+            label.SetMargin(0.12)
+            label.SetFillColor(10)
+            label.SetBorderSize(0)
 
             self.__label = label
 

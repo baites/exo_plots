@@ -28,8 +28,7 @@ def vdiff(lfile, rfile, verbose=True):
         vdiff("file1.root", "file2.root")
     '''
 
-    result, lkeys, common_keys, rkeys = root.diff.diff(lfile, rfile,
-                                                       verbose=False)
+    result, common_keys = root.diff.diff(lfile, rfile, verbose=False)[1:3:2]
 
     if result and verbose:
         print("warning: files have different content", file=sys.stderr)
@@ -44,16 +43,16 @@ def vdiff(lfile, rfile, verbose=True):
     with root.tfile.topen(lfile) as lfile_:
         with root.tfile.topen(rfile) as rfile_:
             for key in sorted(common_keys):
-                lh = lfile_.Get(key)
-                if not lh:
+                lhist = lfile_.Get(key)
+                if not lhist:
                     if verbose:
                         print("failed to extract", key, "from", lfile,
                               file=sys.stderr)
 
                     continue
 
-                rh = rfile_.Get(key)
-                if not rh:
+                rhist = rfile_.Get(key)
+                if not rhist:
                     if verbose:
                         print("failed to extract", key, "from", rfile,
                               file=sys.stderr)
@@ -61,43 +60,44 @@ def vdiff(lfile, rfile, verbose=True):
                     continue
 
                 # Process plots only
-                if (not isinstance(lh, ROOT.TH1) or
-                    not isinstance(rh, ROOT.TH1)):
+                if (not isinstance(lhist, ROOT.TH1) or
+                    not isinstance(rhist, ROOT.TH1)):
 
                     continue
 
                 # Skip equal plot 
-                if lh.Integral() == rh.Integral():
+                if lhist.Integral() == rhist.Integral():
                     continue
 
                 # Adjust plots style
-                lh.SetLineColor(ROOT.kGreen + 1)
-                rh.SetLineColor(ROOT.kRed + 1)
+                lhist.SetLineColor(ROOT.kGreen + 1)
+                rhist.SetLineColor(ROOT.kRed + 1)
 
-                for h in lh, rh:
-                    h.SetFillStyle(0)
-                    h.SetLineStyle(1)
+                for hist in lhist, rhist:
+                    hist.SetFillStyle(0)
+                    hist.SetLineStyle(1)
 
                 # Draw two histograms overlayed
                 cmp_ = root.comparison.Canvas()
                 cmp_.canvas.cd(1)
 
                 stack = ROOT.THStack()
-                stack.Add(lh)
-                stack.Add(rh)
+                stack.Add(lhist)
+                stack.Add(rhist)
                 stack.Draw("9 hist nostack")
 
                 # Add legend for offline review
                 legend = ROOT.TLegend(0.4, 0.7, 0.88, 0.8)
                 legend.SetTextSizePixels(18)
                 legend.SetHeader(key)
-                legend.AddEntry(lh, lfile, "l")
-                legend.AddEntry(rh, rfile, "l")
+                legend.AddEntry(lhist, lfile, "l")
+                legend.AddEntry(rhist, rfile, "l")
                 legend.Draw("9")
 
                 # Draw comparison
                 cmp_.canvas.cd(2)
-                ratio = root.comparison.ratio(lh, rh, "#frac{GREEN}{RED}")
+                ratio = root.comparison.ratio(lhist, rhist)
+                ratio.GetYaxis().SetTitle("#frac{GREEN}{RED}")
                 ratio.GetYaxis().SetRangeUser(0, 5)
                 ratio.Draw("9")
 
