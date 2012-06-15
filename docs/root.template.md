@@ -30,7 +30,7 @@ class PlotLoader(Loader):
         self._depth = 0
 
     def process_dir(self, dir_):
-        if 1 < self._depth:
+        if 0 < self._depth:
             continue
 
         self._depth += 1
