@@ -15,7 +15,7 @@ type with:
     * _enable_ switch to turn OFF or ON input: input is **not** loaded if
       switched off
 * **channel** is a list of channels that combine inputs, e.g.:
-all **stop_\*** and **satop_\*** go into **stop** channel. Each channel must
+all **stop_X** and **satop_X** go into **stop** channel. Each channel must
 host next information:
     * _name_ the channel ID
     * _inputs_ list of inputs that are allowed to be added into given channel
@@ -24,10 +24,20 @@ host next information:
     * _fill_ True or False value, which indicates if plots will be filled
     * _line_ define line style
 
+User may add more information to the config but all top-level keys are removed
+from loaded configuration except:
+
+* luminosity
+* input
+* channel
+
 ## Example
 
+The most basic example is given below.
+**Warning**: _all the numbers are miningless_
+
 ```yaml
-luminosity: 10.20# in 1/pico-barns [pb-1]
+luminosity: 10.20 # in 1/pico-barns [pb-1]
 # Define inputs to be loaded (if enabled)
 input:
     - name: ttbar
