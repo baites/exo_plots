@@ -1,0 +1,412 @@
+# This [YAML](http://www.yaml.org/spec/1.2/spec.html#id2761803) configures
+# the normalizationa of inputs, their relation to channels and styles to be
+# used for drawing histograms.
+#
+# Each MC sample is called **Input**, e.g.:
+#
+#   stop-s, stop-t, wb, zjet, prompt_2011a_v4
+#
+# Inputs are groupped into **Channel**s, e.g.:
+#
+#   stop-s, stop-t, stop-tw, etc.           -> stop
+#   ttbar                                   -> ttbar
+#   prompt_2011a_v4, promprt2011b_v1, etc.  -> data
+#
+# Each input plot is automatically scaled with luminosity, corresponding
+# cross-section and number of events. These numbers are defined in the config
+# below
+#
+# Warning: use unique names in inputs. The same is applied to channels
+#
+# ------------------------------------------------------------------------------
+#
+# ROOT Color Constants: used for back reference in YAML and NOT used in the code
+#
+color:
+    # Get colors from ROOT in interactive session:
+    # root [0] kRed
+    # (const enum EColor)632
+    #
+    black: &black 1
+    red: &red 632
+    blue: &blue 600
+    green: &green 416
+    magenta: &magenta 616
+    yellow: &yellow 400
+    gray: &gray 920
+luminosity: 4367.39 # in 1/pico-barns [pb-1]
+# Each input is defined by its name, number of processed events, and
+# cross-sectionb. Each input can be turned ON or OFF from loading.
+#
+input:
+    - name: ttbar # TTbar Summer11
+      events: 3701947
+      xsection: 163
+      enable: False
+    - name: ttbar_powheg
+      events: 16330372
+      xsection: 163
+      enable: False
+    - name: ttbar_fall11 # (default TTbar input)
+      events: 59513991
+      xsection: 163
+      enable: True
+    - name: zjets
+      events: 36277961
+      xsection: 3048
+      enable: True
+    # W + Heavy Flavor
+    #
+    - name: wjets # dummy input: used for Nevents and x-section definition
+      events: &we 77105816 # &we will create a reference with name we
+      xsection: &wx 31314
+      enable: False # this input is disabled by default
+    - name: wb
+      events: *we # use above reference
+      xsection: *wx
+      enable: True
+    - name: wc
+      events: *we 
+      xsection: *wx
+      enable: True
+    - name: wlight
+      events: *we 
+      xsection: *wx
+      enable: True
+    # Single-top(s)
+    #
+    - name: stop_s
+      events: 259971
+      xsection: 3.19
+      enable: True
+    - name: stop_t
+      events: 3900171
+      xsection: 41.92
+      enable: True
+    - name: stop_tw
+      events: 814390
+      xsection: 7.87
+      enable: True
+    - name: satop_s
+      events: 137980
+      xsection: 1.44
+      enable: True
+    - name: satop_t
+      events: 1944826
+      xsection: 22.65
+      enable: True
+    - name: satop_tw
+      events: 809984
+      xsection: 7.87
+      enable: True
+    # Z' 1% width
+    #
+    - name: zprime_m1000_w10
+      events: 207992
+      xsection: 1.0
+      enable: True
+    - name: zprime_m1500_w15
+      events: 168383
+      xsection: 1.0
+      enable: True
+    - name: zprime_m2000_w20
+      events: 179315
+      xsection: 1.0
+      enable: True
+    - name: zprime_m3000_w30
+      events: 195410
+      xsection: 1.0
+      enable: True
+    # Z' 10% width
+    #
+    - name: zprime_m1000_w100
+      events: 228928
+      xsection: 1.0
+      enable: True
+    - name: zprime_m1500_w150
+      events: 195202
+      xsection: 1.0
+      enable: True
+    - name: zprime_m2000_w200
+      events: 209399
+      xsection: 1.0
+      enable: True
+    - name: zprime_m3000_w300
+      events: 220597
+      xsection: 1.0
+      enable: True
+    # Kaluza-Klein Gluons
+    #
+    - name: rsgluon_m1000
+      events: 99998
+      xsection: 1.0
+      enable: True
+    - name: rsgluon_m1500
+      events: 99998
+      xsection: 1.0
+      enable: True
+    - name: rsgluon_m2000
+      events: 100000
+      xsection: 1.0
+      enable: True
+    - name: rsgluon_m2500
+      events: 99994
+      xsection: 1.0
+      enable: True
+    - name: rsgluon_m3000
+      events: 99997
+      xsection: 1.0
+      enable: True
+    # Data samples
+    #
+    - name: qcd # from data
+      events: null
+      xsection: null
+      enable: True
+    - name: rereco_2011a_may10
+      events: null
+      xsection: null
+      enable: True
+    - name: rereco_2011a_aug05
+      events: null
+      xsection: null
+      enable: True
+    - name: prompt_2011a_v4
+      events: null
+      xsection: null
+      enable: True
+    - name: prompt_2011a_v6
+      events: null
+      xsection: null
+      enable: True
+    - name: prompt_2011b_v1
+      events: null
+      xsection: null
+      enable: True
+    # Systematic samples
+    #
+    - name: ttbar_scale_plus
+      events: 930483 
+      xsection: 163
+      enable: True
+    - name: ttbar_scale_minus
+      events: 967055
+      xsection: 163 
+      enable: True
+    - name: ttbar_matching_plus
+      events: 1057479 
+      xsection: 163
+      enable: True
+    - name: ttbar_matching_minus
+      events: 1065323 
+      xsection: 163
+      enable: True
+    - name: wjets_scale_plus
+      events: 9784907 
+      xsection: 31314
+      enable: True
+    - name: wjets_scale_minus
+      events: 10022324 
+      xsection: 31314
+      enable: True
+    - name: wjets_matching_plus
+      events: 10461655 
+      xsection: 31314
+      enable: True
+    - name: wjets_matching_minus
+      events: 9956679 
+      xsection: 31314
+      enable: True
+# Define policy on how inputs can be grouped into channels
+#
+channel:
+    # Define how inputs can be grouped into channels
+    - name: ttbar
+      inputs: [ttbar, ttbar_powheg, ttbar_fall11]
+      legend: !!str "QCD t#bar{t}"
+      # color is specified by [base, shift] and will be converted on load to
+      # color: base + shift, e.g.:
+      #
+      # yaml:   color: [10, 4]
+      # load:   color: 14
+      #
+      color: [*red, 1]
+      fill: True
+      line: null
+    - name: wb
+      inputs: [wb]
+      legend: !!str "W#rightarrowl#nu (+bX)"
+      color: [*green, 3]
+      fill: True
+      line: null
+    - name: wc
+      inputs: [wc]
+      legend: !!str "W#rightarrowl#nu (+cX)"
+      color: [*green, 2]
+      fill: True
+      line: null
+    - name: wlight
+      inputs: [wlight]
+      legend: !!str "W#rightarrowl#nu (+light)"
+      color: [*green, 1]
+      fill: True
+      line: null
+    - name: wjets
+      inputs: [wb, wc, wlight]
+      legend: !!str "W#rightarrowl#nu"
+      color: [*green, 0]
+      fill: True
+      line: null
+    - name: stop
+      inputs: [stop_s, stop_t, stop_tw, satop_s, satop_t, satop_tw]
+      legend: !!str "Single-Top"
+      color: [*magenta, 1]
+      fill: True
+      line: null
+    # Data channels
+    #
+    - name: data
+      inputs: [rereco_]
+      legend: !!str "CMS Data 2011"
+      color: [*black, 0] # black color
+      fill: False
+      line: null
+    - name: qcd
+      inputs: [qcd]
+      legend: !!str "QCD data-driven"
+      color: [*yellow, 1]
+      fill: True
+      line: null
+    # Z' 1% width
+    #
+    - name: zprime_m1000_w10
+      inputs: [zprime_m1000_w10]
+      legend: !!str "Z' 1.0 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 1
+    - name: zprime_m1500_w15
+      inputs: [zprime_m1500_w15]
+      legend: !!str "Z' 1.5 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 2
+    - name: zprime_m2000_w20
+      inputs: [zprime_m2000_w20]
+      legend: !!str "Z' 2.0 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 3
+    - name: zprime_m3000_w30
+      inputs: [zprime_m3000_w30]
+      legend: !!str "Z' 3.0 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 7
+    # Z' 10% width
+    #
+    - name: zprime_m1000_w100
+      inputs: [zprime_m1000_w100]
+      legend: !!str "Z' 1.0 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 1
+    - name: zprime_m1500_w150
+      inputs: [zprime_m1500_w150]
+      legend: !!str "Z' 1.5 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 2
+    - name: zprime_m2000_w200
+      inputs: [zprime_m2000_w200]
+      legend: !!str "Z' 2.0 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 3
+    - name: zprime_m3000_w300
+      inputs: [zprime_m3000_w300]
+      legend: !!str "Z' 3.0 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 7
+    # Kaluza-Klein gluons
+    - name: rsgluon_m1000
+      inputs: [zrsgluon_m1000]
+      legend: !!str "KKGluon 1.0 TeV/c^{2}"
+      color: [*gray, 3]
+      fill: False
+      line: 1
+    - name: rsgluon_m1500
+      inputs: [zrsgluon_m1500]
+      legend: !!str "KKGluon 1.5 TeV/c^{2}"
+      color: [*gray, 3]
+      fill: False
+      line: 2
+    - name: rsgluon_m2000
+      inputs: [zrsgluon_m2000]
+      legend: !!str "KKGluon 2.0 TeV/c^{2}"
+      color: [*gray, 3]
+      fill: False
+      line: 3
+    - name: rsgluon_m2500
+      inputs: [zrsgluon_m2500]
+      legend: !!str "KKGluon 2.5 TeV/c^{2}"
+      color: [*gray, 3]
+      fill: False
+      line: 4
+    - name: rsgluon_m3000
+      inputs: [zrsgluon_m3000]
+      legend: !!str "KKGluon 3.0 TeV/c^{2}"
+      color: [*gray, 3]
+      fill: False
+      line: 7
+    # Systematic samples
+    #
+    - name: ttbar_scale_plus
+      inputs: [ttbar_scale_plus]
+      legend: !!str "t#bar{t} scale +"
+      color: [*red, 1]
+      fill: False
+      line: null
+    - name: ttbar_scale_minus
+      inputs: [ttbar_scale_minus]
+      legend: !!str "t#bar{t} scale -"
+      color: [*blue, 1]
+      fill: False
+      line: null
+    - name: ttbar_matching_plus
+      inputs: [ttbar_matching_plus]
+      legend: !!str "t#bar{t} matching +"
+      color: [*red, 1]
+      fill: False
+      line: null
+    - name: ttbar_matching_minus
+      inputs: [ttbar_matching_minus]
+      legend: !!str "t#bar{t} matching -"
+      color: [*blue, 1]
+      fill: False
+      line: null
+    - name: wjets_scale_plus
+      inputs: [wjets_scale_plus]
+      legend: !!str "W#rightarrowl#nu scale +"
+      color: [*red, 1]
+      fill: False
+      line: null
+    - name: wjets_scale_minus
+      inputs: [wjets_scale_minus]
+      legend: !!str "W#rightarrowl#nu scale -"
+      color: [*blue, 1]
+      fill: False
+      line: null
+    - name: wjets_matching_plus
+      inputs: [wjets_matching_plus]
+      legend: !!str "W#rightarrowl#nu matching +"
+      color: [*red, 1]
+      fill: False
+      line: null
+    - name: wjets_matching_minus
+      inputs: [wjets_matching_minus]
+      legend: !!str "W#rightarrowl#nu matching -"
+      color: [*blue, 1]
+      fill: False
+      line: null
