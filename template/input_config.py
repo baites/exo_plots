@@ -35,24 +35,24 @@ def load(filename):
     # Convert colors from list to the value, e.g.:
     # [10, 5] -> 15
     #
-    for x in cfg["channel"]:
-        if "color" not in x:
-            raise RuntimeError("missing color in channel: " + x["name"])
+    for chnl in cfg["channel"]:
+        if "color" not in chnl:
+            raise RuntimeError("missing color in channel: " + chnl["name"])
 
-        x["color"] = sum(x["color"])
+        chnl["color"] = sum(chnl["color"])
 
     # Remove all unused objects except luminosity, input and channel
     #
-    for x in set(cfg.keys()) - set(["luminosity", "input", "channel"]):
-        cfg.pop(x)
+    for chnl in set(cfg.keys()) - set(["luminosity", "input", "channel"]):
+        cfg.pop(chnl)
 
     # Convert inputs and channels from list to dictionary: keys are input names
     #
     for key in ("input", "channel"):
         input_ = {}
-        for x in cfg[key]:
-            name = x.pop("name")
-            input_[name] = x
+        for list_ in cfg[key]:
+            name = list_.pop("name")
+            input_[name] = list_
 
         cfg[key] = input_
 
@@ -74,7 +74,7 @@ def expand(config, channels, verbose=False):
         mc      All Monte-Carlo nominal backgrounds
     '''
 
-    def expand_(config, channels, pattern):
+    def expand_(config, pattern):
         '''
         Search for channels that match pattern, remove those that have all
         inputs turned OFF
@@ -82,17 +82,18 @@ def expand(config, channels, verbose=False):
 
         # Get list of channels that match narrow Z'
         #
-        ch = set(c for c in config["channel"].keys() if pattern.match(c))
+        channel = set(c for c in config["channel"].keys() if pattern.match(c))
 
         # Get sub-set of the above channels that have at least one input
         # turned ON
         #
-        ch_on = set(c for c in ch if any(config["input"][i]["enable"]
-                                         for i in config["channel"][c]["inputs"]))
+        ch_on = set(c for c in channel
+                    if any(config["input"][i]["enable"]
+                           for i in config["channel"][c]["inputs"]))
 
         # Get all the channels to be removed
         #
-        ch_off = ch - ch_on
+        ch_off = channel - ch_on
 
         if ch_off and verbose:
             print("warning: some of the channels have all inputs turned OFF -",
@@ -113,7 +114,7 @@ def expand(config, channels, verbose=False):
             pattern = re.compile(pattern)
             channels.remove(abbreviation)
 
-            channels.update(expand_(config, channels, pattern))
+            channels.update(expand_(config, pattern))
 
     # Make sure all of the expanded channels are supported
     #
