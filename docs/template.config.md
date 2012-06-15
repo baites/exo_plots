@@ -15,7 +15,7 @@ type with:
     * _enable_ switch to turn OFF or ON input: input is **not** loaded if
       switched off
 * **channel** is a list of channels that combine inputs, e.g.:
-all **stop_* ** and **satop_* ** go into **stop** channel. Each channel must
+all **stop_\*** and **satop_\*** go into **stop** channel. Each channel must
 host next information:
     * _name_ the channel ID
     * _inputs_ list of inputs that are allowed to be added into given channel
