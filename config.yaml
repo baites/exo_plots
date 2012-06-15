@@ -137,23 +137,23 @@ input:
       enable: True
     # Kaluza-Klein Gluons
     #
-    - name: rsgluon_m1000
+    - name: kkgluon_m1000
       events: 99998
       xsection: 1.0
       enable: True
-    - name: rsgluon_m1500
+    - name: kkgluon_m1500
       events: 99998
       xsection: 1.0
       enable: True
-    - name: rsgluon_m2000
+    - name: kkgluon_m2000
       events: 100000
       xsection: 1.0
       enable: True
-    - name: rsgluon_m2500
+    - name: kkgluon_m2500
       events: 99994
       xsection: 1.0
       enable: True
-    - name: rsgluon_m3000
+    - name: kkgluon_m3000
       events: 99997
       xsection: 1.0
       enable: True
@@ -179,7 +179,7 @@ input:
       events: null
       xsection: null
       enable: True
-    - name: prompt_2011b_v1
+    - name: prompt_2011a_v6
       events: null
       xsection: null
       enable: True
@@ -257,6 +257,12 @@ channel:
       color: [*green, 0]
       fill: True
       line: null
+    - name: zjets
+      inputs: [zjets]
+      legend: !!str "Z/#gamma*#rightarrowl^{+}l^{-}"
+      color: [*blue, 1]
+      fill: True
+      line: null
     - name: stop
       inputs: [stop_s, stop_t, stop_tw, satop_s, satop_t, satop_tw]
       legend: !!str "Single-Top"
@@ -266,7 +272,12 @@ channel:
     # Data channels
     #
     - name: data
-      inputs: [rereco_]
+      inputs: 
+        - rereco_2011a_may10
+        - rereco_2011a_aug05
+        - prompt_2011a_v4
+        - prompt_2011a_v6
+        - prompt_2011b_v1]
       legend: !!str "CMS Data 2011"
       color: [*black, 0] # black color
       fill: False
@@ -330,32 +341,32 @@ channel:
       fill: False
       line: 7
     # Kaluza-Klein gluons
-    - name: rsgluon_m1000
-      inputs: [zrsgluon_m1000]
+    - name: kkgluon_m1000
+      inputs: [kkgluon_m1000]
       legend: !!str "KKGluon 1.0 TeV/c^{2}"
       color: [*gray, 3]
       fill: False
       line: 1
-    - name: rsgluon_m1500
-      inputs: [zrsgluon_m1500]
+    - name: kkgluon_m1500
+      inputs: [kkgluon_m1500]
       legend: !!str "KKGluon 1.5 TeV/c^{2}"
       color: [*gray, 3]
       fill: False
       line: 2
-    - name: rsgluon_m2000
-      inputs: [zrsgluon_m2000]
+    - name: kkgluon_m2000
+      inputs: [kkgluon_m2000]
       legend: !!str "KKGluon 2.0 TeV/c^{2}"
       color: [*gray, 3]
       fill: False
       line: 3
-    - name: rsgluon_m2500
-      inputs: [zrsgluon_m2500]
+    - name: kkgluon_m2500
+      inputs: [kkgluon_m2500]
       legend: !!str "KKGluon 2.5 TeV/c^{2}"
       color: [*gray, 3]
       fill: False
       line: 4
-    - name: rsgluon_m3000
-      inputs: [zrsgluon_m3000]
+    - name: kkgluon_m3000
+      inputs: [kkgluon_m3000]
       legend: !!str "KKGluon 3.0 TeV/c^{2}"
       color: [*gray, 3]
       fill: False

@@ -31,6 +31,41 @@ from loaded configuration except:
 * input
 * channel
 
+Make sure input (channel) names are unique. The loading code will convert
+list of dictionaries into dictionary with keys equal to names, e.g.:
+
+```yamld
+# consider yaml input
+input:
+    - name: abc
+      events: 123
+      xsection: 135
+      enable: True
+    _ name: def
+      events: 321
+      xsection: 246
+      enable: True
+```
+
+it will beloaded in Python and kept in memory as:
+
+```python
+{
+    "input": {
+        "abc": {
+            "events": 123,
+            "xsection": 135,
+            "enable": True
+        },
+        "def": {
+            "events": 321,
+            "xsection": 246,
+            "enable": True
+        }
+    }
+}
+```
+
 ## Example
 
 The most basic example is given below.
@@ -86,3 +121,46 @@ channel:
       fill: True
       line: null
 ```
+
+## Load
+
+Use ```template.input_config.load(filename)``` function to load YAML config,
+e.g.:
+
+```python
+from template import input_config
+
+input_cfg = input_config.load("input_config.yaml")
+print("input_cfg", input_cfg)
+```
+
+The function will raise RuntimeError if input file does not exist, loading
+data failed, or very basic YAML test failed.
+
+It will also convert list of inputs (channels) into dictionary with keys
+equal to names (as described above).
+
+## Expand Channels
+
+It is tedious to write a list of channels to be loaded every time the script is
+run. Therefore a number of abbreviations is supported:
+
+* **zp** Z prime 1% width
+* **zpwide** Z prime 10% width
+* **kk** Kaluza-Klein gluons
+* **mc** all Monte-Carlo nominal samples: ttjets, wjets, zjets, stop, etc.
+
+The function will also remove any invalid channels or channels with all inputs
+turned OFF and can be used as follows:
+
+```python
+# Do not print warnings or error messages
+#
+expand(config, channels)
+
+# Print warning in case any channel(s) is(are) removed
+#
+expand(config, channels, verbose=True)
+```
+
+**warning**: _the function will modify the **channels** set_
