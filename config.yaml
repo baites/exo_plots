@@ -179,7 +179,7 @@ input:
       events: null
       xsection: null
       enable: True
-    - name: prompt_2011a_v6
+    - name: prompt_2011b_v1
       events: null
       xsection: null
       enable: True
@@ -277,7 +277,7 @@ channel:
         - rereco_2011a_aug05
         - prompt_2011a_v4
         - prompt_2011a_v6
-        - prompt_2011b_v1]
+        - prompt_2011b_v1
       legend: !!str "CMS Data 2011"
       color: [*black, 0] # black color
       fill: False
