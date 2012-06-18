@@ -2,7 +2,7 @@
 
 '''
 Created by Samvel Khalatyan, Jun 15, 2012
-Copyright 2011, All rights reserved
+Copyright 2012, All rights reserved
 '''
 
 import os
@@ -17,6 +17,9 @@ class Loader(object):
     The processing of each plot and found directory should be defined by child
     classes by overriding process_plot and process_dir methods
     '''
+
+    def __init__(self):
+        pass
 
     def load(self, filename):
         '''Check if file exists and load plots from it'''
