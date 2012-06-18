@@ -128,3 +128,17 @@ def expand(config, channels, verbose=False):
     channels -= ch_unsupported
 
     return channels
+
+if "__main__" == __name__:
+    import sys
+
+    cfg = load(sys.argv[1])
+    format_str = "{0:>25} {1}"
+    for key, values in cfg.items():
+        print(("-- {0} --".format(key)).ljust(80, '-'))
+
+        if "luminosity" == key:
+            print(format_str.format("", values))
+        else:
+            for k, v in values.items():
+                print("{0:>25} {1}".format(k, v))
