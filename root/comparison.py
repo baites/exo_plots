@@ -119,7 +119,7 @@ class Canvas(object):
     Canvas is automatically created on acesss
     '''
 
-    def __init__(self, pads=2, lazy_init=False):
+    def __init__(self, pads=1, lazy_init=False):
         '''
         Initialize with empty canvas
         '''
