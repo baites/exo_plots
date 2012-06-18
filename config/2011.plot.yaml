@@ -113,25 +113,25 @@ plot:
     - name: /ltop_drsum
       rebin: null
       units: null
-      title: !!str "#sum #DetaR (leptonic top)"
+      title: !!str "#sum #DeltaR (leptonic top)"
     - name: /htop_drsum
       rebin: null
       units: null
-      title: !!str "#sum #DetaR (hadronic top)"
+      title: !!str "#sum #DeltaR (hadronic top)"
     - name: /htop_dphi
       rebin: null
       units: *angle
-      title: !!str "#Deta#phi (hadronic top)"
+      title: !!str "#Delta#phi (hadronic top)"
     - name: /chi2
-      rebin: null
+      rebin: 25
       units: null
       title: !!str "#chi^{2}"
     - name: /ltop_chi2
-      rebin: null
+      rebin: 25
       units: null
       title: !!str "#chi^{2} (leptonic top)"
     - name: /htop_chi2
-      rebin: null
+      rebin: 25
       units: null
       title: !!str "#chi^{2} (hadronic top)"
     - name: /btag
