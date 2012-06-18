@@ -22,6 +22,7 @@ def load(filename):
 
     A loaded YAML config data is returned
     '''
+
     if not os.path.exists(filename):
         raise RuntimeError("yaml config file does not exist: " + filename)
 
@@ -43,8 +44,8 @@ def load(filename):
 
     # Remove all unused objects except luminosity, input and channel
     #
-    for chnl in set(cfg.keys()) - set(["luminosity", "input", "channel"]):
-        cfg.pop(chnl)
+    for key in set(cfg.keys()) - set(["luminosity", "input", "channel"]):
+        cfg.pop(key)
 
     # Convert inputs and channels from list to dictionary: keys are input names
     #
