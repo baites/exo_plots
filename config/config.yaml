@@ -1,0 +1,11 @@
+# This [YAML](http://www.yaml.org/spec/1.2/spec.html#id2761803) configures
+# the exotica plotting tool.
+#
+# ------------------------------------------------------------------------------
+#
+core:
+    batch: False
+    verbose: False
+template:
+    channel: null
+    plot: null
