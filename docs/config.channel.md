@@ -1,4 +1,4 @@
-## template.input_config.py
+## config.channel.py
 
 Load YAML configuration that defines: input normalizations, channels and styles.
 
@@ -124,13 +124,13 @@ channel:
 
 ## Load
 
-Use ```template.input_config.load(filename)``` function to load YAML config,
+Use ```config.channel.load(filename)``` function to load YAML config,
 e.g.:
 
 ```python
-from template import input_config
+from config import channel
 
-input_cfg = input_config.load("input_config.yaml")
+input_cfg = channel.load("input_config.yaml")
 print("input_cfg", input_cfg)
 ```
 
