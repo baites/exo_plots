@@ -1,10 +1,13 @@
 ## Summary
 
-This is the open-source project and anyone is welcome to contribute. You'll
-find the most basic workflow description on how to do this.
+This is the open-source project and anyone is welcome to contribute. You
+may find a nice description of the Git work flow at
+[GitHub:Help](https://help.github.com/articles/fork-a-repo) with instructions
+on how to contribute to the project.
 
-You may find more complete description of the work process on a
-[GitHub:Help](https://help.github.com/articles/fork-a-repo)
+Short summary of the same instructions is given below. It is assumed that
+you are familiar with [Git basics](http://git-scm.com/documentation). Read
+first three chapters to refresh the knowledge in the book at the reference.
 
 ## HowTo
 
