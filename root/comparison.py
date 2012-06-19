@@ -146,7 +146,8 @@ class Canvas(object):
 
         # create canvas
         canvas = ROOT.TCanvas()
-        canvas.SetWindowSize(640, 560 if 1 == self._pads else 800)
+        if 1 < self._pads:
+            canvas.SetWindowSize(640, 800)
 
         if 1 != self._pads:
             canvas.Divide(1, self._pads)
@@ -164,12 +165,9 @@ class Canvas(object):
                            1, 0.3 - (pad_number - 1) * pad_height)
 
                 pad.SetMargin(0.15, 0.03, 0.1, 0.1)
-                pad.SetGrid()
+                pad.SetGrid(True)
 
-            canvas.cd(1)
-        else:
-            pad = canvas.cd(1)
-            pad.SetMargin(0.15, 0.03, 0.15, 0.15)
+        canvas.cd(1)
 
         return canvas
 
