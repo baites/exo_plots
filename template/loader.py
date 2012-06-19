@@ -88,6 +88,9 @@ class ChannelLoader(object):
 
                 continue
 
+            if self._verbose:
+                print("load input:", input_)
+
             loader = self.__input_loader()
             loader.load("{0}.{1}.root".format(self._prefix, input_))
 
@@ -101,7 +104,7 @@ class ChannelLoader(object):
                     print("normalize", input_, "to", normalization)
 
                 for hist in loader.plots.values():
-                    hist.Scale()
+                    hist.Scale(normalization)
 
             loaders.append(loader)
 
