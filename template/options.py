@@ -58,10 +58,15 @@ def parser():
 
     parser_.add_option(
             "--channels",
-            action="store", default=["mc", "data"]
+            action="store", default=["mc", "data"],
             help=("Load templates only for comma separated channels. Signal "
                   "channels can be groupped with: zp, zpwide, kk. Individual "
                   "channel can be turned OFF by prefixing it with minus, "
                   "e.g.: zp,-zprime_m1000_w10"))
+
+    parser_.add_option(
+            "--prefix",
+            action="store", default="cms.2011",
+            help="file prefix, e.g.: prefix.ttbar.root")
 
     return parser_

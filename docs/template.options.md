@@ -11,8 +11,9 @@ default, e.g.: ~/.exo/template.yaml
 * **--channel-config** use cutom channel/input definition configuration file
 * **--plot-config** load user-defined plots configuration
 * **--channels** channels to be loaded
+* **--prefix** input ROOT filename prefix, e.g.: prefix.channel.root
 
-The last options accepts abbreviations as described in the
+The _--channels_ option accepts abbreviations as described in the
 [Channel Config](https://github.com/ksamdev/exo_plots/blob/master/docs/config.channel.md#expand-channels). 
 
 ## Example
