@@ -29,7 +29,7 @@ def analysis():
     style.SetPadGridX(True)
     style.SetPadGridY(True)
     style.SetGridColor(ROOT.kGray + 2)
-    style.SetGridStyle(1)
+    style.SetGridStyle(3)
     style.SetGridWidth(1)
 
     # Margins:
