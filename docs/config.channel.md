@@ -23,13 +23,10 @@ host next information:
     * _color_ color of the channel that will be applied to line, marker and fill
     * _fill_ True or False value, which indicates if plots will be filled
     * _line_ define line style
+* **order** defined TLegend order of backgrounds. All other backgrounds will be
+added at the bottom of the list.
 
-User may add more information to the config but all top-level keys are removed
-from loaded configuration except:
-
-* luminosity
-* input
-* channel
+User may add more information to the config.
 
 Make sure input (channel) names are unique. The loading code will convert
 list of dictionaries into dictionary with keys equal to names, e.g.:

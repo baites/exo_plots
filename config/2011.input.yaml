@@ -421,3 +421,29 @@ channel:
       color: [*blue, 1]
       fill: False
       line: null
+# Channel order in plots: all other channels not included here will be added
+# to the bottom of the list. Abbreviations are NOT accepted
+#
+order:
+    - ttbar
+    - stop
+    - zjets
+    - wb
+    - wc
+    - wlight
+    # narrow Zprime
+    - zprime_m1000_w10
+    - zprime_m1500_w15
+    - zprime_m2000_w20
+    - zprime_m3000_w30
+    # wide Zprime
+    - zprime_m1000_w100
+    - zprime_m1500_w150
+    - zprime_m2000_w200
+    - zprime_m3000_w300
+    # KK gluon
+    - kkgluon_m1000
+    - kkgluon_m1500
+    - kkgluon_m2000
+    - kkgluon_m3000
+    - data

@@ -42,11 +42,6 @@ def load(filename):
 
         chnl["color"] = sum(chnl["color"])
 
-    # Remove all unused objects except luminosity, input and channel
-    #
-    for key in set(cfg.keys()) - set(["luminosity", "input", "channel"]):
-        cfg.pop(key)
-
     # Convert inputs and channels from list to dictionary: keys are input names
     #
     for key in ("input", "channel"):
@@ -56,6 +51,13 @@ def load(filename):
             input_[name] = list_
 
         cfg[key] = input_
+
+    # Make sure order contains only predefined channels
+    #
+    new_channels = set(cfg["order"]) - set(cfg["channel"].keys())
+    if new_channels:
+        raise RuntimeError("channels order has undefined channels: " +
+                           ','.join(new_channels))
 
     return cfg
 
@@ -108,7 +110,7 @@ def expand(config, channels, verbose=False):
             "zp": "^zprime_m(?P<width>\d{2})\d{2}_w(?P=width)$",
             "zpwide": "^zprime_m(?P<width>\d{3})\d{1}_w(?P=width)$",
             "kk": "^kkgluon_m\d{4}$",
-            "mc": "^(ttbar|wb|wc|wlight|stop)$"
+            "mc": "^(ttbar|wb|wc|wlight|stop|zjets)$"
             }.items():
 
         if abbreviation in channels:
@@ -137,8 +139,9 @@ if "__main__" == __name__:
     for key, values in cfg.items():
         print(("-- {0} --".format(key)).ljust(80, '-'))
 
-        if "luminosity" == key:
+        if key in ["luminosity", "order"]:
             print(format_str.format("", values))
+
         else:
             for k, v in values.items():
                 print("{0:>25} {1}".format(k, v))
