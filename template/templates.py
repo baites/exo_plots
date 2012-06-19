@@ -179,16 +179,17 @@ class Templates(object):
             signal.Draw("9 hist same nostack")
 
             if data:
-                data.Draw("9 hist same")
+                data.Draw("9 same")
 
             h_axis.SetMinimum(0)
             h_axis.SetMaximum(1.2 * max([
                 background.GetMaximum(),
                 signal.GetMaximum(),
                 data.GetMaximum() if data else 0]))
-            legend.Draw('9')
 
             h_axis.Draw('9 axis same')
+
+            legend.Draw('9')
 
             canvas.objects = [h_axis, background, signal, data]
             canvas.canvas.Update()
