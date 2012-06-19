@@ -1,4 +1,4 @@
-## config.channel.py
+## [config.channel.py](https://github.com/ksamdev/exo_plots/blob/master/config/channel.py)
 
 Load YAML configuration that defines: input normalizations, channels and styles.
 

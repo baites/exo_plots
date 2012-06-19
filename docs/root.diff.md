@@ -1,4 +1,4 @@
-## diff.py
+## [diff.py](https://github.com/ksamdev/exo_plots/blob/master/root/diff.py)
 
 Compare keys in two ROOT files and report if these are different. The function
 works in similar way to Linux _diff_ tool for text files.

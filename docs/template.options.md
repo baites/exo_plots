@@ -1,4 +1,4 @@
-## tmplate.options
+## [tmplate.options](https://github.com/ksamdev/exo_plots/blob/master/template/options.py)
 
 The module defines default options that should be present in all plotting
 tools. These include:

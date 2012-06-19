@@ -1,4 +1,4 @@
-## config.config.py
+## [config.config.py](https://github.com/ksamdev/exo_plots/blob/master/config/config.py)
 
 Application global configuration loader. The configuration file is loaded from
 in ~/.exo/config.yaml if exists.

@@ -1,4 +1,4 @@
-## template.template_main.py
+## [template.template_main.py](https://github.com/ksamdev/exo_plots/blob/master/template/template_main.py)
 
 Template plot entry point. See [Template Options](https://github.com/ksamdev/exo_plots/blob/master/docs/template.options.md)
 for the list of accepted options or run script in either of the methods as

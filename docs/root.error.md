@@ -1,4 +1,4 @@
-## error.py
+## [error.py](https://github.com/ksamdev/exo_plots/blob/master/root/error.py)
 
 Modify the error in the histogram. One of the examples is to add error due
 to luminosity or trigger to all the Monte-Carlo plots.

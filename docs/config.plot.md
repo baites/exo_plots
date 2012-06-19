@@ -1,4 +1,4 @@
-## config.plot.py
+## [config.plot.py](https://github.com/ksamdev/exo_plots/blob/master/config/plot.py)
 
 Load YAML configuration for plots that defines plot rebinning, units, titles,
 etc.

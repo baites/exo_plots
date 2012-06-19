@@ -1,4 +1,4 @@
-## root.template
+## [root.template](https://github.com/ksamdev/exo_plots/blob/master/root/template.py)
 
 This is the plots loader. It recursively scans ROOT file and processed
 each and every found plot or directory. All other objects are skipped.

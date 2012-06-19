@@ -1,4 +1,4 @@
-## comparison.py
+## [root.comparison.py](https://github.com/ksamdev/exo_plots/blob/master/root/comparison.py)
 
 This is the collection of different 1D histogram ratio calculators and
 implementation of Canvas with two or more pads:
