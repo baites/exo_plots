@@ -13,6 +13,8 @@ and histogram is the value
 The InputLoader is a base class that loads ROOT file with plots from all the
 folders. This class should be overriden to extend the loading behavior.
 
+**warning**: _only 1D plots are loaded. Extend Loader for 2D plots_
+
 ## ChannelLoader
 
 Base loader for all the channels. It utilizes the InputLoader to load all

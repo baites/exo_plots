@@ -36,6 +36,10 @@ class InputLoader(template.Loader):
     def process_plot(self, hist):
         '''Store plot'''
 
+        # skip 2D plots
+        if 1 != hist.GetDimension():
+            return
+
         dir_ = hist.GetDirectory()
         fmt = "{0}/{1}" if dir_ else "{1}"
 
