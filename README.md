@@ -55,6 +55,10 @@ featured depending on the analysis carried.
 ./template_main.py -v
 # save plots in PDF
 ./template_main.py -s pdf
+# run with custom configuration
+./template_main.py --config my_config.yaml
+# use user defined channel config
+./template_main.py --channel-config my_channel_config.yaml
 # get HELP 
 ./template_main.py
 ./template_main.py -h
