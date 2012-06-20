@@ -5,7 +5,7 @@ Created by Samvel Khalatyan, Jun 14, 2012
 Copyright 2012, All rights reserved
 '''
 
-from __future__ import print_function
+from __future__ import print_function, division
 
 import os
 
@@ -21,11 +21,15 @@ class Templates(object):
     def __init__(self, options, args, config,
                  channel_loader=loader.ChannelLoader):
 
+        self._verbose = (options.verbose if options.verbose
+                         else config["core"]["verbose"])
+
         self._batch_mode = (options.batch if options.batch
                             else config["core"]["batch"])
 
-        self._verbose = (options.verbose if options.verbose
-                         else config["core"]["verbose"])
+        if self._batch_mode and not options.save and self._verbose:
+            print("warning: script is run in batch mode but canvases are not "
+                  "saved")
 
         # load channel configuration
         #
@@ -77,6 +81,15 @@ class Templates(object):
         self._plots = {}
         self._channel_loader = channel_loader
         self._prefix = options.prefix
+        if options.save:
+            value = options.save.lower()
+
+            if value not in ["ps", "pdf"]:
+                raise RuntimeError("unsupported save format: " + value)
+
+            self._save = value
+        else:
+            self._save = False
 
     @property
     def plots(self):
@@ -125,6 +138,7 @@ class Templates(object):
 
         for plot, channels in self.plots.items():
             canvas = comparison.Canvas()
+            canvas.canvas.SetName('c_' + plot[1:].replace('/', '_'))
 
             # Prepare stacks for data, background and signal
             background = ROOT.THStack()
@@ -138,11 +152,14 @@ class Templates(object):
             h_axis = channels[channels.keys().pop()].Clone()
             h_axis.SetDirectory(0)
             h_axis.Reset()
+            h_axis.SetLineColor(ROOT.kBlack)
 
             # prepare channels order and append any missing channels to the
             # end in random order
             order = self._channel_config["order"]
             order.extend(set(channels.keys()) - set(order))
+
+            bg_error_band = None
 
             # split channels into stacks
             backgrounds = []
@@ -169,13 +186,33 @@ class Templates(object):
                                 self._channel_config["channel"][channel_]["legend"],
                                 label)
 
-            # Make sure the background order the one in Legend
+            # Make sure the background order match the TLegend
             if backgrounds:
                 for bg_ in reversed(backgrounds):
+                    if not bg_error_band:
+                        bg_error_band = bg_.Clone()
+                    else:
+                        bg_error_band.Add(bg_)
+
                     background.Add(bg_)
 
+                bg_error_band.SetMarkerSize(0)
+                bg_error_band.SetLineWidth(0)
+                bg_error_band.SetLineColor(ROOT.kGray + 3)
+                bg_error_band.SetFillStyle(3001)
+                bg_error_band.SetFillColor(ROOT.kGray + 3)
+
+                legend.AddEntry(bg_error_band,
+                                "Uncertainty",
+                                "f")
+
+            # Draw all plots
             h_axis.Draw('9')
             background.Draw("9 hist same")
+
+            if bg_error_band:
+                bg_error_band.Draw("9 e2 same")
+
             signal.Draw("9 hist same nostack")
 
             if data:
@@ -187,13 +224,28 @@ class Templates(object):
                 signal.GetMaximum(),
                 data.GetMaximum() if data else 0]))
 
-            h_axis.Draw('9 axis same')
+            h_axis.Draw('9 same')
 
             legend.Draw('9')
 
-            canvas.objects = [h_axis, background, signal, data]
+            label = ROOT.TLatex(0.2, 0.92,
+                                "CMS, {0:.1f} fb^".format(
+                                    self._channel_config["luminosity"] / 1000) +
+                                "{-1}, #sqrt{s}= 7 TeV")
+            label.SetTextSize(0.046)
+            label.Draw("9")
+
+            canvas.objects = [h_axis, bg_error_band, background, signal, data,
+                              label, legend]
             canvas.canvas.Update()
 
             canvases.append(canvas)
 
-        raw_input("enter")
+        if canvases:
+            if self._save:
+                for c_ in canvases:
+                    c_.canvas.SaveAs("{0}.{1}".format(c_.canvas.GetName(),
+                                                      self._save))
+
+            if not self._batch_mode:
+                raw_input("enter")

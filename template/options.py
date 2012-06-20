@@ -69,4 +69,9 @@ def parser():
             action="store", default="cms.2011",
             help="file prefix, e.g.: prefix.ttbar.root")
 
+    parser_.add_option(
+            "-s", "--save",
+            action="store", default=None,
+            help="set canvas save format: ps or pdf (prefered)")
+
     return parser_
