@@ -72,7 +72,7 @@ plot:
       units: *mass_gev
       title: !!str "M_{t#bar{t}}"
     - name: /normalization_mttbar
-      rebin: null
+      rebin: 100
       units: *mass_gev
       title: !!str "M_{t#bar{t}} (normalization)"
     - name: /dr_vs_ptrel
