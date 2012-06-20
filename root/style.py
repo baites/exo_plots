@@ -130,6 +130,20 @@ def analysis():
     ROOT.TLegend.__init__ = style_legend(ROOT.TLegend.__init__)
 
 
+    # do the same with all TLatex
+    def style_latex(wrapped):
+        def init(self, *parg, **karg):
+            wrapped(self, *parg, **karg)
+
+            self.SetNDC()
+            self.SetTextFont(62)
+
+        init.__doc__ = wrapped.__doc__
+
+        return init
+
+    ROOT.TLatex.__init__ = style_latex(ROOT.TLatex.__init__)
+
     return style
 
 def pas():
