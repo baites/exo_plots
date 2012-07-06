@@ -68,7 +68,7 @@ class ChannelLoader(object):
     def __init__(self, prefix, input_loader=InputLoader, verbose=False):
         self._prefix = prefix
         self._plots = None
-        self.__input_loader = input_loader
+        self._input_loader = input_loader
         self._verbose = verbose
 
     @property
@@ -95,7 +95,7 @@ class ChannelLoader(object):
             if self._verbose:
                 print("load input:", input_)
 
-            loader = self.__input_loader()
+            loader = self._input_loader()
             loader.load("{0}.{1}.root".format(self._prefix, input_))
 
             # Scale all loaded plots to theory and style
@@ -119,7 +119,7 @@ class ChannelLoader(object):
                 self._plots = loader.plots
             else:
                 for key, plot in self._plots.items():
-                    self._plots[key].Add(plot)
+                    plot.Add(loader.plots[key])
 
         # apply channel styles, plot rebinning etc.
         #
