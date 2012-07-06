@@ -29,7 +29,7 @@ def parser():
             return opt_parser
     '''
 
-    parser_=OptionParser(usage="usage: %prog [options]")
+    parser_ = OptionParser(usage="usage: %prog [options]")
 
     parser_.add_option(
             "-b", "--batch",
