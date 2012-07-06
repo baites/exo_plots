@@ -1,7 +1,7 @@
 ## [config.plot.py](https://github.com/ksamdev/exo_plots/blob/master/config/plot.py)
 
-Load YAML configuration for plots that defines plot rebinning, units, titles,
-etc.
+Load YAML configuration for plots that defines plot rebinning, range, units,
+titles, etc.
 
 ## Configuration
 
@@ -15,6 +15,7 @@ For the 1D plots next items are used:
 * _name_ the plot name with full path with respect to filename in TFile, e.g.:
 /mass or /cuts/two_leptons
 * _rebin_ set rebinning for the histogram. Allowed values are: null or numbe
+* _range_ visible range of the historam. Allowed values are: null or [min, max]
 * _units_ x-axis units that are automatically added to the axis title
 * _title_ x-axis title
 
@@ -23,6 +24,7 @@ the axis. These include:
 
 * _name_ is the plot name and follows the same convention as the 1D plot key
 * _xrebin_ and _yrebin_ define how to rebin the plot in X- and Y-dimentions
+* _xrange_ and _yrange_ define the visible range in X- and Y-dimentions
 * _xunits_ and _yunits_ specify the units of X- an Y- axis
 * _xtitle_ and _ytitle_ follow the same convention as in the 1D case
 
@@ -36,10 +38,12 @@ equal to plot names, e.g.:
 plot:
     - name: /abc
       rebin: 2
+      range: null
       units: GeV
       title: momentum
     _ name: /bac/tar
       rebin: null
+      range: [0, 10]
       ujnits: null
       title: !!str "number of jets"
 ```
@@ -51,11 +55,13 @@ it will be converted to (in Python):
     "plot": {
         "/abc": {
             "rebin": 2,
+            "range": None,
             "units": "GeV",
             "title": "momentum" 
         },
         "/bac/tar": {
             "rebin": None,
+            "range": [0, 10],
             "units": None,
             "title": "number of jets"
         }

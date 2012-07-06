@@ -160,6 +160,11 @@ class ChannelLoader(object):
                                                                  units))
 
                 plot.GetYaxis().SetTitle("event yield")
+
+                # Apply user range to the x-axis if set
+                range_ = cfg["range"]
+                if range_:
+                    plot.GetXaxis().SetRangeUser(*range_)
             else:
                 # 2D plot
                 for axis, frebin, fget_axis in (
@@ -177,3 +182,8 @@ class ChannelLoader(object):
                         fget_axis(plot).SetTitle(("{0} [{1}]" if units
                                                   else "{0}").format(title,
                                                                      units))
+
+                    # Apply user range to each axis if set
+                    range_ = cfg.get(axis + "range")
+                    if range_:
+                        fget_axis(plot).SetRangeUser(*range_)

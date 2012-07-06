@@ -15,132 +15,164 @@ units:
     mass_tev: &mass_tev !!str "TeV/c^{2}"
     angle: &angle !!str "rad"
     distance: &distance !!str "cm"
-# each plot is defined by its name, rebinning, units and title. All of the
-# items are required. Prefix each entry with x and y in the 2D case.
+# each plot is defined by its name, rebinning, range, units and title. All of
+# the items are required. Prefix each entry with x and y in the 2D case.
 #
 plot:
     - name: /cutflow
       rebin: null
+      range: null
       units: null
       title: cutflow
     - name: /npv
       rebin: null
+      range: null
       units: null
       title: !!str "N_{primary vertex} (no PU)"
     - name: /npv_with_pileup
       rebin: null
+      range: null
       units: null
       title: !!str "N_{primary vertex}"
     - name: /njets
       rebin: null
+      range: null
       units: null
       title: !!str "N_{jets}"
     - name: /d0
       rebin: 25
+      range: null
       units: *distance
       title: !!str "impact parameter"
     - name: /htlep
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "H_{T}^{lep}"
     - name: /htall
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "H_{T}^{all}"
     - name: /htlep_after_htlep
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "H_{T}^{lep} (after H_{T}^{lep} cut)"
     - name: /htlep_before_htlep
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "H_{T}^{lep} (before H_{T}^{lep} cut)"
     - name: /htlep_before_htlep_qcd_noweight
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "H_{T}^{lep} (before H_{T}^{lep} cut, qcd weight)"
     - name: /solutions
       rebin: null
+      range: null
       units: null
       title: !!str "N_{#nu solutions}"
     - name: /mttbar_before_htlep
       rebin: 100
+      range: null
       units: *mass_gev
       title: !!str "M_{t#bar{t}} (before H_{T}^{lep})"
     - name: /mttbar_after_htlep
       rebin: 100
+      range: null
       units: *mass_gev
       title: !!str "M_{t#bar{t}}"
     - name: /normalization_mttbar
       rebin: 100
+      range: null
       units: *mass_gev
       title: !!str "M_{t#bar{t}} (normalization)"
     - name: /dr_vs_ptrel
       xrebin: null
       yrebin: null
+      xrange: null
+      yange: null
       xunits: null
       yunits: null
       xtitle: !!str "#DeltaR"
       ytitle: !!str "#P_{T}^{rel}"
     - name: /ttbar_pt
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "P_{T, t#bar{t}}"
     - name: /wlep_mt
       rebin: 25
+      range: null
       units: *mass_gev
       title: !!str "M_{T, ,eptonic W}"
     - name: /whad_mt
       rebin: 25
+      range: null
       units: *mass_gev
       title: !!str "M_{T, hadronic W}"
     - name: /wlep_mass
       rebin: 25
+      range: null
       units: *mass_gev
       title: !!str "M_{leptonic W}"
     - name: /whad_mass
       rebin: 25
+      range: null
       units: *mass_gev
       title: !!str "M_{hadronic W}"
     - name: /met
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "#slash{E}_{T}"
     - name: /met_noweight
       rebin: 25
+      range: null
       units: *momentum_gev
       title: !!str "#slash{E}_{T} (no weight)"
     - name: /ltop_drsum
       rebin: null
+      range: null
       units: null
       title: !!str "#sum #DeltaR (leptonic top)"
     - name: /htop_drsum
       rebin: null
+      range: null
       units: null
       title: !!str "#sum #DeltaR (hadronic top)"
     - name: /htop_dphi
       rebin: null
+      range: null
       units: *angle
       title: !!str "#Delta#phi (hadronic top)"
     - name: /chi2
       rebin: 25
+      range: [0, 49]
       units: null
       title: !!str "#chi^{2}"
     - name: /ltop_chi2
       rebin: 25
+      range: null
       units: null
       title: !!str "#chi^{2} (leptonic top)"
     - name: /htop_chi2
       rebin: 25
+      range: null
       units: null
       title: !!str "#chi^{2} (hadronic top)"
     - name: /btag
       rebin: null
+      range: null
       units: null
       title: !!str "N_{btags}"
     - name: /ljet_met_dphi_vs_met_before_tricut
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "#slash{E}_{T} (no tricut)"
@@ -148,6 +180,8 @@ plot:
     - name: /lepton_met_dphi_vs_met_before_tricut
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "#slash{E}_{T} (no tricut)"
@@ -155,6 +189,8 @@ plot:
     - name: /ljet_met_dphi_vs_met
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "#slash{E}_{T}"
@@ -162,21 +198,27 @@ plot:
     - name: /lepton_met_dphi_vs_met
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "#slash{E}_{T}"
       ytitle: !!str "#Delta#phi(lepton, #slash{E}_{T})"
     - name: /htop_njets
       rebin: null
+      range: null
       units: null
       title: !!str "N_{jets} (hadronic top)"
     - name: /htop_delta_r
       rebin: 5
+      range: null
       units: null
       title: !!str "#DeltaR (hadronic top)"
     - name: /htop_njet_vs_m
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "N_{jets} (hadronic top)"
@@ -184,6 +226,8 @@ plot:
     - name: /htop_pt_vs_m
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "P_{T} (hadronic top)"
@@ -191,6 +235,8 @@ plot:
     - name: /htop_pt_vs_njets
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "P_{T} (hadronic top)"
@@ -198,31 +244,39 @@ plot:
     - name: /htop_pt_vs_ltop_pt
       xrebin: null
       yrebin: null
+      xrange: null
+      yrange: null
       xunits: null
       yunits: null
       xtitle: !!str "P_{T} (hadronic top)"
       ytitle: !!str "P_{T} (leptonic top)"
     - name: /njets_before_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "N_{jets} (before reconstruction)"
     - name: /njet2_dr_lepton_jet1_before_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "#DeltaR(lepton, jet1) (2 jets, before reconstruction)"
     - name: /njet2_dr_lepton_jet2_before_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "#DeltaR(lepton, jet2) (2 jets, before reconstruction)"
     - name: /njets_after_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "N_{jets} (after reconstruction)"
     - name: /njet2_dr_lepton_jet1_after_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "#DeltaR(lepton, jet1) (2 jets, after reconstruction)"
     - name: /njet2_dr_lepton_jet2_after_reconstruction
       rebin: null
+      range: null
       units: null
       title: !!str "#DeltaR(lepton, jet2) (2 jets, after reconstruction)"
