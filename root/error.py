@@ -2,7 +2,7 @@
 
 '''
 Created by Samvel Khalatyan, Feb 24, 2012
-Copyright 2011, All rights reserved
+Copyright 2012, All right reserved
 '''
 
 from __future__ import division, print_function
