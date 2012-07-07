@@ -1,0 +1,8 @@
+# This [YAML](http://www.yaml.org/spec/1.2/spec.html#id2761803) configures
+# scales to be applied to all the plots
+wlight: 0.50779617634320984
+wc: 0.95365425099776424
+wb: 0.95365425099776424
+ttbar: 0.82133402795206467
+zjets: 0.8501831392391761
+singletop: 0.94864176570155911
