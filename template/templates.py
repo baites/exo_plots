@@ -7,13 +7,13 @@ Copyright 2012, All rights reserved
 
 from __future__ import print_function, division
 
+import math
 import os
 
 import ROOT
 
-from root import comparison
-from root import style
-from config import channel, plot
+from root import comparison, error, style
+from config import channel, plot, scale
 from template import loader
 from util.arg import split_use_and_ban
 
@@ -39,6 +39,13 @@ class Templates(object):
             raise RuntimeError("channel config is not defined")
 
         self._channel_config = channel.load(os.path.expanduser(channel_config))
+
+        # load channel scale(s)
+        #
+        self._channel_scale = (
+                scale.load(os.path.expanduser(options.channel_scale))
+                if options.channel_scale
+                else None)
 
         # load plot configuration
         #
@@ -91,6 +98,16 @@ class Templates(object):
         else:
             self._save = False
 
+        self._bg_error = options.bg_error
+        if self._bg_error:
+            self._bg_error = float(self._bg_error)
+            if not (0 <= self._bg_error <= 100):
+                raise RuntimeError("background error is out of range")
+            else:
+                self._bg_error /= 100
+
+        self._label = options.label
+
     @property
     def plots(self):
         return self._plots
@@ -112,20 +129,31 @@ class Templates(object):
         Child classes may explicitly call this function to load plots
         '''
 
-        for channel in self._channels:
+        bg_channels = set(["mc", ])
+        channel.expand(self._channel_config, bg_channels)
+        for channel_ in self._channels:
             ch_loader = self._channel_loader(self._prefix,
                                              verbose=self._verbose)
-            ch_loader.load(self._channel_config, self._plot_config, channel)
+            ch_loader.load(self._channel_config, self._plot_config, channel_)
+
+            channel_scale_ = self._channel_scale and self._channel_scale.get(channel_, None)
 
             # Channel plots are loaded. Store plots in the dictionary with
             # keys equal to plot name and values are dictionaries with keys
-            # being the channel and values are plots
+            # being the channel and values are plots; scale the plots if scale
+            # is provided
             #
             for key, hist in ch_loader.plots.items():
                 if key not in self.plots:
                     self._plots[key] = {}
 
-                self._plots[key][channel] = hist
+                if channel_scale_:
+                    hist.Scale(channel_scale_)
+
+                if self._bg_error and channel_ in bg_channels:
+                    error.add(hist, self._bg_error)
+
+                self._plots[key][channel_] = hist
 
     def plot(self):
         '''
@@ -137,15 +165,12 @@ class Templates(object):
         channel.expand(self._channel_config, bg_channels)
 
         for plot, channels in self.plots.items():
-            canvas = comparison.Canvas()
-            canvas.canvas.SetName('c_' + plot[1:].replace('/', '_'))
-
             # Prepare stacks for data, background and signal
             background = ROOT.THStack()
             signal = ROOT.THStack()
             data = None
 
-            legend = ROOT.TLegend(0.6, 0.5, .94, .89)
+            legend = ROOT.TLegend(0.55, 0.5, .94, .89)
 
             # Use random item to plot axis
             #
@@ -199,12 +224,15 @@ class Templates(object):
                 bg_error_band.SetMarkerSize(0)
                 bg_error_band.SetLineWidth(0)
                 bg_error_band.SetLineColor(ROOT.kGray + 3)
-                bg_error_band.SetFillStyle(3001)
+                bg_error_band.SetFillStyle(3005)
                 bg_error_band.SetFillColor(ROOT.kGray + 3)
 
                 legend.AddEntry(bg_error_band,
                                 "Uncertainty",
                                 "f")
+
+            canvas = comparison.Canvas()
+            canvas.canvas.SetName('c_' + plot[1:].replace('/', '_'))
 
             # Draw all plots
             h_axis.Draw('9')
@@ -237,6 +265,15 @@ class Templates(object):
 
             canvas.objects = [h_axis, bg_error_band, background, signal, data,
                               label, legend]
+
+            if self._label:
+                user_label = ROOT.TLatex(0.95, 0.92, self._label)
+                user_label.SetTextAlign(31)
+                user_label.SetTextSize(0.046)
+                user_label.Draw("9")
+
+                canvas.objects.append(user_label)
+
             canvas.canvas.Update()
 
             canvases.append(canvas)

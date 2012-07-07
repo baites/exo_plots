@@ -52,6 +52,11 @@ def parser():
             help="input/channel templates configuration")
 
     parser_.add_option(
+            "--channel-scale",
+            action="store", default=None,
+            help="channel scales to be applied on top of x-sec * Lumi / N_ev")
+
+    parser_.add_option(
             "--plot-config",
             action="store", default=None,
             help="plots configuration")
@@ -73,5 +78,15 @@ def parser():
             "-s", "--save",
             action="store", default=None,
             help="set canvas save format: ps or pdf (prefered)")
+
+    parser_.add_option(
+            "--bg-error",
+            action="store", default=None,
+            help="set background error to percent, e.g.: 25")
+
+    parser_.add_option(
+            "--label",
+            action="store", default=None,
+            help="add label to the top-right corner of the canvas")
 
     return parser_
