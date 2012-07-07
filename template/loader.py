@@ -131,7 +131,12 @@ class ChannelLoader(object):
             plot.SetFillColor(color)
 
             plot.SetFillStyle(1001 if fill else 0)
-            plot.SetMarkerStyle(1)
+
+            if "data" == channel:
+                plot.SetMarkerStyle(20)
+                plot.SetMarkerSize(1)
+            else:
+                plot.SetMarkerStyle(1)
 
             plot.SetLineWidth(2)
             if line:
