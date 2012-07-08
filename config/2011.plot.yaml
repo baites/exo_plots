@@ -284,19 +284,19 @@ plot:
       rebin: 25
       range: [100, 500]
       units: *momentum_gev
-      title: !!str "P_{T, jet1}"
+      title: !!str "jet1 P_{T}"
     - name: /jet1/eta
       rebin: 50
-      range: [-3, 5]
+      range: [-3, 7]
       units: null
-      title: !!str "#eta_{jet1}"
+      title: !!str "jet1 #eta"
     - name: /jet2/pt
       rebin: 25
       range: null
       units: *momentum_gev
-      title: !!str "P_{T, jet2}"
+      title: !!str "jet2 P_{T}"
     - name: /jet2/eta
       rebin: 50
-      range: [-3, 5]
+      range: [-3, 7]
       units: null
-      title: !!str "#eta_{jet2}"
+      title: !!str "jet2 #eta"
