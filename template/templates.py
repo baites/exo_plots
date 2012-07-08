@@ -12,7 +12,7 @@ import os
 
 import ROOT
 
-from root import comparison, error, style
+from root import comparison, error, style, stats
 from config import channel, plot, scale
 from template import loader
 from util.arg import split_use_and_ban
@@ -176,7 +176,8 @@ class Templates(object):
             signal = ROOT.THStack()
             data = None
 
-            legend = ROOT.TLegend(0.55, 0.5, .94, .89)
+            legend = ROOT.TLegend(0.6, 0.6, .94, .89)
+            legend.SetTextSizePixels(18)
 
             # Use random item to plot axis
             #
@@ -253,10 +254,8 @@ class Templates(object):
                 data.Draw("9 same")
 
             h_axis.SetMinimum(0)
-            h_axis.SetMaximum(1.2 * max([
-                background.GetMaximum(),
-                signal.GetMaximum(),
-                data.GetMaximum() if data else 0]))
+            h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, bg_error_band],
+                                                  stacks=[signal,]))
 
             h_axis.Draw('9 same')
 

@@ -39,3 +39,18 @@ def efficiency(hist, invert=False):
     clone_.Scale(1 / hist.Integral())
 
     return clone_
+
+def find_maximum(hist):
+    ''' Return the "Y + error" for the bin with maximum '''
+
+    bin_ = hist.GetMaximumBin()
+    return hist.GetBinContent(bin_) + hist.GetBinError(bin_)
+
+def maximum(hists=[], stacks=[]):
+    maximums = [find_maximum(hist) for hist in hists if hist]
+
+    for stack in stacks:
+        if stack.GetHists():
+            maximums.extend([find_maximum(hist) for hist in stack.GetHists() if hist])
+
+    return max(maximums)
