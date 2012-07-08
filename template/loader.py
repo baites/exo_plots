@@ -41,7 +41,7 @@ class InputLoader(template.Loader):
             for srch, repl in search_and_replace.items():
                 pattern = re.sub(srch, repl, pattern)
 
-            self._plot_patterns.append(re.compile("^" + pattern))
+            self._plot_patterns.append(re.compile("^" + pattern + "$"))
 
     @property
     def plots(self):
