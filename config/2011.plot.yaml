@@ -36,7 +36,7 @@ plot:
       title: !!str "N_{primary vertex}"
     - name: /njets
       rebin: null
-      range: null
+      range: [0, 9]
       units: null
       title: !!str "N_{jets}"
     - name: /d0
@@ -300,3 +300,13 @@ plot:
       range: [-3, 7]
       units: null
       title: !!str "jet2 #eta"
+    - name: /Electron/pt
+      rebin: 25
+      range: null
+      units: *momentum_gev
+      title: !!str "electron P_{T}"
+    - name: /Electron/eta
+      rebin: 50
+      range: [-3, 7]
+      units: null
+      title: !!str "electron #eta"
