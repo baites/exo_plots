@@ -239,6 +239,9 @@ class Templates(object):
                                 "Uncertainty",
                                 "f")
 
+            # Adjust legend height
+            legend.SetY1(0.89 - .035 * len(legend.GetListOfPrimitives()))
+
             canvas = comparison.Canvas()
             canvas.canvas.SetName('c_' + plot[1:].replace('/', '_'))
 
