@@ -98,4 +98,9 @@ def parser():
             action="store", default=None,
             help="add label to the top-right corner of the canvas")
 
+    parser_.add_option(
+            "--sub-label",
+            action="store", default=None,
+            help="add sub-label to the top-left corner of the plot")
+
     return parser_

@@ -107,6 +107,7 @@ class Templates(object):
                 self._bg_error /= 100
 
         self._label = options.label
+        self._sub_label = options.sub_label
 
         if options.plots:
             self._plot_patterns = options.plots.split(':')
@@ -274,6 +275,14 @@ class Templates(object):
             if self._label:
                 user_label = ROOT.TLatex(0.95, 0.92, self._label)
                 user_label.SetTextAlign(31)
+                user_label.SetTextSize(0.046)
+                user_label.Draw("9")
+
+                canvas.objects.append(user_label)
+
+            if self._sub_label:
+                user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
+                user_label.SetTextAlign(13)
                 user_label.SetTextSize(0.046)
                 user_label.Draw("9")
 
