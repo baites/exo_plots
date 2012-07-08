@@ -7,6 +7,7 @@ Copyright 2012, All rights reserved
 
 from __future__ import division, print_function
 
+import re
 import sys
 
 import ROOT
@@ -21,11 +22,26 @@ class InputLoader(template.Loader):
     name
     '''
 
-    def __init__(self):
+    def __init__(self, plot_patterns=[]):
         template.Loader.__init__(self)
 
         self._plots = {}
-        self._dirs = []
+
+        search_and_replace = {
+                r'\*': "\w*",
+                r'\?': "\w",
+                r'\[!': '[^',
+                r'\{': '(?:',
+                r'\}': ')',
+                r',': '|'
+                }
+
+        self._plot_patterns = []
+        for pattern in plot_patterns:
+            for srch, repl in search_and_replace.items():
+                pattern = re.sub(srch, repl, pattern)
+
+            self._plot_patterns.append(re.compile("^" + pattern))
 
     @property
     def plots(self):
@@ -43,19 +59,23 @@ class InputLoader(template.Loader):
         dir_ = hist.GetDirectory()
         fmt = "{0}/{1}" if dir_ else "{1}"
 
-        clone = hist.Clone()
-        clone.SetDirectory(0)
-
         key = fmt.format(dir_.GetPath().split(':', 1)[1], hist.GetName())
         key = key.replace("//", '/')
+
+        if (self._plot_patterns and
+            not any(re_.match(key) for re_ in self._plot_patterns)):
+
+            return
+
+        clone = hist.Clone()
+        clone.SetDirectory(0)
 
         self._plots[key] = clone
 
     def process_dir(self, dir_):
         '''Load plots from folder is name matches used dirs'''
 
-        if dir_.GetPath().split(':', 1)[1] in self._dirs:
-            self._load(dir_)
+        self._load(dir_)
 
 class ChannelLoader(object):
     '''
@@ -77,7 +97,7 @@ class ChannelLoader(object):
 
         return self._plots
 
-    def load(self, ch_config, plt_config, channel):
+    def load(self, ch_config, plt_config, channel, plot_patterns=[]):
         '''All all the inputs for the channel and combine plots'''
 
         self._plots = None
@@ -95,7 +115,7 @@ class ChannelLoader(object):
             if self._verbose:
                 print("load input:", input_)
 
-            loader = self._input_loader()
+            loader = self._input_loader(plot_patterns=plot_patterns)
             loader.load("{0}.{1}.root".format(self._prefix, input_))
 
             # Scale all loaded plots to theory and style

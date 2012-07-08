@@ -108,6 +108,11 @@ class Templates(object):
 
         self._label = options.label
 
+        if options.plots:
+            self._plot_patterns = options.plots.split(':')
+        else:
+            self._plot_patterns = []
+
     @property
     def plots(self):
         return self._plots
@@ -134,7 +139,8 @@ class Templates(object):
         for channel_ in self._channels:
             ch_loader = self._channel_loader(self._prefix,
                                              verbose=self._verbose)
-            ch_loader.load(self._channel_config, self._plot_config, channel_)
+            ch_loader.load(self._channel_config, self._plot_config, channel_,
+                           plot_patterns=self._plot_patterns)
 
             channel_scale_ = self._channel_scale and self._channel_scale.get(channel_, None)
 

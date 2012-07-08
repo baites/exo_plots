@@ -70,6 +70,15 @@ def parser():
                   "e.g.: zp,-zprime_m1000_w10"))
 
     parser_.add_option(
+            "--plots",
+            action="store", default=None,
+            help=("load only plots specified (or all plots otherwise). "
+                  "Plots should be colon separated and should include full "
+                  "path with respect to the ROOT file, e.g.: "
+                  "/plot1,/folder/plot2 . "
+                  "BASH wildcards are supported in the names"))
+
+    parser_.add_option(
             "--prefix",
             action="store", default="cms.2011",
             help="file prefix, e.g.: prefix.ttbar.root")
