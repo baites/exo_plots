@@ -280,3 +280,23 @@ plot:
       range: null
       units: null
       title: !!str "#DeltaR(lepton, jet2) (2 jets, after reconstruction)"
+    - name: /jet1/pt
+      rebin: 25
+      range: [100, 500]
+      units: *momentum_gev
+      title: !!str "P_{T, jet1}"
+    - name: /jet1/eta
+      rebin: 50
+      range: [-3, 5]
+      units: null
+      title: !!str "#eta_{jet1}"
+    - name: /jet2/pt
+      rebin: 25
+      range: null
+      units: *momentum_gev
+      title: !!str "P_{T, jet2}"
+    - name: /jet2/eta
+      rebin: 50
+      range: [-3, 5]
+      units: null
+      title: !!str "#eta_{jet2}"
