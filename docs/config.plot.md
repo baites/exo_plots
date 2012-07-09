@@ -33,7 +33,7 @@ the axis. These include:
 The loader code will convert list of dictionaries into dictionary with keys
 equal to plot names, e.g.:
 
-```yamld
+```yaml
 # consider yaml input
 plot:
     - name: /abc
