@@ -42,12 +42,25 @@ def efficiency(hist, invert=False, normalize=True):
     return clone_
 
 def find_maximum(hist):
-    ''' Return the "Y + error" for the bin with maximum '''
+    '''
+    Return the "Y + error" for the bin with maximum
+    
+    WARNING: the true maximum value might be incorrect especially in the case
+             of bins with low stats and large errors; scan manually bin by bin
+             in these cases
+    '''
 
     bin_ = hist.GetMaximumBin()
     return hist.GetBinContent(bin_) + hist.GetBinError(bin_)
 
 def maximum(hists=[], stacks=[]):
+    '''
+    Search for maximum "Y + error" amonh histograms and stacks
+
+    empty stacks are accepted. The function has the same limitations as the
+    find_maximum function (read WARNINGs)
+    '''
+
     maximums = [find_maximum(hist) for hist in hists if hist]
 
     for stack in stacks:
