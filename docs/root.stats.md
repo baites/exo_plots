@@ -33,7 +33,8 @@ integral = stats.efficiency(hist, normalize=False)
 Two tools are available
 
 * ```find_maximum(hist)``` return the maximum value in the histogram with error
-added on top. **WARNING**: _the function will return approximate maximum which
+added on top.<br />
+**WARNING**: _the function will return approximate maximum which
 is not always true, especially in bins with low stats and large errors; the
 full histograms has to be manually scanned in these cases_
 
