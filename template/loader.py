@@ -23,6 +23,43 @@ class InputLoader(template.Loader):
     '''
 
     def __init__(self, plot_patterns=[]):
+        '''
+        Specify which plots will be added in patterns
+
+        Patterns is an array of paths inside ROOT file including foler, e.g.:
+
+            /plot1
+            /jet/pt
+
+        Bash wildcards are accepted in patterns. These include:
+
+            *       any number of masked symbols in the name [note: only word
+                    characters are accepted, e.g.: a-z A-Z 0-9 _ -
+
+            ?       one masked symbol [note: the same restriction as above]
+            [a-d]   any symbol in the range. a, b, c, d in the example
+            [!a-c]  any symbol except specified ones. a, b, c in the example
+            {ab,cd} any comma separated combination. ab, or cd in the example
+
+        Examples:
+
+            consider structure:
+
+                    /jet1/pt
+                    /jet1/eta
+                    /jet2/pt
+                    /jet2/eta
+                    /jet3a/pt
+                    /jet3a/eta
+
+            /jet?/pt        load all jet1 and jet2 pT
+            /jet*/eta       load all jets pT
+            /jet[1-2]/pt    load jet1 and jet1 pt
+            /jet[!1-2]/eta  load only jet3a eta
+            /jet{1,3a}/eta  load jet1 and jet3a eta
+            /jet1/*         load all jet properties
+        '''
+
         template.Loader.__init__(self)
 
         self._plots = {}

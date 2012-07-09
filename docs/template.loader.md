@@ -1,19 +1,54 @@
 ## [template.loader.py](https://github.com/ksamdev/exo_plots/blob/master/template/loader.py)
 
-Load template histograms for specified channels, normalize each histogram, and
-apply styles. All the loaded plots are stored in a dictionary with structure:
+All histograms are kept in separate file per input, e.g. ttbar, wlight, wb,
+zjets, data_spring_2011, data_summer_2011, etc.
 
-* key is being the plot path with name in the ROOT file with respect to the
-file top level, e.g.: /mass_cut/jet_pt or /mass
-* the value is the dictinary of channel <> histogram, e.g.: channel is the key
-and histogram is the value
+```InputLoader``` will load into memory each input independently and read only
+these histograms from file that are defined though arguments.
+
+The ```ChannelLoader``` is responsible for loading the whole channel which
+consists of at least one input, e.g.: load each input, process it and finally
+merge inputs into channel.
 
 ## InputLoader
 
-The InputLoader is a base class that loads ROOT file with plots from all the
-folders. This class should be overriden to extend the loading behavior.
+Load plots that are specified in patterns. The patterns is an array such that
+each entry represents path inside ROOT file to plot to be loaded, e.g.:
 
-**warning**: _only 1D plots are loaded. Extend Loader for 2D plots_
+```
+/njets
+/jet1/pt
+```
+
+The [BASH wildcards](http://www.tuxfiles.org/linuxhelp/wildcards.html) are
+accepted. For example, consider folder structure:
+
+```
+/jet1/pt
+/jet1/eta
+/jet2/pt
+/jet2/eta
+/jet3a/pt
+/jet3a/eta
+```
+
+In this case, the below paths would be expanded to:
+
+* ```/jet?/pt```
+  load all jet1 and jet2 pT
+* ```/jet*/eta```
+  load all jets pT
+* ```/jet[1-2]/pt```
+  load jet1 and jet1 pt
+* ```/jet[!1-2]/eta```
+  load only jet3a eta
+* ```/jet{1,3a}/eta```
+  load jet1 and jet3a eta
+* ```/jet1/*```
+  load all jet properties
+
+**WARNING**: _only 1D plots are loaded by default - extend the Loader for 2D
+plots_
 
 ## ChannelLoader
 
