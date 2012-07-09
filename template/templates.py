@@ -7,7 +7,7 @@ Copyright 2012, All rights reserved
 
 from __future__ import print_function, division
 
-import math
+import itertools
 import os
 
 import ROOT
@@ -18,6 +18,16 @@ from template import loader
 from util.arg import split_use_and_ban
 
 class Templates(object):
+    '''
+    Base for all template(s) processing units
+
+    The most-basic functionality is implemented here and includes:
+        - template(s) loading: inputs and group these into channels
+        - prepare signal(s), background(s) and data for plotting
+        - drawall plots in the same style
+        - add experiment and user defined labels
+    '''
+
     def __init__(self, options, args, config,
                  channel_loader=loader.ChannelLoader):
 
@@ -116,17 +126,36 @@ class Templates(object):
 
     @property
     def plots(self):
+        ''' Access loaded plots '''
+
         return self._plots
 
     def run(self):
+        '''
+        Entry point for the templates analysis
+        
+        WARNING: be carefull overriding this method - make sure the basic
+                 functionality is implemented, e.g.: loading and plotting
+        '''
 
-        # It is essential to load style before any histogram is loaded or created
-        self._root_style = style.analysis()
-        self._root_style.cd()
+        # It is essential to load style before any histogram is loaded or
+        # created
+        root_style = style.analysis()
+        root_style.cd()
+
         ROOT.gROOT.ForceStyle()
 
         self.load()
-        self.plot()
+
+        canvases = self.plot()
+        if canvases:
+            if self._save:
+                for canvas in canvases:
+                    canvas.canvas.SaveAs(
+                        "{0}.{1}".format(canvas.canvas.GetName(), self._save))
+
+            if not self._batch_mode:
+                raw_input("enter")
 
     def load(self):
         '''
@@ -143,7 +172,8 @@ class Templates(object):
             ch_loader.load(self._channel_config, self._plot_config, channel_,
                            plot_patterns=self._plot_patterns)
 
-            channel_scale_ = self._channel_scale and self._channel_scale.get(channel_, None)
+            channel_scale_ = (self._channel_scale and
+                              self._channel_scale.get(channel_, None))
 
             if self._verbose and channel_scale_:
                 print("custom scale", channel_,
@@ -168,38 +198,31 @@ class Templates(object):
 
     def plot(self):
         '''
-        Plot loaded histograms
+        Process loaded histograms and draw them
+
+        The plot() method is responsible for processing loaded channels, e.g.
+        put data into Stack, conbine signals, etc.
         '''
 
         canvases = []
         bg_channels = set(["mc", "qcd"])
         channel.expand(self._channel_config, bg_channels)
 
-        for plot, channels in self.plots.items():
+        for plot_, channels in self.plots.items():
             # Prepare stacks for data, background and signal
-            background = ROOT.THStack()
             signal = ROOT.THStack()
+            background = ROOT.THStack()
             data = None
-
-            legend = ROOT.TLegend(0.6, 0.6, .94, .89)
-            legend.SetTextSizePixels(18)
-
-            # Use random item to plot axis
-            #
-            h_axis = channels[channels.keys().pop()].Clone()
-            h_axis.SetDirectory(0)
-            h_axis.Reset()
-            h_axis.SetLineColor(ROOT.kBlack)
+            legend = ROOT.TLegend(0, 0, 0, 0) # coordinates will be adjusted
 
             # prepare channels order and append any missing channels to the
             # end in random order
             order = self._channel_config["order"]
             order.extend(set(channels.keys()) - set(order))
 
-            bg_error_band = None
-
-            # split channels into stacks
-            backgrounds = []
+            # process channels in order
+            backgrounds = [] # backgrounds should be added to THStack in
+                             # reverse order to match legend order
             for channel_ in order:
                 if channel_ not in channels:
                     continue
@@ -211,7 +234,7 @@ class Templates(object):
 
                 elif (channel_.startswith("zprime") or
                       channel_.startswith("kkgluon")):
-
+                    # Signal order does not matter
                     signal.Add(hist)
                     label = "l"
 
@@ -220,90 +243,144 @@ class Templates(object):
                     label = "lpe"
 
                 legend.AddEntry(hist,
-                                self._channel_config["channel"][channel_]["legend"],
+                                self._channel_config["channel"][channel_]
+                                                    ["legend"],
                                 label)
 
-            # Make sure the background order match the TLegend
+            # Add backgrounds to the Stack
             if backgrounds:
-                for bg_ in reversed(backgrounds):
-                    if not bg_error_band:
-                        bg_error_band = bg_.Clone()
-                    else:
-                        bg_error_band.Add(bg_)
+                map(background.Add, reversed(backgrounds))
 
-                    background.Add(bg_)
+            canvas = self.draw_canvas(plot_,
+                                      signal=signal, background=background,
+                                      data=data, legend=legend)
+            if canvas:
+                canvases.append(canvas)
 
-                bg_error_band.SetMarkerSize(0)
-                bg_error_band.SetLineWidth(0)
-                bg_error_band.SetLineColor(ROOT.kGray + 3)
-                bg_error_band.SetFillStyle(3005)
-                bg_error_band.SetFillColor(ROOT.kGray + 3)
+        return canvases
 
-                legend.AddEntry(bg_error_band,
-                                "Uncertainty",
-                                "f")
+    def draw_canvas(self, plot_name, signal=None, background=None, data=None,
+                    legend=None, uncertainty=True):
+        '''
+        Draw canvas with signal, background, data, legend and labels
 
-            # Adjust legend height
-            legend.SetY1(0.89 - .035 * len(legend.GetListOfPrimitives()))
+        Signal and background are expected to be THStack. The legend
+        coordinates are automatically adjusted to make it readable.
+        '''
 
-            canvas = comparison.Canvas()
-            canvas.canvas.SetName('c_' + plot[1:].replace('/', '_'))
+        canvas = comparison.Canvas()
+        canvas.canvas.SetName('c_' + plot_name.lstrip('/').replace('/', '_'))
 
-            # Draw all plots
-            h_axis.Draw('9')
-            background.Draw("9 hist same")
+        # Use the first defined plot for axis drawing
+        #
+        h_axis = next(itertools.chain(
+            signal.GetHists() if signal and signal.GetHists() else [],
+            background.GetHists() if background and background.GetHists()
+                                  else [],
+            [data, ] if data else [])).Clone()
+        h_axis.SetDirectory(0)
+        h_axis.Reset()
+        h_axis.SetLineColor(ROOT.kBlack)
+        h_axis.SetMinimum(0) # the maximum will be set later
 
-            if bg_error_band:
-                bg_error_band.Draw("9 e2 same")
+        # Add backgrounds if uncertainty needs to be drawn
+        uncertainty_ = (self.get_uncertainty(background)
+                        if uncertainty and background
+                        else None)
 
-            signal.Draw("9 hist same nostack")
+        if uncertainty_ and legend:
+            legend.AddEntry(uncertainty_, "Uncertainty", "f")
 
-            if data:
-                data.Draw("9 same")
+        h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, uncertainty_],
+                                              stacks=[signal,]))
 
-            h_axis.SetMinimum(0)
-            h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, bg_error_band],
-                                                  stacks=[signal,]))
+        h_axis.Draw('9')
 
-            h_axis.Draw('9 same')
+        self.draw(background=background,
+                  uncertainty=uncertainty_,
+                  data=data,
+                  signal=signal)
+
+        # re-draw axis for nice look
+        h_axis.Draw('9 same')
+
+        # Store drawn objects in canvas
+        canvas.objects = [h_axis, background, uncertainty_, data, signal]
+
+        # Adjust legend size
+        if legend:
+            legend.SetTextSizePixels(18)
+            legend.SetX2(0.94)
+            legend.SetY2(0.89)
+            legend.SetX1(0.65)
+            legend.SetY1(legend.GetY2() -
+                         .035 * len(legend.GetListOfPrimitives()))
 
             legend.Draw('9')
 
-            label = ROOT.TLatex(0.2, 0.92,
+            canvas.objects.append(legend)
+
+        # Add experiment label
+        cms_label = ROOT.TLatex(0.2, 0.92,
                                 "CMS, {0:.1f} fb^".format(
                                     self._channel_config["luminosity"] / 1000) +
                                 "{-1}, #sqrt{s}= 7 TeV")
-            label.SetTextSize(0.046)
-            label.Draw("9")
+        cms_label.SetTextSize(0.046)
+        cms_label.Draw("9")
+        canvas.objects.append(cms_label)
 
-            canvas.objects = [h_axis, bg_error_band, background, signal, data,
-                              label, legend]
+        if self._label:
+            user_label = ROOT.TLatex(0.95, 0.92, self._label)
+            user_label.SetTextAlign(31) # Right aligned text
+            user_label.SetTextSize(0.046)
+            user_label.Draw("9")
 
-            if self._label:
-                user_label = ROOT.TLatex(0.95, 0.92, self._label)
-                user_label.SetTextAlign(31)
-                user_label.SetTextSize(0.046)
-                user_label.Draw("9")
+            canvas.objects.append(user_label)
 
-                canvas.objects.append(user_label)
+        if self._sub_label:
+            user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
+            user_label.SetTextAlign(13) # left aligned text
+            user_label.SetTextSize(0.046)
+            user_label.Draw("9")
 
-            if self._sub_label:
-                user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
-                user_label.SetTextAlign(13)
-                user_label.SetTextSize(0.046)
-                user_label.Draw("9")
+            canvas.objects.append(user_label)
 
-                canvas.objects.append(user_label)
+        # re-draw everything for nice look
+        canvas.canvas.Update()
 
-            canvas.canvas.Update()
+        return canvas
 
-            canvases.append(canvas)
+    def draw(self, background=None, uncertainty=None, data=None, signal=None):
+        ''' Let sub-classes redefine how each template should be drawn '''
 
-        if canvases:
-            if self._save:
-                for c_ in canvases:
-                    c_.canvas.SaveAs("{0}.{1}".format(c_.canvas.GetName(),
-                                                      self._save))
+        if background:
+            background.Draw("9 hist same")
 
-            if not self._batch_mode:
-                raw_input("enter")
+        if uncertainty:
+            uncertainty.Draw("9 e2 same")
+
+        if data:
+            data.Draw("9 same")
+
+        if signal:
+            signal.Draw("9 hist same nostack")
+
+    def get_uncertainty(self, background):
+        ''' Calculate the background uncertainty band '''
+
+        hist = None
+        if background.GetHists():
+            for bg_ in background.GetHists():
+                if not hist:
+                    hist = bg_.Clone()
+                    hist.SetDirectory(0)
+                else:
+                    hist.Add(bg_)
+
+            hist.SetMarkerSize(0)
+            hist.SetLineWidth(0)
+            hist.SetLineColor(ROOT.kGray + 3)
+            hist.SetFillStyle(3005)
+            hist.SetFillColor(ROOT.kGray + 3)
+
+        return hist
