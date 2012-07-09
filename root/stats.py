@@ -9,7 +9,7 @@ from __future__ import division
 
 import ROOT
 
-def efficiency(hist, invert=False):
+def efficiency(hist, invert=False, normalize=True):
     '''
     Calculate histogram efficiency
 
@@ -36,7 +36,8 @@ def efficiency(hist, invert=False):
 
         clone_.SetBinError(bin_, error_)
 
-    clone_.Scale(1 / hist.Integral())
+    if normalize:
+        clone_.Scale(1 / hist.Integral())
 
     return clone_
 
