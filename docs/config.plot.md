@@ -44,7 +44,7 @@ plot:
     _ name: /bac/tar
       rebin: null
       range: [0, 10]
-      ujnits: null
+      units: null
       title: !!str "number of jets"
 ```
 
