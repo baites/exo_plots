@@ -52,5 +52,12 @@ plots_
 
 ## ChannelLoader
 
-Base loader for all the channels. It utilizes the InputLoader to load all
-the inputs that go into the channel.
+The channel loader is responsible for:
+
+1. load all inputs that go into channel
+2. scale each input according to x-section, luminosity and number of processed
+   events
+3. merge loaded inputs into channel
+4. style plots, e.g. change color, fill, line, rebin, set title axis, etc.
+
+The channel loader uses input and plot configurations.

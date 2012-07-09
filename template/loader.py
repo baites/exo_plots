@@ -123,6 +123,19 @@ class ChannelLoader(object):
     '''
 
     def __init__(self, prefix, input_loader=InputLoader, verbose=False):
+        ''' Initialize the channel loader
+
+        the arguments are:
+
+            prefix          filename prefix to be used by input loader
+            input_loader    class to be used to load inputs
+            verbose         print debug info
+
+        All the loaded plots are kept in the plots dictionary. The keys are
+        histograms paths with names (e.g. /jet1/pt) and values are histogram
+        objects
+        '''
+
         self._prefix = prefix
         self._plots = None
         self._input_loader = input_loader
@@ -135,7 +148,16 @@ class ChannelLoader(object):
         return self._plots
 
     def load(self, ch_config, plt_config, channel, plot_patterns=[]):
-        '''All all the inputs for the channel and combine plots'''
+        ''' Load and process inputs
+
+        the arguments are:
+
+            ch_config       channel configuration (specify styles, what inputs
+                            belong to channel, etc.)
+            plt_config      plot configuration (rebin, visible range, etc.)
+            channel         channel name to be loaded
+            plot_patterns   plots to be loaded
+        '''
 
         self._plots = None
         loaders = []
