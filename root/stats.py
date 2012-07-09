@@ -29,10 +29,10 @@ def efficiency(hist, invert=False, normalize=True):
     bins_ = hist.GetNbinsX()
     for bin_ in range(1, bins_ + 1):
         if invert:
-            clone_.SetBinContent(bin_, hist.IntegralAndError(1, bin_, error_))
-        else:
             clone_.SetBinContent(bin_, hist.IntegralAndError(bin_,
                                                              bins_ + 1, error_))
+        else:
+            clone_.SetBinContent(bin_, hist.IntegralAndError(0, bin_, error_))
 
         clone_.SetBinError(bin_, error_)
 
