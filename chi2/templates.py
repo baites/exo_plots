@@ -11,19 +11,17 @@ import math
 
 import ROOT
 
-from root import comparison, stats
-from config import channel
-from template import loader
+from root import stats
 from template import templates
 
 class SignalOverBackground(templates.Templates):
+    ''' Produce S / B plot '''
+
     def __init__(self, options, args, config):
         templates.Templates.__init__(self, options, args, config)
 
     def plot(self):
-        '''
-        Plot loaded histograms
-        '''
+        ''' Process loaded histograms and draw these '''
 
         canvases = []
         bg_channels = set(["wb", "wc", "wlight"]) # use only W+X channels
@@ -53,8 +51,8 @@ class SignalOverBackground(templates.Templates):
 
                     signal.Add(hist)
                     legend.AddEntry(hist,
-                                    self._channel_config["channel"][channel_]["legend"],
-                                    "l")
+                                    self._channel_config["channel"][channel_]
+                                                        ["legend"], "l")
 
             if not signal.GetHists():
                 raise RuntimeError("no signal is loaded")
@@ -71,6 +69,8 @@ class SignalOverBackground(templates.Templates):
         return canvases
 
     def draw(self, background=None, uncertainty=None, data=None, signal=None):
+        ''' Draw smoothened signal '''
+
         if background:
             background.Draw("9 hist same")
 
@@ -84,14 +84,20 @@ class SignalOverBackground(templates.Templates):
             signal.Draw("9 hist same nostack c")
 
     def transform(self, signal, background):
+        ''' Calculate the signal over background ratio '''
+
         for hist in signal.GetHists():
             hist.Divide(background)
 
 class SignalOverSqrtSignalPlusBackground(SignalOverBackground):
+    ''' Produce the S / sqrt(S + B) plot '''
+
     def __init__(self, options, args, config):
         SignalOverBackground.__init__(self, options, args, config)
 
     def transform(self, signal, background):
+        ''' Calculate the signal over sqrt(S+B) ratio '''
+
         for hist in signal.GetHists():
             hist.GetYaxis().SetTitle("S / #sqrt{S + B}")
             for bin_ in range(1, hist.GetNbinsX() + 1):
