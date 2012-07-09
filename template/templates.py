@@ -145,6 +145,10 @@ class Templates(object):
 
             channel_scale_ = self._channel_scale and self._channel_scale.get(channel_, None)
 
+            if self._verbose and channel_scale_:
+                print("custom scale", channel_,
+                      "x{0:.3f}".format(channel_scale_))
+
             # Channel plots are loaded. Store plots in the dictionary with
             # keys equal to plot name and values are dictionaries with keys
             # being the channel and values are plots; scale the plots if scale
