@@ -82,13 +82,12 @@ def analysis():
     style.SetLabelFont(42, "xyz")
     style.SetLabelOffset(0.007, "xyz")
     style.SetLabelSize(0.05, "xyz")
-    style.SetNdivisions(8, "xyz")
 
     # axis
     style.SetAxisColor(ROOT.kBlack, "xyz")
     style.SetStripDecimals(True)
     style.SetTickLength(0.03, "xyz")
-    style.SetNdivisions(510, "xyz")
+    style.SetNdivisions(8, "xyz")
 
     #For the fit/function:
     style.SetOptFit(1)
