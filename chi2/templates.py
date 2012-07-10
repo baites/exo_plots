@@ -64,6 +64,10 @@ class SignalOverBackground(templates.Templates):
 
             canvas = self.draw_canvas(plot, signal=signal, legend=legend)
             if canvas:
+                label = canvas.objects["experiment-label"]
+                label.SetText(label.GetX(), label.GetY(),
+                              "CMS Simulation, #sqrt{s}= 7 TeV")
+                canvas.canvas.Update()
                 canvases.append(canvas)
 
         return canvases

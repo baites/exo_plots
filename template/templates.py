@@ -305,7 +305,13 @@ class Templates(object):
         h_axis.Draw('9 same')
 
         # Store drawn objects in canvas
-        canvas.objects = [h_axis, background, uncertainty_, data, signal]
+        canvas.objects = {
+                "axis": h_axis,
+                "background": background,
+                "uncertainty": uncertainty_,
+                "data": data,
+                "signal": signal
+                }
 
         # Adjust legend size
         if legend:
@@ -318,7 +324,7 @@ class Templates(object):
 
             legend.Draw('9')
 
-            canvas.objects.append(legend)
+            canvas.objects["legend"] = legend
 
         # Add experiment label
         cms_label = ROOT.TLatex(0.2, 0.92,
@@ -327,7 +333,7 @@ class Templates(object):
                                 "{-1}, #sqrt{s}= 7 TeV")
         cms_label.SetTextSize(0.046)
         cms_label.Draw("9")
-        canvas.objects.append(cms_label)
+        canvas.objects["experiment-label"] = cms_label
 
         if self._label:
             user_label = ROOT.TLatex(0.95, 0.92, self._label)
@@ -335,7 +341,7 @@ class Templates(object):
             user_label.SetTextSize(0.046)
             user_label.Draw("9")
 
-            canvas.objects.append(user_label)
+            canvas.objects["user-label"] = user_label
 
         if self._sub_label:
             user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
@@ -343,7 +349,7 @@ class Templates(object):
             user_label.SetTextSize(0.046)
             user_label.Draw("9")
 
-            canvas.objects.append(user_label)
+            canvas.objects["sub-label"] = user_label
 
         # re-draw everything for nice look
         canvas.canvas.Update()
