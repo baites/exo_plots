@@ -52,6 +52,8 @@ class Backgrounds(templates.Templates):
                 hist = channels_[channel_]
 
                 # Remove fill from plot and keep only stroke
+                hist.SetFillStyle(0)
+
                 hist.SetLineColor(hist.GetFillColor())
                 hist.SetLineStyle(1)
                 hist.SetLineWidth(2)
