@@ -327,10 +327,14 @@ class Templates(object):
             canvas.objects["legend"] = legend
 
         # Add experiment label
-        cms_label = ROOT.TLatex(0.2, 0.92,
-                                "CMS, {0:.1f} fb^".format(
-                                    self._channel_config["luminosity"] / 1000) +
-                                "{-1}, #sqrt{s}= 7 TeV")
+        if data:
+            cms_label = ROOT.TLatex(0.2, 0.92,
+                                    "CMS, {0:.1f} fb^".format(
+                                        self._channel_config["luminosity"] / 1000) +
+                                    "{-1}, #sqrt{s}= 7 TeV")
+        else:
+            cms_label = ROOT.TLatex(0.2, 0.92,
+                                    "CMS Simulation, #sqrt{s}= 7 TeV")
         cms_label.SetTextSize(0.046)
         cms_label.Draw("9")
         canvas.objects["experiment-label"] = cms_label
