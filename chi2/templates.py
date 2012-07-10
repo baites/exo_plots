@@ -11,6 +11,7 @@ import math
 
 import ROOT
 
+from config import channel
 from root import stats
 from template import templates
 
@@ -20,11 +21,12 @@ class SignalOverBackground(templates.Templates):
     def __init__(self, options, args, config):
         templates.Templates.__init__(self, options, args, config)
 
+        self._background_channels = set(["wb", "wc", "wlight"])
+
     def plot(self):
         ''' Process loaded histograms and draw these '''
 
         canvases = []
-        bg_channels = set(["wb", "wc", "wlight"]) # use only W+X channels
         for plot, channels in self.plots.items():
             signal = ROOT.THStack()
             legend = ROOT.TLegend(0, 0, 0, 0)
@@ -40,7 +42,7 @@ class SignalOverBackground(templates.Templates):
 
                 hist = stats.efficiency(channels[channel_], normalize=False)
                 hist.GetYaxis().SetTitle("S / B , B = W#rightarrowl#nu")
-                if channel_ in bg_channels:
+                if channel_ in self._background_channels:
                     if not background:
                         background = hist.Clone()
                     else:
@@ -94,6 +96,9 @@ class SignalOverSqrtSignalPlusBackground(SignalOverBackground):
 
     def __init__(self, options, args, config):
         SignalOverBackground.__init__(self, options, args, config)
+
+        self._background_channels = set(["mc", ])
+        channel.expand(self._channel_config, self._background_channels)
 
     def transform(self, signal, background):
         ''' Calculate the signal over sqrt(S+B) ratio '''

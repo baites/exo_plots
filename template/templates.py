@@ -12,8 +12,8 @@ import os
 
 import ROOT
 
-from root import comparison, error, style, stats
 from config import channel, plot, scale
+from root import comparison, error, style, stats
 from template import loader
 from util.arg import split_use_and_ban
 
