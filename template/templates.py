@@ -318,7 +318,7 @@ class Templates(object):
             legend.SetTextSizePixels(18)
             legend.SetX2(0.94)
             legend.SetY2(0.89)
-            legend.SetX1(0.65)
+            legend.SetX1(0.6 if signal else 0.65)
             legend.SetY1(legend.GetY2() -
                          .035 * len(legend.GetListOfPrimitives()))
 
