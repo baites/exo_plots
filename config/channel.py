@@ -106,13 +106,7 @@ def expand(config, channels, verbose=False):
 
     # Process abbreviations
     #
-    for abbreviation, pattern in {
-            "zp": "^zprime_m(?P<width>\d{2})\d{2}_w(?P=width)$",
-            "zpwide": "^zprime_m(?P<width>\d{3})\d{1}_w(?P=width)$",
-            "kk": "^kkgluon_m\d{4}$",
-            "mc": "^(ttbar|wb|wc|wlight|stop|zjets)$"
-            }.items():
-
+    for abbreviation, pattern in config.get("expand", {}).items():
         if abbreviation in channels:
             pattern = re.compile(pattern)
             channels.remove(abbreviation)
