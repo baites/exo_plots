@@ -102,7 +102,7 @@ class Cutflow(templates.Templates):
                 "stop": r"Single-Top",
                 "zjets": r"$Z/\gamma^{\ast}\rightarrow l^{+}l^{-}$",
                 "wjets": r"$W\rightarrow l\nu$",
-                "ttbar": r"QCD t\bar{t}",
+                "ttbar": r"QCD $t\bar{t}$",
                 }
 
         print_function = (print_cutflow_in_text
@@ -136,3 +136,7 @@ class Cutflow(templates.Templates):
             print()
 
         return None
+
+class Templates(templates.Templates):
+    def __init__(self, options, args, config):
+        templates.Templates.__init__(self, options, args, config)
