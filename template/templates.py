@@ -124,6 +124,9 @@ class Templates(object):
         else:
             self._plot_patterns = []
 
+        self._legend_align = "right"
+        self._legend_valign = "top"
+
     @property
     def plots(self):
         ''' Access loaded plots '''
@@ -281,6 +284,7 @@ class Templates(object):
         h_axis.SetDirectory(0)
         h_axis.Reset()
         h_axis.SetLineColor(ROOT.kBlack)
+        h_axis.SetLineStyle(1)
         h_axis.SetMinimum(0) # the maximum will be set later
 
         # Add backgrounds if uncertainty needs to be drawn
@@ -315,12 +319,34 @@ class Templates(object):
 
         # Adjust legend size
         if legend:
+            legend_width = 0.34 if signal else 0.29
+            if "right" == self._legend_align:
+                x2 = 0.94
+                x1 = x2 - legend_width
+            elif "left" == self._legend_align:
+                x1 = 0.23
+                x2 = x1 + legend_width
+            else:
+                raise RuntimeError(("only right and left legend alignment "
+                                    " is supported"))
+
+            legend_height = 0.035 * (len(legend.GetListOfPrimitives()) +
+                                     (1 if legend.GetHeader() else 0))
+            if "top" == self._legend_valign:
+                y2 = 0.89
+                y1 = y2 - legend_height
+            elif "bottom" == self._legend_valign:
+                y1 = 0.18
+                y2 = y1 + legend_height
+            else:
+                raise RuntimeError(("only top and bottom legend valign is "
+                                    "supported"))
+
             legend.SetTextSizePixels(18)
-            legend.SetX2(0.94)
-            legend.SetY2(0.89)
-            legend.SetX1(0.6 if signal else 0.65)
-            legend.SetY1(legend.GetY2() -
-                         .035 * len(legend.GetListOfPrimitives()))
+            legend.SetX1(x1)
+            legend.SetY1(y1)
+            legend.SetX2(x2)
+            legend.SetY2(y2)
 
             legend.Draw('9')
 
@@ -348,8 +374,13 @@ class Templates(object):
             canvas.objects["user-label"] = user_label
 
         if self._sub_label:
-            user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
-            user_label.SetTextAlign(13) # left aligned text
+            if 'top' == self._legend_valign and "left" == self._legend_align:
+                user_label = ROOT.TLatex(0.93, 0.87, self._sub_label)
+                user_label.SetTextAlign(33) # right aligned text
+            else:
+                user_label = ROOT.TLatex(0.25, 0.87, self._sub_label)
+                user_label.SetTextAlign(13) # left aligned text
+
             user_label.SetTextSize(0.046)
             user_label.Draw("9")
 
