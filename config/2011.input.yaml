@@ -163,6 +163,30 @@ input:
       events: null
       xsection: null
       enable: True
+    - name: qcd_bc_pt20to30
+      events: 2081560
+      xsection: 139299
+      enable: True
+    - name: qcd_bc_pt30to80
+      events: 2030033
+      xsection: 143844.8
+      enable: True
+    - name: qcd_bc_pt80to170
+      events: 1082691
+      xsection: 9431.1
+      enable: True
+    - name: qcd_em_pt20to30
+      events: 35729669
+      xsection: 2502660
+      enable: False
+    - name: qcd_em_pt30to80
+      events: 70392060
+      xsection: 3625840
+      enable: False
+    - name: qcd_em_pt80to170
+      events: 8150672
+      xsection: 142813.8
+      enable: False
     - name: rereco_2011a_may10
       events: null
       xsection: null
@@ -285,6 +309,18 @@ channel:
     - name: qcd
       inputs: [qcd]
       legend: !!str "QCD data-driven"
+      color: [*yellow, 1]
+      fill: True
+      line: null
+    - name: qcd_mc
+      inputs:
+        - qcd_bc_pt20to30
+        - qcd_bc_pt30to80
+        - qcd_bc_pt80to170 
+        - qcd_em_pt20to30
+        - qcd_em_pt30to80
+        - qcd_em_pt80to170 
+      legend: !!str "QCD MC"
       color: [*yellow, 1]
       fill: True
       line: null
