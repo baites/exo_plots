@@ -35,11 +35,6 @@ class Loader(object):
 
         pass
 
-    def process_dir(self, dir_):
-        '''Called when folder is found in the file'''
-
-        pass
-
     def _load(self, dir_):
         '''The loader back-end'''
 
@@ -52,4 +47,4 @@ class Loader(object):
                 self.process_plot(obj)
 
             elif isinstance(obj, ROOT.TDirectory):
-                self.process_dir(obj)
+                self._load(obj)
