@@ -486,5 +486,13 @@ order:
 expand:
    zp: !!str '^zprime_m(?P<width>\d{2})\d{2}_w(?P=width)$'
    zpwide: !!str '^zprime_m(?P<width>\d{3})\d{1}_w(?P=width)$'
+   zp1000: !!str '^zprime_m1000_w10$'
+   zp1500: !!str '^zprime_m1500_w15$'
+   zp2000: !!str '^zprime_m2000_w20$'
+   zp3000: !!str '^zprime_m3000_w30$'
+   zpw1000: !!str '^zprime_m1000_w100$'
+   zpw1500: !!str '^zprime_m1500_w150$'
+   zpw2000: !!str '^zprime_m2000_w200$'
+   zpw3000: !!str '^zprime_m3000_w300$'
    kk: !!str '^kkgluon_m\d{4}$'
    mc: !!str '^(ttbar|wb|wc|wlight|stop|zjets)$'
