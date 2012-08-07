@@ -160,6 +160,9 @@ class Templates(object):
             if not self._batch_mode:
                 raw_input("enter")
 
+            for canvas in canvases:
+                canvas.Close()
+
     def load(self):
         '''
         Load all channels into memory

@@ -11,9 +11,7 @@ import os
 import yaml
 
 def load(filename):
-    '''
-    Load plot YAML configuration
-    '''
+    ''' Load plot YAML configuration '''
 
     if not os.path.exists(filename):
         raise RuntimeError("yaml config file does not exist: " + filename)
