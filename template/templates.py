@@ -154,8 +154,8 @@ class Templates(object):
         if canvases:
             if self._save:
                 for canvas in canvases:
-                    canvas.canvas.SaveAs(
-                        "{0}.{1}".format(canvas.canvas.GetName(), self._save))
+                    canvas.SaveAs(
+                        "{0}.{1}".format(canvas.GetName(), self._save))
 
             if not self._batch_mode:
                 raw_input("enter")
@@ -198,6 +198,8 @@ class Templates(object):
                     error.add(hist, self._bg_error)
 
                 self._plots[key][channel_] = hist
+
+            del(ch_loader)
 
     def plot(self):
         '''
@@ -271,8 +273,15 @@ class Templates(object):
         coordinates are automatically adjusted to make it readable.
         '''
 
-        canvas = comparison.Canvas()
-        canvas.canvas.SetName('c_' + plot_name.lstrip('/').replace('/', '_'))
+        name = 'c_' + plot_name.lstrip('/').replace('/', '_')
+        canvas = ROOT.TCanvas(name, "")
+        ROOT.SetOwnership(canvas, False)
+
+        canvas.objects = {
+                "background": background,
+                "data": data,
+                "signal": signal
+                }
 
         # Use the first defined plot for axis drawing
         #
@@ -282,6 +291,10 @@ class Templates(object):
                                   else [],
             [data, ] if data else [])).Clone()
         h_axis.SetDirectory(0)
+        ROOT.SetOwnership(h_axis, False)
+
+        canvas.objects["axis"] = h_axis
+
         h_axis.Reset()
         h_axis.SetLineColor(ROOT.kBlack)
         h_axis.SetLineStyle(1)
@@ -291,12 +304,14 @@ class Templates(object):
         uncertainty_ = (self.get_uncertainty(background)
                         if uncertainty and background
                         else None)
+        canvas.objects["uncertainty"] = uncertainty_
 
         if uncertainty_ and legend:
             legend.AddEntry(uncertainty_, "Uncertainty", "f")
 
-        h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, uncertainty_],
-                                              stacks=[signal,]))
+        h_axis.SetMaximum(1.2 *
+                          stats.maximum(hists=[data, uncertainty_],
+                                        stacks = [signal, background]))
 
         h_axis.Draw('9')
 
@@ -309,13 +324,6 @@ class Templates(object):
         h_axis.Draw('9 same')
 
         # Store drawn objects in canvas
-        canvas.objects = {
-                "axis": h_axis,
-                "background": background,
-                "uncertainty": uncertainty_,
-                "data": data,
-                "signal": signal
-                }
 
         # Adjust legend size
         if legend:
@@ -387,7 +395,7 @@ class Templates(object):
             canvas.objects["sub-label"] = user_label
 
         # re-draw everything for nice look
-        canvas.canvas.Update()
+        canvas.Update()
 
         return canvas
 

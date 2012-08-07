@@ -96,7 +96,9 @@ class InputLoader(template.Loader):
         dir_ = hist.GetDirectory()
         fmt = "{0}/{1}" if dir_ else "{1}"
 
-        key = fmt.format(dir_.GetPath().split(':', 1)[1], hist.GetName())
+        key = fmt.format(dir_.GetPath().split(':', 1)[1],
+                         hist.GetName())
+
         key = key.replace("//", '/')
 
         if (self._plot_patterns and
@@ -108,11 +110,6 @@ class InputLoader(template.Loader):
         clone.SetDirectory(0)
 
         self._plots[key] = clone
-
-    def process_dir(self, dir_):
-        '''Load plots from folder is name matches used dirs'''
-
-        self._load(dir_)
 
 class ChannelLoader(object):
     '''
@@ -160,7 +157,7 @@ class ChannelLoader(object):
         '''
 
         self._plots = None
-        loaders = []
+        loaded_plots = []
         luminosity = ch_config["luminosity"]
         for input_ in ch_config["channel"][channel]["inputs"]:
             # skip input if it is disabled
@@ -189,16 +186,16 @@ class ChannelLoader(object):
                 for hist in loader.plots.values():
                     hist.Scale(normalization)
 
-            loaders.append(loader)
+            loaded_plots.append(loader.plots)
 
         # all the input plots are loaded: combine inputs
         info = ch_config["channel"][channel]
-        for loader in loaders:
+        for plots in loaded_plots:
             if not self._plots:
-                self._plots = loader.plots
+                self._plots = plots
             else:
                 for key, plot in self._plots.items():
-                    plot.Add(loader.plots[key])
+                    plot.Add(plots[key])
 
         # apply channel styles, plot rebinning etc.
         #
