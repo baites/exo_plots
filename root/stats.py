@@ -64,7 +64,7 @@ def maximum(hists=[], stacks=[]):
     maximums = [find_maximum(hist) for hist in hists if hist]
 
     for stack in stacks:
-        if stack.GetHists():
+        if stack and stack.GetHists():
             maximums.extend([find_maximum(hist) for hist in stack.GetHists() if hist])
 
     return max(maximums)
