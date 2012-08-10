@@ -178,15 +178,15 @@ input:
     - name: qcd_em_pt20to30
       events: 35729669
       xsection: 2502660
-      enable: False
+      enable: True
     - name: qcd_em_pt30to80
       events: 70392060
       xsection: 3625840
-      enable: False
+      enable: True
     - name: qcd_em_pt80to170
       events: 8150672
       xsection: 142813.8
-      enable: False
+      enable: True
     - name: rereco_2011a_may10
       events: null
       xsection: null
