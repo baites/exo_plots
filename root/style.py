@@ -90,7 +90,7 @@ def analysis():
     style.SetNdivisions(8, "xyz")
 
     #For the fit/function:
-    style.SetOptFit(1)
+    style.SetOptFit(0)
     style.SetFitFormat("5.4g")
     style.SetFuncColor(ROOT.kAzure + 4)
     style.SetFuncStyle(1)
