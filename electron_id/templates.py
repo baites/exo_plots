@@ -102,7 +102,7 @@ class ElectronIDEfficiency(templates.Templates):
                     el_id_plot.Divide(hist, el_no_id_plot, 1, 1, "b")
                     el_id_plot.SetLineStyle(1)
                     el_id_plot.SetFillStyle(0)
-                    el_id_plot.GetYaxis().SetTitle("Efficiency")
+                    el_id_plot.GetYaxis().SetTitle("Electron ID Efficiency")
 
                     style = el_id_style.get(id_.split('/', 2)[1], None)
                     if style:
@@ -128,4 +128,3 @@ class ElectronIDEfficiency(templates.Templates):
 
         if signal:
             signal.Draw("9 hist same nostack e1")
-
