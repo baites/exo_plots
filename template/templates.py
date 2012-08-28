@@ -53,7 +53,8 @@ class Templates(object):
         # load channel scale(s)
         #
         self._channel_scale = (
-                scale.load(os.path.expanduser(options.channel_scale))
+                scale.load(os.path.expanduser(options.channel_scale),
+                           self._channel_config)
                 if options.channel_scale
                 else None)
 
@@ -301,6 +302,7 @@ class Templates(object):
         h_axis.Reset()
         h_axis.SetLineColor(ROOT.kBlack)
         h_axis.SetLineStyle(1)
+        h_axis.SetLineWidth(1)
         h_axis.SetMinimum(0) # the maximum will be set later
 
         # Add backgrounds if uncertainty needs to be drawn
@@ -412,15 +414,14 @@ class Templates(object):
 
     def draw_experiment_label(self, is_data):
         if is_data:
-            label = ROOT.TLatex(0.2, 0.92,
-                                "CMS, {0:.1f} fb^".format(
-                                    self._channel_config["luminosity"]
-                                        / 1000) +
-                                "{-1}, #sqrt{s}= 7 TeV")
+            label = "CMS, {0:.1f} fb^".format(
+                        self._channel_config["luminosity"] / 1000) + "{-1}"
         else:
-            label = ROOT.TLatex(0.2, 0.92,
-                                "CMS Simulation, #sqrt{s}= 7 TeV")
+            label = "CMS Simulation"
 
+        label = ROOT.TLatex(0.2, 0.92,
+                            label + ", #sqrt{s} = " +
+                            "{0:.0f} TeV".format(self._channel_config["energy"]))
         label.SetTextSize(0.046)
         label.Draw("9")
 
