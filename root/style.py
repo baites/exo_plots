@@ -49,7 +49,7 @@ def analysis():
 
     # Stats box
     style.SetOptFile(0)
-    style.SetOptStat(False) # hide
+    style.SetOptStat(0) # hide
     style.SetStatColor(ROOT.kWhite)
     style.SetStatFont(42)
     style.SetStatFontSize(0.035)
@@ -69,6 +69,7 @@ def analysis():
     style.SetEndErrorSize(2)
     style.SetMarkerStyle(ROOT.kFullCircle)
     style.SetMarkerSize(2)
+    style.SetOptTitle(0) # Hide histogram title
 
     # axis titles:
     style.SetTitleColor(ROOT.kBlack, "xyz")
