@@ -1,22 +1,20 @@
+# Dependencies
+
+[Python](http://www.python.org) 2.6+
+[ROOT](http://root.cern.ch) 5.28+
+[PyYAML](http://pyyaml.org/wiki/PyYAML) 3.0+
+
 # Instructions 
 
-To install the code one needs to use the application configuration file.
-It is used to reduce number of options passed to the script in command line.
+The code needs to install configuration fie into ```$HOME/.exo/template.yaml```
+before it can be used. Run installation script:
 
-The config is kept in the **~/.exo/template.yaml*** file. User has several
-options to run the code:
-
-1. manualy create a folder, copy the template
-[configuration file](https://github.com/ksamdev/exo_plots/blob/master/config/config.yaml),
-and set paths to channels and plots configuration files
-2. run **install.py** script to do everything automatically
-3. supply configuration via script option
 ```bash
-./template_main.py --config my_config.yaml
+./install.py
 ```
 
-After this the system is ready for run. Make sure the **setup.sh** script is
-run in the new shell session, e.g.:
+After this step the system is ready for use. Make sure you run the
+```setup.sh``` to setup environment before any script is run:
 
 ```bash
 source ./setup.sh
