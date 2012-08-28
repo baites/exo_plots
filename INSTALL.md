@@ -6,15 +6,16 @@
 
 # Instructions 
 
-The code needs to install configuration fie into ```$HOME/.exo/template.yaml```
-before it can be used. Run installation script:
+The code needs to install a configuration fie into
+```$HOME/.exo/template.yaml``` before it can be used. Run an installation
+script:
 
 ```bash
 ./install.py
 ```
 
 After this step the system is ready for use. Make sure you run the
-```setup.sh``` to setup environment before any script is run:
+```setup.sh``` to setup the environment before any script is executed:
 
 ```bash
 source ./setup.sh
