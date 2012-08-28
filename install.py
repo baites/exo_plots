@@ -23,8 +23,8 @@ if not os.path.exists(config_destination):
 
     cfg = config.load("config/config.yaml")
 
-    cfg["template"]["channel"] = os.path.join(pwd, "config/2011.input.yaml")
-    cfg["template"]["plot"] = os.path.join(pwd, "config/2011.plot.yaml")
+    cfg["template"]["channel"] = os.path.join(pwd, "config/2012.input.yaml")
+    cfg["template"]["plot"] = os.path.join(pwd, "config/2012.plot.yaml")
 
     with open(config_destination, "w") as output_:
         yaml.dump(cfg, output_)

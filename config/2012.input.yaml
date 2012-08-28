@@ -1,0 +1,145 @@
+# This [YAML](http://www.yaml.org/spec/1.2/spec.html#id2761803) configures
+# the normalizationa of inputs, their relation to channels and styles to be
+# used for drawing histograms.
+#
+# Each MC sample is called **Input**, e.g.:
+#
+#   stop-s, stop-t, wjets, zjet
+#
+# Inputs are groupped into **Channel**s, e.g.:
+#
+#   stop-s, stop-t, stop-tw, etc.           -> stop
+#   ttbar                                   -> ttbar
+#
+# Each input plot is automatically scaled with luminosity, corresponding
+# cross-section and number of events. These numbers are defined in the config
+# below
+#
+# Warning: use unique names in inputs. The same is applied to channels
+#
+# ------------------------------------------------------------------------------
+#
+# ROOT Color Constants: used for back reference in YAML and NOT used in the code
+#
+color:
+    # Get colors from ROOT in interactive session:
+    # root [0] kRed
+    # (const enum EColor)632
+    #
+    black: &black 1
+    red: &red 632
+    blue: &blue 600
+    green: &green 416
+    magenta: &magenta 616
+    yellow: &yellow 400
+    azure: &azure 860
+    gray: &gray 920
+luminosity: 5200 # in 1/pico-barns [pb-1]
+energy: 8 # in TeV
+# Each input is defined by its name, number of processed events, and
+# cross-sectionb. Each input can be turned ON or OFF from loading.
+#
+input:
+    - name: ttbar # TTbar Summer11
+      events: null
+      xsection: null
+      enable: True
+    - name: dy_10to50
+      events: null
+      xsection: null
+      enable: True
+    - name: dy_50toinf
+      events: null
+      xsection: null
+      enable: True
+    # W + Heavy Flavor
+    #
+    - name: wjets
+      events: null
+      xsection: null
+      enable: True
+    # Single-top(s)
+    #
+    - name: stop_s
+      events: null
+      xsection: null
+      enable: True
+    - name: stop_t
+      events: null
+      xsection: null
+      enable: True
+    - name: stop_tw
+      events: null
+      xsection: null
+      enable: True
+    - name: satop_s
+      events: null
+      xsection: null
+      enable: True
+    - name: satop_t
+      events: null
+      xsection: null
+      enable: True
+    - name: satop_tw
+      events: null
+      xsection: null
+      enable: True
+    # Data samples
+    #
+    - name: data
+      events: null
+      xsection: null
+      enable: True
+# Define policy on how inputs can be grouped into channels
+#
+channel:
+    # Define how inputs can be grouped into channels
+    - name: ttbar
+      inputs: [ttbar]
+      legend: !!str "QCD t#bar{t}"
+      # color is specified by [base, shift] and will be converted on load to
+      # color: base + shift, e.g.:
+      #
+      # yaml:   color: [10, 4]
+      # load:   color: 14
+      #
+      color: [*red, -3]
+      fill: True
+      line: null
+    - name: wjets
+      inputs: [wjets]
+      legend: !!str "W#rightarrowl#nu"
+      color: [*green, -3]
+      fill: True
+      line: null
+    - name: zjets
+      inputs: [dy_10to50,dy_50toinf]
+      legend: !!str "Z/#gamma*#rightarrowl^{+}l^{-}"
+      color: [*azure, -2]
+      fill: True
+      line: null
+    - name: stop
+      inputs: [stop_s, stop_t, stop_tw, satop_s, satop_t, satop_tw]
+      legend: !!str "Single-Top"
+      color: [*magenta, 0]
+      fill: True
+      line: null
+    # Data channels
+    #
+    - name: data
+      inputs: [data] 
+      legend: !!str "CMS Data 2012"
+      color: [*black, 0] # black color
+      fill: False
+      line: null
+# Channel order in plots: all other channels not included here will be added
+# to the bottom of the list. Abbreviations are NOT accepted
+#
+order:
+    - ttbar
+    - stop
+    - zjets
+    - wjets
+    - data
+expand:
+   mc: !!str '^(ttbar|wjets|stop|zjets)$'

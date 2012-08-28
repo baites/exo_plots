@@ -1,0 +1,26 @@
+# This [YAML](http://www.yaml.org/spec/1.2/spec.html#id2761803) configures
+# the plot rebinning, title and units (that are automatically added to the
+# axis title)
+#
+# WARNING: use unique names in name(s)
+#
+# ------------------------------------------------------------------------------
+#
+# units is a dump dictionary that is removed from the config on load. It is
+# only used as a reference in axis units and to reduce the file size
+#
+units:
+    momentum_gev: &momentum_gev !!str "GeV/c"
+    mass_gev: &mass_gev !!str "GeV/c^{2}"
+    mass_tev: &mass_tev !!str "TeV/c^{2}"
+    angle: &angle !!str "rad"
+    distance: &distance !!str "cm"
+# each plot is defined by its name, rebinning, range, units and title. All of
+# the items are required. Prefix each entry with x and y in the 2D case.
+#
+plot:
+    - name: /Chi2_NoCuts/Discriminator
+      rebin: null
+      range: [0,299]
+      units: null
+      title: !!str "#chi^{2}"
