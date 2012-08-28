@@ -10,7 +10,9 @@ from __future__ import print_function
 import os
 import yaml
 
-def load(filename):
+import channel
+
+def load(filename, config):
     '''
     Load plot YAML configuration
     '''
@@ -25,7 +27,15 @@ def load(filename):
     if not scales:
         raise RuntimeError("failed to read yaml scales: " + filename)
 
-    return scales
+    # Expand all channel abbreviations
+    scales_ = {}
+    for channel_, scale_ in scales.items():
+        sources_ = set([channel_,])
+        channel.expand(config, sources_)
+
+        scales_.update(dict.fromkeys(sources_, scale_))
+
+    return scales_
 
 if "__main__" == __name__:
     import sys

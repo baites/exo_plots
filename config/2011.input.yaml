@@ -35,6 +35,7 @@ color:
     yellow: &yellow 400
     gray: &gray 920
 luminosity: 4367.39 # in 1/pico-barns [pb-1]
+energy: 7 # in TeV
 # Each input is defined by its name, number of processed events, and
 # cross-sectionb. Each input can be turned ON or OFF from loading.
 #
