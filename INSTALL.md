@@ -1,8 +1,8 @@
 # Dependencies
 
-[Python](http://www.python.org) 2.6+
-[ROOT](http://root.cern.ch) 5.28+
-[PyYAML](http://pyyaml.org/wiki/PyYAML) 3.0+
+* [Python](http://www.python.org) 2.6+
+* [ROOT](http://root.cern.ch) 5.28+
+* [PyYAML](http://pyyaml.org/wiki/PyYAML) 3.0+
 
 # Instructions 
 

@@ -13,6 +13,10 @@ The tool will load input files and merge plots into channels, e.g.:
 
 Finally ```exo_plot``` will draw only those plots, that user asked for.
 
+Read
+[INSTALL](https://github.com/ksamdev/exo_plots/blob/master/INSTALL.md)
+instructions before using it.
+
 
 # Configurable
 
