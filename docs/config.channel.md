@@ -7,6 +7,7 @@ Load YAML configuration that defines: input normalizations, channels and styles.
 The configuration file should contain at least next items:
 
 * **luminosity** that all inputs will be normalized to [in 1/pb units]
+* **energy** the collisions energy in TeV. The value is used in labels
 * **input** is a list of dictionary objects. Each item represents separate input
 type with:
     * _name_ this defines input filename suffix
