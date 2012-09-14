@@ -128,6 +128,8 @@ class Templates(object):
         self._legend_align = "right"
         self._legend_valign = "top"
 
+        self._log = options.log
+
     @property
     def plots(self):
         ''' Access loaded plots '''
@@ -303,7 +305,9 @@ class Templates(object):
         h_axis.SetLineColor(ROOT.kBlack)
         h_axis.SetLineStyle(1)
         h_axis.SetLineWidth(1)
-        h_axis.SetMinimum(0) # the maximum will be set later
+
+        if not self._log:
+            h_axis.SetMinimum(0) # the maximum will be set later
 
         # Add backgrounds if uncertainty needs to be drawn
         uncertainty_ = (self.get_uncertainty(background)
@@ -314,9 +318,8 @@ class Templates(object):
         if uncertainty_ and legend:
             legend.AddEntry(uncertainty_, "Uncertainty", "f")
 
-        h_axis.SetMaximum(1.2 *
-                          stats.maximum(hists=[data, uncertainty_],
-                                        stacks = [signal, background]))
+        h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, uncertainty_],
+                                              stacks = [signal, background]))
 
         h_axis.Draw('9')
 
@@ -340,6 +343,9 @@ class Templates(object):
 
         if self._sub_label:
             canvas.objects["sub-label"] = self.draw_sub_label()
+
+        if self._log:
+            canvas.SetLogy()
 
         # re-draw everything for nice look
         canvas.Update()

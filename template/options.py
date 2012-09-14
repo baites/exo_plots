@@ -103,4 +103,9 @@ def parser():
             action="store", default=None,
             help="add sub-label to the top-left corner of the plot")
 
+    parser_.add_option(
+            "--log",
+            action="store_true", default=False,
+            help="Plot graphs in log scale")
+
     return parser_
