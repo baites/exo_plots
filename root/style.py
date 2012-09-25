@@ -70,6 +70,8 @@ def analysis():
     style.SetMarkerStyle(ROOT.kFullCircle)
     style.SetMarkerSize(2)
     style.SetOptTitle(0) # Hide histogram title
+    style.SetHatchesSpacing(0.75)
+    style.SetHatchesLineWidth(1)
 
     # axis titles:
     style.SetTitleColor(ROOT.kBlack, "xyz")

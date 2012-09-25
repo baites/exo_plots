@@ -382,7 +382,7 @@ class Templates(object):
             hist.SetMarkerSize(0)
             hist.SetLineWidth(0)
             hist.SetLineColor(ROOT.kGray + 3)
-            hist.SetFillStyle(3005)
+            hist.SetFillStyle(3345)
             hist.SetFillColor(ROOT.kGray + 3)
 
         return hist
