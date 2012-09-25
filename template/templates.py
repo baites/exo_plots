@@ -318,7 +318,8 @@ class Templates(object):
         if uncertainty_ and legend:
             legend.AddEntry(uncertainty_, "Uncertainty", "f")
 
-        h_axis.SetMaximum(1.2 * stats.maximum(hists=[data, uncertainty_],
+        h_axis.SetMaximum((5 if self._log else 1.2) *
+                          stats.maximum(hists=[data, uncertainty_],
                                               stacks = [signal, background]))
 
         h_axis.Draw('9')
