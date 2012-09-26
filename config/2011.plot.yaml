@@ -24,6 +24,11 @@ plot:
       range: null
       units: null
       title: cutflow
+    - name: /cutflow_no_weight
+      rebin: null
+      range: null
+      units: null
+      title: !!str "cutflow (no weight)"
     - name: /npv
       rebin: null
       range: null
