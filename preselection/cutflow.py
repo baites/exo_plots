@@ -19,13 +19,18 @@ def main():
     verbose = False
     try:
         opt_parser = parser()
-        opt_parser.remove_option("--plots")
+        opt_parser.get_option("--plots").help = (
+                "Only /cutflow or /cutflow_no_weight plots are accepted "
+                "[one at a time]")
         opt_parser.remove_option("--label")
         opt_parser.remove_option("--sub-label")
         opt_parser.remove_option("-s")
         opt_parser.add_option("--mode",
-                              action="store_true", default="text",
+                              action="store", default="text",
                               help="print output in one of the formats: text, tex")
+        opt_parser.add_option("--non-threshold",
+                              action='store_true', default=False,
+                              help="print non-threshold cutflow")
 
         options, args = opt_parser.parse_args()
 
@@ -47,7 +52,11 @@ def main():
         # import templates only here otherwise PyROOT inhercepts --help option
         from preselection import templates
 
-        options.plots = "/cutflow"
+        if not options.plots:
+            options.plots = "/cutflow"
+        elif options.plots not in ["/cutflow", "/cutflow_no_weight"]:
+            raise RuntimeError("choose either /cutflow or /cutflow_no_weight plot")
+
         app = templates.Cutflow(options, args, config_)
         app.run()
     except HelpExit:

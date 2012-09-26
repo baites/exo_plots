@@ -16,6 +16,18 @@ from config import channel
 from root import stats
 from template import templates
 
+def efficiency(pass_, total_):
+    if not pass_ or not pass_[0] or not total_ or not total_[0]:
+        return (0, 0)
+
+    a = pass_[0]
+    b = total_[0]
+
+    sa = pass_[1]
+    sb = total_[1]
+
+    return (a / b, (b * sa - a * sb) / b ** 2)
+
 def cutflow(hist):
     if not hist:
         return None
@@ -32,25 +44,47 @@ def cutflow(hist):
             "jet1": stats_(hist, 10),
             "htlep": stats_(hist, 14),
             "tricut": stats_(hist, 15),
-            "met": stats_(hist, 16)
+            "met": stats_(hist, 16),
+            "chi2": stats_(hist, 19),
+            "non_threshold": stats_(hist, 20)
             }
 
-def format_stats(stats, sep="+-"):
-    return "{0:>8.0f} {sep} {1:<5.0f}".format(*stats, sep=sep)
+def format_stats(stats, sep="+-", is_header=False, is_efficiency=False):
+    if is_header:
+        return "{0:^{1}}".format(stats, 15 + len(sep))
+    elif is_efficiency:
+        return "{0:>8.2f} {sep} {1:<5.2f}".format(*stats, sep=sep)
+    else:
+        return "{0:>8.0f} {sep} {1:<5.0f}".format(*stats, sep=sep)
 
 def print_cutflow_in_text(channel, cutflow,
                           fields=["jets", "electron", "veto_lepton",
                                   "twod_cut", "jet1", "htlep", "tricut",
                                   "met"]):
-    cells = ["{0:>20}".format(channel), ]
+    cells = ["{0:>20}".format(channel if channel else "Channel"), ]
     for field_ in fields:
-        cells.append(format_stats(cutflow[field_]))
+        if channel:
+            cells.append(format_stats(cutflow[field_], is_efficiency=True)
+                         if "eff" == field_ else format_stats(cutflow[field_]))
+        else:
+            cells.append(format_stats(field_, is_header=True))
     print(*cells, sep=" | ")
+
+    if not channel:
+        # print header separation line
+        new_cells = []
+        for cell in cells:
+            new_cells.append('-' * len(cell))
+        print(*new_cells, sep=" + ")
+
 
 def print_cutflow_in_tex(channel, cutflow,
                          fields=["jets", "electron", "veto_lepton",
                                  "twod_cut", "jet1", "htlep", "tricut",
                                  "met"]):
+    if not channel:
+        return
+
     cells = [channel, ]
     for field_ in fields:
         cells.append(format_stats(cutflow[field_], sep="&"))
@@ -62,15 +96,15 @@ class Cutflow(templates.Templates):
     def __init__(self, options, args, config):
         templates.Templates.__init__(self, options, args, config)
 
-        self._print_mode= options.mode
+        self._print_mode = options.mode
+        self._non_threshold = options.non_threshold
 
     def plot(self):
         ''' Process loaded histograms and draw these '''
 
-        if "/cutflow" not in self.plots:
-            raise RuntimeError("cutflow plot was not loaded")
-
-        channels = self.plots["/cutflow"]
+        # the main executable script should make sure only one plot is loaded:
+        # /cutflow or /cutflow_no_weight
+        channels = self.plots[self.plots.keys().pop()]
 
         signal_channels = set(["zp", "zpwide", "kk"])
         channel.expand(self._channel_config, signal_channels)
@@ -103,15 +137,41 @@ class Cutflow(templates.Templates):
                 "stop": r"Single-Top",
                 "zjets": r"$Z/\gamma^{\ast}\rightarrow l^{+}l^{-}$",
                 "wjets": r"$W\rightarrow l\nu$",
+                "wc": r"$W\rightarrow l\nu$ (cX)",
                 "ttbar": r"QCD $t\bar{t}$",
+                } if "text" != self._print_mode else {
+                "zprime_m1000_w10": r"Z' 1 Tev",
+                "zprime_m2000_w20": r"Z' 2 Tev",
+                "zprime_m3000_w30": r"Z' 3 Tev",
+                "stop": r"Single-Top",
+                "zjets": r"Z/gamma -> l+ l-",
+                "wjets": r"W -> l nu",
+                "wc": r"$W\rightarrow l\nu$ (cX)",
+                "ttbar": r"QCD ttbar",
                 }
 
         print_function = (print_cutflow_in_text
                           if self._print_mode == "text"
                           else print_cutflow_in_tex)
 
-        for fields in [["jets", "electron", "veto_lepton", "twod_cut"],
-                       ["jet1", "htlep", "tricut", "met"]]:
+        fields_to_print = [["jets", "electron", "veto_lepton", "twod_cut"],
+                           ["jet1", "htlep", "tricut", "met"]]
+        if self._non_threshold:
+            fields_to_print.append(["chi2", "non_threshold", "eff"])
+            for samples_cutflow_ in (signal_, background_):
+                if not samples_cutflow_:
+                    continue
+
+                for channel_, cutflow_ in samples_cutflow_.items():
+                    cutflow_["eff"] = efficiency(cutflow_.get("non_threshold", 0),
+                                                 cutflow_.get("chi2", 0))
+
+            for cutflow_ in (total_background_, data_):
+                    cutflow_["eff"] = efficiency(cutflow_.get("non_threshold", 0),
+                                                 cutflow_.get("chi2", 0))
+
+        for fields in fields_to_print:
+            print_function(None, None, fields)
 
             for channel_ in self._channel_config["order"]:
                 if (not channel_.startswith("zprime") or
