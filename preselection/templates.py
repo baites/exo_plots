@@ -215,10 +215,8 @@ class Templates(templates.Templates):
             if self._verbose:
                 print("{0:-<80}".format("-- TFractionFitter "))
 
-            if ("/met" not in self.plots or
-                "/met_no_weight" not in self.plots):
-
-                raise RuntimeError("load plots /met and /met_no_weight")
+            if ("/met" not in self.plots):
+                raise RuntimeError("load plot /met")
 
             # Extract met DATA, QCD and MC
             met = {}
@@ -240,35 +238,13 @@ class Templates(templates.Templates):
                 raise RuntimeError("channels {0!r} are not loaded".format(
                                     missing_channels))
 
-            met_noweight = None
-            for channel_, plot_ in self.plots["/met_no_weight"].items():
-                if channel_ in mc_channels:
-                    if met_noweight:
-                        met_noweight.Add(plot_)
-                    else:
-                        met_noweight = plot_.Clone()
-
-            if not met_noweight:
-                raise RuntimeError(("none of the channels {0!r} have "
-                                    "/met_no_weight").foramt(mc_channels))
-
-            # prepare MC weights for TFraction fitter
-            mc_weights = met["mc"].Clone()
-            mc_weights.Divide(met_noweight)
-
-            # Set any zero bins to at least 1 event
-            for bin_ in range(1, mc_weights.GetNbinsX() + 1):
-                if 0 >= mc_weights.GetBinContent(bin_):
-                    mc_weights.SetBinContent(bin_, 1)
-
             # prepare variable tempaltes for TFractionFitter
             templates_ = ROOT.TObjArray(2)
-            templates_.Add(met_noweight)
+            templates_.Add(met['mc'])
             templates_.Add(met["qcd"])
 
             # Setup TFractionFitter
             fitter = ROOT.TFractionFitter(met["data"], templates_)
-            fitter.SetWeight(0, mc_weights)
 
             # Run TFRactionFitter
             fit_status = fitter.Fit()
