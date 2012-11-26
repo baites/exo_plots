@@ -136,8 +136,10 @@ class Cutflow(templates.Templates):
                 "zprime_m3000_w30": r"Z' 3 Tev/c\textsuperscript{2}",
                 "stop": r"Single-Top",
                 "zjets": r"$Z/\gamma^{\ast}\rightarrow l^{+}l^{-}$",
-                "wjets": r"$W\rightarrow l\nu$",
+                #"wjets": r"$W\rightarrow l\nu$",
+                "wb": r"$W\rightarrow l\nu$ (bX)",
                 "wc": r"$W\rightarrow l\nu$ (cX)",
+                "wlight": r"$W\rightarrow l\nu$ (lightX)",
                 "ttbar": r"QCD $t\bar{t}$",
                 } if "text" != self._print_mode else {
                 "zprime_m1000_w10": r"Z' 1 Tev",
@@ -145,8 +147,10 @@ class Cutflow(templates.Templates):
                 "zprime_m3000_w30": r"Z' 3 Tev",
                 "stop": r"Single-Top",
                 "zjets": r"Z/gamma -> l+ l-",
-                "wjets": r"W -> l nu",
-                "wc": r"$W\rightarrow l\nu$ (cX)",
+                #"wjets": r"W -> l nu",
+                "wb": r"W-> l nu (bX)",
+                "wc": r"W-> l nu (cX)",
+                "wlight": r"W-> l nu (lightX)",
                 "ttbar": r"QCD ttbar",
                 }
 
@@ -182,7 +186,7 @@ class Cutflow(templates.Templates):
                 print_function(channel_names.get(channel_, channel_),
                                signal_[channel_], fields)
 
-            for channel_ in ["stop", "zjets", "wjets", "ttbar"]:
+            for channel_ in ["stop", "zjets", "wb", 'wc', 'wlight', "ttbar"]:
                 if channel_ not in background_:
                     continue
 
