@@ -38,6 +38,12 @@ files. It uses two configs:
   here each plot parameters are described such as rebinning, user-range,
   x-title axis 
 
+Some parameters can be also configured with enviroment variables. These
+include:
+
+```EXO_PLOT_LABEL```  set label to plots
+
+Command line argument overrides enviroment variable value if used.
 
 # Inputs
 
