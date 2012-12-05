@@ -19,6 +19,10 @@ def main():
     verbose = False
     try:
         opt_parser = parser()
+        opt_parser.add_option("--tff-input", action='store',
+                              default=None,
+                              help='run TFractionFitter on specific plot')
+
         options, args = opt_parser.parse_args()
 
         # load application configuration

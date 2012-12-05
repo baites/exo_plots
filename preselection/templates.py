@@ -8,6 +8,7 @@ Copyright 2012, All rights reserved
 from __future__ import print_function, division
 
 import math
+import os
 import sys
 
 import ROOT
@@ -206,6 +207,10 @@ class Templates(templates.Templates):
     def __init__(self, options, args, config):
         templates.Templates.__init__(self, options, args, config)
 
+        self._label = options.label or os.getenv("EXO_PLOT_LABEL", None)
+        self._tff_input = options.tff_input or os.getenv("EXO_PLOT_TFF_INPUT",
+                                                         '/Event/MET')
+
     def load(self):
         # Run default loading
         templates.Templates.load(self)
@@ -215,14 +220,14 @@ class Templates(templates.Templates):
             if self._verbose:
                 print("{0:-<80}".format("-- TFractionFitter "))
 
-            if ("/Event/MET" not in self.plots):
-                raise RuntimeError("load plot /Event/MET")
+            if (self._tff_input not in self.plots):
+                raise RuntimeError("load plot " + self._tff_input)
 
             # Extract met DATA, QCD and MC
             met = {}
             mc_channels = set(["mc", ])
             channel.expand(self._channel_config, mc_channels)
-            for channel_, plot_ in self.plots["/Event/MET"].items():
+            for channel_, plot_ in self.plots[self._tff_input].items():
                 if "data" == channel_:
                     met["data"] = plot_
                 elif "qcd" == channel_:

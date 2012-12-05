@@ -42,6 +42,7 @@ Some parameters can be also configured with enviroment variables. These
 include:
 
 ```EXO_PLOT_LABEL```  set label to plots
+```EXO_PLOT_TFF_INPUT```  set the input plot for the TFractionFitter
 
 Command line argument overrides enviroment variable value if used.
 
