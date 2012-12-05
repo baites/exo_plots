@@ -121,7 +121,7 @@ class Templates(object):
         self._sub_label = options.sub_label
 
         if options.plots:
-            self._plot_patterns = options.plots.split(',')
+            self._plot_patterns = options.plots.split(':')
         else:
             self._plot_patterns = []
 
