@@ -75,7 +75,7 @@ def parser():
             help=("load only plots specified (or all plots otherwise). "
                   "Plots should be colon separated and should include full "
                   "path with respect to the ROOT file, e.g.: "
-                  "/plot1:/folder/plot2 . "
+                  "/plot1,/folder/plot2 . "
                   "BASH wildcards are supported in the names"))
 
     parser_.add_option(

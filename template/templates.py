@@ -121,7 +121,7 @@ class Templates(object):
         self._sub_label = options.sub_label
 
         if options.plots:
-            self._plot_patterns = options.plots.split(':')
+            self._plot_patterns = options.plots.split(',')
         else:
             self._plot_patterns = []
 
@@ -308,6 +308,8 @@ class Templates(object):
 
         if not self._log:
             h_axis.SetMinimum(0) # the maximum will be set later
+        else:
+            h_axis.SetMinimum(0.1)
 
         # Add backgrounds if uncertainty needs to be drawn
         uncertainty_ = (self.get_uncertainty(background)

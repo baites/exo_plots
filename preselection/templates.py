@@ -290,7 +290,6 @@ class Templates(templates.Templates):
 
                 data_integral_ = channels_["data"].Integral()
                 mc_scale = fractions["mc"] * data_integral_ / mc_sum_.Integral()
-                mc_scale = 1.0
                 for channel_, hist_ in channels_.items():
                     if channel_ in mc_channels:
                         hist_.Scale(mc_scale)
