@@ -215,14 +215,14 @@ class Templates(templates.Templates):
             if self._verbose:
                 print("{0:-<80}".format("-- TFractionFitter "))
 
-            if ("/met" not in self.plots):
-                raise RuntimeError("load plot /met")
+            if ("/Event/MET" not in self.plots):
+                raise RuntimeError("load plot /Event/MET")
 
             # Extract met DATA, QCD and MC
             met = {}
             mc_channels = set(["mc", ])
             channel.expand(self._channel_config, mc_channels)
-            for channel_, plot_ in self.plots["/met"].items():
+            for channel_, plot_ in self.plots["/Event/MET"].items():
                 if "data" == channel_:
                     met["data"] = plot_
                 elif "qcd" == channel_:
@@ -289,7 +289,6 @@ class Templates(templates.Templates):
                     continue
 
                 data_integral_ = channels_["data"].Integral()
-
                 mc_scale = fractions["mc"] * data_integral_ / mc_sum_.Integral()
                 for channel_, hist_ in channels_.items():
                     if channel_ in mc_channels:

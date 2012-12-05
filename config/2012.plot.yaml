@@ -19,8 +19,115 @@ units:
 # the items are required. Prefix each entry with x and y in the 2D case.
 #
 plot:
-    - name: /Chi2_NoCuts/Discriminator
+    - name: /Event/MET
+      rebin: 2 
+      range: null
+      units: null
+      title: !!str "#slash{E}_{T}"
+    - name: /Event/HT
       rebin: null
-      range: [0,299]
+      range: null
+      units: *momentum_gev
+      title: !!str "H_{T}^{all}"
+    - name: /Event/HTLep
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "H_{T}^{lep}"
+    - name: /Event/N_PrimVertices
+      rebin: null
+      range: null
+      units: null
+      title: !!str "N_{primary vertex}"
+    - name: /Jets/NJets
+      rebin: null
+      range: null
+      units: null
+      title: !!str "N_{jets}"
+    - name: /Chi2/M_ttbar_rec
+      rebin: 2
+      range: null
+      units: *mass_gev
+      title: !!str "M_{t#bar{t}}"
+    - name: /Chi2/M_toplep_rec
+      rebin: null
+      range: null
+      units: *mass_gev
+      title: !!str "M_{toplep}"
+    - name: /Chi2/Pt_toplep_rec
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "toplep P_{T}"
+    - name: /Chi2/M_tophad_rec
+      rebin: null
+      range: null
+      units: *mass_gev
+      title: !!str "M_{tophad}"
+    - name: /Chi2/Pt_tophad_rec
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "tophad P_{T}"
+    - name: /Chi2/Discriminator
+      rebin: null
+      range: null
       units: null
       title: !!str "#chi^{2}"
+    - name: /Jets/pt_jet1_lx
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "jet1 P_{T}"
+    - name: /Jets/pt_jet2_lx
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "jet2 P_{T}"
+    - name: /Jets/pt_jet3_lx
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "jet3 P_{T}"
+    - name: /Jets/pt_jet4_lx
+      rebin: null
+      range: null
+      units: *momentum_gev
+      title: !!str "jet4 P_{T}"
+    - name: /Jets/eta_1
+      rebin: null
+      range: null
+      units: null
+      title: !!str "jet1 #eta"
+    - name: /Jets/eta_2
+      rebin: null
+      range: null
+      units: null
+      title: !!str "jet2 #eta"
+    - name: /Jets/eta_3
+      rebin: null
+      range: null
+      units: null
+      title: !!str "jet3 #eta"
+    - name: /Jets/eta_4
+      rebin: null
+      range: null
+      units: null
+      title: !!str "jet4 #eta"
+    - name: /Electron/number
+      rebin: null
+      range: null
+      units: null
+      title: !!str "N electron"
+    - name: /Electron/pT
+      rebin: null 
+      range: null
+      units: *momentum_gev
+      title: !!str "electron P_{T}"
+    - name: /Electron/eta
+      rebin: null
+      range: null
+      units: null
+      title: !!str "electron #eta"
+
+

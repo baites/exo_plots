@@ -34,59 +34,115 @@ color:
     yellow: &yellow 400
     azure: &azure 860
     gray: &gray 920
-luminosity: 5200 # in 1/pico-barns [pb-1]
-energy: 8 # in TeV
+
+# Luminosity in [pb-1]
+luminosity: 16500 
+# Collition energy in [TeV]
+energy: 8 
+
 # Each input is defined by its name, number of processed events, and
 # cross-sectionb. Each input can be turned ON or OFF from loading.
 #
 input:
-    - name: ttbar # TTbar Summer11
+    # SM ttbar
+    #     
+    - name: MC.TTbar
       events: null
       xsection: null
       enable: True
-    - name: dy_10to50
+    - name: MC.TTbar_700to1000
       events: null
       xsection: null
       enable: True
-    - name: dy_50toinf
+    - name: MC.TTbar_1000toInf
       events: null
       xsection: null
       enable: True
-    # W + Heavy Flavor
+    # Z + jets
+    #    
+    - name: MC.DYJets_50toInf 
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY1Jets_50toInf 
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY2Jets_50toInf
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY3Jets_50toInf
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY4Jets_50toInf
+      events: null
+      xsection: null
+      enable: True
+    # W + jets
     #
-    - name: wjets
+    - name: MC.WJets
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W1Jets
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W2Jets
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W3Jets
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W4Jets
       events: null
       xsection: null
       enable: True
     # Single-top(s)
     #
-    - name: stop_s
+    - name: MC.SingleTop_T_sch 
       events: null
       xsection: null
       enable: True
-    - name: stop_t
+    - name: MC.SingleTop_T_tch
       events: null
       xsection: null
       enable: True
-    - name: stop_tw
+    - name: MC.SingleTop_T_tWch
       events: null
       xsection: null
       enable: True
-    - name: satop_s
+    - name: MC.SingleTop_Tbar_sch
       events: null
       xsection: null
       enable: True
-    - name: satop_t
+    - name: MC.SingleTop_Tbar_tch
       events: null
       xsection: null
       enable: True
-    - name: satop_tw
+    - name: MC.SingleTop_Tbar_tWch
+      events: null
+      xsection: null
+      enable: True
+    # Diboson
+    #
+    - name: MC.WW 
       events: null
       xsection: null
       enable: True
     # Data samples
     #
-    - name: data
+    - name: DATA.DATA
+      events: null
+      xsection: null
+      enable: True
+    # Data-driven qcd sample
+    #  
+    - name: DATA.QCD
       events: null
       xsection: null
       enable: True
@@ -94,52 +150,60 @@ input:
 #
 channel:
     # Define how inputs can be grouped into channels
+    # color is specified by [base, shift] 
     - name: ttbar
-      inputs: [ttbar]
+      inputs: [MC.TTbar, MC.TTbar_700to1000, MC.TTbar_1000toInf]
       legend: !!str "QCD t#bar{t}"
-      # color is specified by [base, shift] and will be converted on load to
-      # color: base + shift, e.g.:
-      #
-      # yaml:   color: [10, 4]
-      # load:   color: 14
-      #
       color: [*red, -3]
       fill: True
       line: null
     - name: wjets
-      inputs: [wjets]
+      inputs: [MC.WJets, MC.W1Jets, MC.W2Jets, MC.W3Jets, MC.W4Jets]
       legend: !!str "W#rightarrowl#nu"
       color: [*green, -3]
       fill: True
       line: null
     - name: zjets
-      inputs: [dy_10to50,dy_50toinf]
+      inputs: [MC.DYJets_50toInf, MC.DY1Jets_50toInf, MC.DY2Jets_50toInf, MC.DY3Jets_50toInf, MC.DY4Jets_50toInf]
       legend: !!str "Z/#gamma*#rightarrowl^{+}l^{-}"
       color: [*azure, -2]
       fill: True
       line: null
     - name: stop
-      inputs: [stop_s, stop_t, stop_tw, satop_s, satop_t, satop_tw]
+      inputs: [MC.SingleTop_T_sch, MC.SingleTop_T_tch, MC.SingleTop_T_tWch, MC.SingleTop_Tbar_sch, MC.SingleTop_Tbar_tch, MC.SingleTop_Tbar_tWch]
       legend: !!str "Single-Top"
       color: [*magenta, 0]
+      fill: True
+      line: null
+    - name: diboson
+      inputs: [MC.WW]
+      legend: !!str "Diboson"
+      color: [*magenta, -4]
       fill: True
       line: null
     # Data channels
     #
     - name: data
-      inputs: [data] 
+      inputs: [DATA.DATA]
       legend: !!str "CMS Data 2012"
       color: [*black, 0] # black color
       fill: False
+      line: null
+    - name: qcd
+      inputs: [DATA.QCD]
+      legend: !!str "QCD data-driven"
+      color: [*yellow, 1]
+      fill: True
       line: null
 # Channel order in plots: all other channels not included here will be added
 # to the bottom of the list. Abbreviations are NOT accepted
 #
 order:
-    - ttbar
-    - stop
-    - zjets
     - wjets
+    - ttbar
+    - zjets
+    - stop
+    - diboson
     - data
 expand:
-   mc: !!str '^(ttbar|wjets|stop|zjets)$'
+   mc: !!str '^(ttbar|wjets|stop|zjets|diboson)$'

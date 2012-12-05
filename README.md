@@ -52,39 +52,12 @@ All files should have the same structure.
 
 The most basic script is ```tempalate/template_main.py```. It will load files,
 and plot data vs background for all loaded plots. Run script without arguments
-to get help or use ```-h``` or ```--help``` options, e.g.:
+to get help or use ```-h``` or ```--help``` options.
+
+Common example when using zprime sframe production
 
 ```bash
-[0 exo_plots git.master]$ ./template/template_main.py
-Usage: templates.py [options]
-
-Options:
-  -h, --help            show this help message and exit
-  -b, --batch           Run application in batch mode: do not draw canvases
-  -v, --verbose         Print debug and progress info
-  --config=CONFIG       template configuration
-  --channel-config=CHANNEL_CONFIG
-                        input/channel templates configuration
-  --channel-scale=CHANNEL_SCALE
-                        channel scales to be applied on top of x-sec * Lumi /
-                        N_ev
-  --plot-config=PLOT_CONFIG
-                        plots configuration
-  --channels=CHANNELS   Load templates only for comma separated channels.
-                        Signal channels can be groupped with: zp, zpwide, kk.
-                        Individual channel can be turned OFF by prefixing it
-                        with minus, e.g.: zp,-zprime_m1000_w10
-  --plots=PLOTS         load only plots specified (or all plots otherwise).
-                        Plots should be colon separated and should include
-                        full path with respect to the ROOT file, e.g.:
-                        /plot1,/folder/plot2 . BASH wildcards are supported in
-                        the names
-  --prefix=PREFIX       file prefix, e.g.: prefix.ttbar.root
-  -s SAVE, --save=SAVE  set canvas save format: ps or pdf (prefered)
-  --bg-error=BG_ERROR   set background error to percent, e.g.: 25
-  --label=LABEL         add label to the top-right corner of the canvas
-  --sub-label=SUB_LABEL
-                        add sub-label to the top-left corner of the plot
+/.../exo_plots/preselection/template_main.py --prefix ZprimeSelectionCycle --channels data,zjets,wjets,ttbar,stop,qcd,diboson --channel-config 2012.input.yaml --plot-config 2012.plot.yaml --plots '/Event/MET:/Chi2/M_ttbar_rec' -s pdf -b -v --bg-error=4
 ```
 
 The typical usage examples are given below
