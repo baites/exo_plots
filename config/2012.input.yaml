@@ -59,7 +59,11 @@ input:
       xsection: null
       enable: True
     # Z + jets
-    #    
+    #
+    - name: MC.DYJets_10to50
+      events: null
+      xsection: null
+      enable: True
     - name: MC.DYJets_50toInf 
       events: null
       xsection: null
@@ -164,7 +168,7 @@ channel:
       fill: True
       line: null
     - name: zjets
-      inputs: [MC.DYJets_50toInf, MC.DY1Jets_50toInf, MC.DY2Jets_50toInf, MC.DY3Jets_50toInf, MC.DY4Jets_50toInf]
+      inputs: [MC.DYJets_10to50, MC.DYJets_50toInf, MC.DY1Jets_50toInf, MC.DY2Jets_50toInf, MC.DY3Jets_50toInf, MC.DY4Jets_50toInf]
       legend: !!str "Z/#gamma*#rightarrowl^{+}l^{-}"
       color: [*azure, -2]
       fill: True
