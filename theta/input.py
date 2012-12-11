@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-Created by Samvel Khalatyan, Jul 13, 2012
+Created by Samvel Khalatyan, Nov 17, 2012
 Copyright 2012, All rights reserved
 '''
 
@@ -19,15 +19,21 @@ def main():
     verbose = False
     try:
         opt_parser = parser()
-
-        opt_parser.add_option("--tff-input", action='store',
-                              default=None,
-                              help='run TFractionFitter on specific plot')
+        opt_parser.remove_option('--plots')
+        opt_parser.remove_option("--label")
+        opt_parser.remove_option("--sub-label")
+        opt_parser.remove_option("-s")
+        opt_parser.remove_option("--log")
+        opt_parser.remove_option("--bg-error")
+        opt_parser.remove_option("--channel-scale")
+        opt_parser.add_option("--theta-prefix",
+                              action="store", default="el",
+                              help="theta plots prefix")
+        opt_parser.add_option('-o', "--output",
+                              action='store', default='theta_input.root',
+                              help="output filename")
 
         options, args = opt_parser.parse_args()
-
-        if options.tffnorm != "":
-            options.plots = options.plots + ":%s" % options.tffnorm
 
         # load application configuration
         #
@@ -45,9 +51,10 @@ def main():
             raise HelpExit()
 
         # import templates only here otherwise PyROOT inhercepts --help option
-        from preselection import templates
+        import theta.templates
 
-        app = templates.Templates(options, args, config_)
+        options.plots = "/mttbar_after_htlep"
+        app = theta.templates.Input(options, args, config_)
         app.run()
     except HelpExit:
         opt_parser.print_help()

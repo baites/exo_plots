@@ -117,8 +117,9 @@ class Templates(object):
             else:
                 self._bg_error /= 100
 
-        self._label = options.label
-        self._sub_label = options.sub_label
+        self._label = options.label or os.getenv("EXO_PLOT_LABEL", None)
+        self._sub_label = options.sub_label or os.getenv("EXO_PLOT_SUBLABEL",
+                                                         None)
 
         if options.plots:
             self._plot_patterns = options.plots.split(':')
