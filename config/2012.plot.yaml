@@ -19,8 +19,13 @@ units:
 # the items are required. Prefix each entry with x and y in the 2D case.
 #
 plot:
+    - name: /Event_LJetsel/MET
+      rebin: null
+      range: null
+      units: null
+      title: !!str "#slash{E}_{T}"
     - name: /Event/MET
-      rebin: 2 
+      rebin: 16
       range: null
       units: null
       title: !!str "#slash{E}_{T}"
@@ -120,14 +125,23 @@ plot:
       units: null
       title: !!str "N electron"
     - name: /Electron/pT
-      rebin: null 
+      rebin: 4 
+      range: null
+      units: *momentum_gev
+      title: !!str "electron P_{T}"
+    - name: /Electron_Chi2Cuts/pT
+      rebin: 4
       range: null
       units: *momentum_gev
       title: !!str "electron P_{T}"
     - name: /Electron/eta
-      rebin: null
+      rebin: 4
       range: null
       units: null
       title: !!str "electron #eta"
-
+    - name: /Chi2_NoCuts/Discriminator_3
+      rebin: 8
+      range: null
+      units: null
+      title: !!str "#Chi^2"
 

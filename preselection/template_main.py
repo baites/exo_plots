@@ -19,7 +19,17 @@ def main():
     verbose = False
     try:
         opt_parser = parser()
+
+        opt_parser.add_option(
+            "--tffnorm",
+            action="store", default="",
+            help="name of the distribution used for tff normalization"
+        )
+
         options, args = opt_parser.parse_args()
+
+        if options.tffnorm != "":
+            options.plots = options.plots + ":%s" % options.tffnorm
 
         # load application configuration
         #

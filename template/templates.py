@@ -243,8 +243,8 @@ class Templates(object):
                     backgrounds.append(hist)
                     label = "fe"
 
-                elif (channel_.startswith("zprime") or
-                      channel_.startswith("kkgluon")):
+                elif (channel_.startswith("zp") or
+                      channel_.startswith("rsg")):
                     # Signal order does not matter
                     signal.Add(hist)
                     label = "l"
@@ -320,7 +320,7 @@ class Templates(object):
         if uncertainty_ and legend:
             legend.AddEntry(uncertainty_, "Uncertainty", "f")
 
-        h_axis.SetMaximum((5 if self._log else 1.2) *
+        h_axis.SetMaximum((10 if self._log else 1.2) *
                           stats.maximum(hists=[data, uncertainty_],
                                               stacks = [signal, background]))
 
