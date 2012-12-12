@@ -26,9 +26,6 @@ def main():
 
         options, args = opt_parser.parse_args()
 
-        if options.tffnorm != "":
-            options.plots = options.plots + ":%s" % options.tffnorm
-
         # load application configuration
         #
         if not options.config:

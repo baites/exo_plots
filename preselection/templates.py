@@ -205,12 +205,15 @@ class Cutflow(templates.Templates):
 
 class Templates(templates.Templates):
     def __init__(self, options, args, config):
-        templates.Templates.__init__(self, options, args, config)
-        self.tffnorm_ = options.tffnorm 
-
-        self._label = options.label or os.getenv("EXO_PLOT_LABEL", None)
+        
         self._tff_input = options.tff_input or os.getenv("EXO_PLOT_TFF_INPUT",
                                                          '/Event/MET')
+        options.plots = options.plots + ':%s' % self._tff_input
+        
+        templates.Templates.__init__(self, options, args, config)
+
+        self._label = options.label or os.getenv("EXO_PLOT_LABEL", None)
+
 
     def load(self):
         # Run default loading
