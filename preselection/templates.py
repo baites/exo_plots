@@ -205,11 +205,15 @@ class Cutflow(templates.Templates):
 
 class Templates(templates.Templates):
     def __init__(self, options, args, config):
+        
+        self._tff_input = options.tff_input or os.getenv("EXO_PLOT_TFF_INPUT",
+                                                         '/Event/MET')
+        options.plots = options.plots + ':%s' % self._tff_input
+        
         templates.Templates.__init__(self, options, args, config)
 
         self._label = options.label or os.getenv("EXO_PLOT_LABEL", None)
-        self._tff_input = options.tff_input or os.getenv("EXO_PLOT_TFF_INPUT",
-                                                         '/Event/MET')
+
 
     def load(self):
         # Run default loading
@@ -256,23 +260,33 @@ class Templates(templates.Templates):
             if fit_status:
                 raise RuntimeError("fitter error {0}".format(fit_status))
 
-            # Extract MC and QCD fractions from TFractionFitter and keep
+            # Extract MC and QCD scales from TFractionFitter and keep
             # only central values (drop errors)
             fraction = ROOT.Double(0)
             fraction_error = ROOT.Double(0)
             fractions = {}
+            scales = {}
+
+            data_integral_ = met["data"].Integral(0,met["data"].GetNbinsX()+1)
+            qcd_integral_ = met["qcd"].Integral(0,met["qcd"].GetNbinsX()+1)
+            mc_integral_ = met["mc"].Integral(0,met["mc"].GetNbinsX()+1)
 
             fitter.GetResult(0, fraction, fraction_error)
             fractions["mc"] = float(fraction)
+            scales["mc"] = float(fraction) * data_integral_ / mc_integral_
 
             fitter.GetResult(1, fraction, fraction_error)
             fractions["qcd"] = float(fraction)
+            scales["qcd"] = float(fraction) * data_integral_ / qcd_integral_
 
             # Print found fractions
             if self._verbose:
                 print('\n'.join("{0:>3} fraction: {1:.3f}".format(key.upper(),
                                                                   value)
                                 for key, value in fractions.items()))
+                print('\n'.join("{0:>3} scale: {1:.3f}".format(key.upper(),
+                                                                  value)
+                                for key, value in scales.items()))
 
             # Scale all MC and QCD samples with fractions
             for plot_, channels_ in self.plots.items():
@@ -294,13 +308,11 @@ class Templates(templates.Templates):
                     continue
 
                 data_integral_ = channels_["data"].Integral()
-                mc_scale = fractions["mc"] * data_integral_ / mc_sum_.Integral()
                 for channel_, hist_ in channels_.items():
                     if channel_ in mc_channels:
-                        hist_.Scale(mc_scale)
+                        hist_.Scale(scales["mc"])
                     elif "qcd" == channel_:
-                        hist_.Scale(fractions["qcd"] *
-                                    data_integral_ / hist_.Integral())
+                        hist_.Scale(scales["qcd"])
 
         except RuntimeError as error:
             if self._verbose:

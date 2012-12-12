@@ -220,12 +220,14 @@ class ChannelLoader(object):
 
             cfg = plt_config["plot"].get(key, None)
             if not cfg:
-                if self._verbose:
-                    print("plot", plot,
-                          "is not found in the template configuration",
-                          file=sys.stderr)
-
-                continue
+                cfgkey = '%s/%s' % (key.split('_')[0],key.split('/')[2])
+                cfg = plt_config["plot"].get(cfgkey, None)
+                if not cfg:
+                    if self._verbose:
+                        print("plot", plot,
+                            "is not found in the template configuration",
+                            file=sys.stderr)
+                    continue
 
             if "rebin" in cfg:
                 # 1D plot

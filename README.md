@@ -64,7 +64,7 @@ to get help or use ```-h``` or ```--help``` options.
 Common example when using zprime sframe production
 
 ```bash
-/.../exo_plots/preselection/template_main.py --prefix ZprimeSelectionCycle --channels data,zjets,wjets,ttbar,stop,qcd,diboson --channel-config 2012.input.yaml --plot-config 2012.plot.yaml --plots '/Event/MET:/Chi2/M_ttbar_rec' -s pdf -b -v --bg-error=4
+/.../exo_plots/preselection/template_main.py --prefix ZprimePostSelectionCycle --channels data,mc,qcd,zp1p --channel-config 2012.input.yaml --plot-config 2012.plot.yaml --plots '/Electron_Chi2sel/*' --tff-input '/Event_LJetsel/MET'  -s pdf -v -b 4
 ```
 
 The typical usage examples are given below
