@@ -265,27 +265,42 @@ class Templates(templates.Templates):
             fraction = ROOT.Double(0)
             fraction_error = ROOT.Double(0)
             fractions = {}
+            fraction_errors = {}
             scales = {}
+            scale_errors = {}
 
             data_integral_ = met["data"].Integral(0,met["data"].GetNbinsX()+1)
             qcd_integral_ = met["qcd"].Integral(0,met["qcd"].GetNbinsX()+1)
             mc_integral_ = met["mc"].Integral(0,met["mc"].GetNbinsX()+1)
 
+            mc_integral_error_ = 0.0
+            for i in range(0,met["mc"].GetNbinsX()+2):
+                mc_integral_error_ = mc_integral_error_ + met["mc"].GetBinError(i)**2
+            mc_integral_error_ = math.sqrt(mc_integral_error_) / mc_integral_
+
             fitter.GetResult(0, fraction, fraction_error)
             fractions["mc"] = float(fraction)
+            fraction_errors["mc"] = float(fraction_error) / float(fraction)
             scales["mc"] = float(fraction) * data_integral_ / mc_integral_
+            scale_errors["mc"] = math.sqrt(
+                (1/data_integral_) + mc_integral_error_**2 + fraction_errors["mc"]**2
+            )
 
             fitter.GetResult(1, fraction, fraction_error)
             fractions["qcd"] = float(fraction)
+            fraction_errors["qcd"] = float(fraction_error) / float(fraction)
             scales["qcd"] = float(fraction) * data_integral_ / qcd_integral_
+            scale_errors["qcd"] = math.sqrt(
+                (1/data_integral_) + mc_integral_error_**2 + fraction_errors["qcd"]**2
+            )
 
             # Print found fractions
             if self._verbose:
-                print('\n'.join("{0:>3} fraction: {1:.3f}".format(key.upper(),
-                                                                  value)
+                print('\n'.join("{0:>3} fraction: {1:.3f} +- {2:.1f}%".format(key.upper(),
+                                                                  value, 100*fraction_errors[key])
                                 for key, value in fractions.items()))
-                print('\n'.join("{0:>3} scale: {1:.3f}".format(key.upper(),
-                                                                  value)
+                print('\n'.join("{0:>3} scale: {1:.3f} +- {2:.1f}%".format(key.upper(),
+                                                                  value, 100*scale_errors[key])
                                 for key, value in scales.items()))
 
             # Scale all MC and QCD samples with fractions
