@@ -144,4 +144,3 @@ plot:
       range: null
       units: null
       title: !!str "#Chi^2"
-
