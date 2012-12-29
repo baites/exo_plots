@@ -157,6 +157,10 @@ input:
       events: null
       xsection: null
       enable: True
+    - name: MC.ZP3000w30
+      events: null
+      xsection: null
+      enable: True
     - name: MC.ZP1000w100
       events: null
       xsection: null
@@ -263,6 +267,12 @@ channel:
       color: [*gray, 3]
       fill: False
       line: 3
+    - name: zp3000w30
+      inputs: [MC.ZP3000w30]
+      legend: !!str "Z' 3.0 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 4
     - name: zp1000w100
       inputs: [MC.ZP1000w100]
       legend: !!str "Z' 1.0 TeV/c^{2} (10%)"
@@ -353,6 +363,7 @@ order:
     - zp1000w10
     - zp1500w15
     - zp2000w20
+    - zp3000w30
     - zp1000w100
     - zp1500w150
     - zp2000w200
@@ -366,7 +377,7 @@ order:
 expand:
    # mc: !!str '^(ttbar|wjets|stop|zjets|diboson|bkgs)$'
    mc: !!str '^(ttbar|wjets|stop|zjets|diboson)$'
-   zp1p: !!str '^(zp1000w10|zp1500w15|zp2000w20)$'
+   zp1p: !!str '^(zp1000w10|zp1500w15|zp2000w20|zp3000w30)$'
    zp10p: !!str '^(zp1000w100|zp1500w150|zp2000w200|zp3000w300)$'
    rsg: !!str '^(rsg1000|rsg1500|rsg2000|rsg3000|rsg3500)'
 
