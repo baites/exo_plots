@@ -215,8 +215,8 @@ channel:
     # Define how inputs can be grouped into channels
     # color is specified by [base, shift] 
     - name: ttbar
-      # inputs: [MC.TTbar_700to1000, MC.TTbar_1000toInf]
-      inputs: [MC.TTbar]
+      inputs: [MC.TTbar, MC.TTbar_700to1000, MC.TTbar_1000toInf]
+      # inputs: [MC.TTbar]
       legend: !!str "t#bar{t}"
       color: [*red, -3]
       fill: True
