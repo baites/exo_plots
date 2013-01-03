@@ -22,37 +22,32 @@ class Input(templates.Templates):
     channel_names = {
             # Map channel type to channel name to be used in plot name
 
-            "ttbar_fall11": "ttbar",
+            # Backgrounds
+            "wjets": "wlight",
+            "zjets": "zlight",
             "stop": "singletop",
             "qcd": "eleqcd",
             "data": "DATA",
 
             # narrow resonances
-            "zprime_m1000_w10": "zp1000",
-            "zprime_m1500_w15": "zp1500",
-            "zprime_m2000_w20": "zp2000",
-            "zprime_m3000_w30": "zp3000",
-            "zprime_m4000_w40": "zp4000",
+            "zp500w5": "zp500w1p",
+            "zp750w7p5": "zp750w1p",
+            "zp1000w10": "zp1000w1p",
+            "zp1250w12p5": "zp1250w1p",
+            "zp1500w15": "zp1500w1p",
+            "zp2000w20": "zp2000w1p",
+            "zp3000w30": "zp3000w1p",
+            "zp4000w40": "zp4000w1p",
 
             # wide resonances
-            "zprime_m1000_w100": "zp1000wide",
-            "zprime_m1500_w150": "zp1500wide",
-            "zprime_m2000_w200": "zp2000wide",
-            "zprime_m3000_w300": "zp3000wide",
-            "zprime_m4000_w400": "zp4000wide",
-
-            # rsgluon
-            "rsgluon_m1000": "rsg1000",
-            "rsgluon_m1500": "rsg1500",
-            "rsgluon_m2000": "rsg2000",
-            "rsgluon_m3000": "rsg3000",
-            "rsgluon_m4000": "rsg4000",
-
-            "ttbar_matching_plus": "ttbar",
-            "ttbar_matching_minus": "ttbar",
-
-            "ttbar_scale_plus": "ttbar",
-            "ttbar_scale_minus": "ttbar",
+            "zp500w50": "zp500w10p",
+            "zp750w75": "zp750w10p",
+            "zp1000w100": "zp1000w10p",
+            "zp1250w125": "zp1250w10p",
+            "zp1500w150": "zp1500w10p",
+            "zp2000w200": "zp2000w10p",
+            "zp3000w300": "zp3000w10p",
+            "zp4000w400": "zp4000w10p",
     }
 
     def __init__(self, options, args, config):
@@ -73,4 +68,5 @@ class Input(templates.Templates):
                             prefix=self._theta_prefix,
                             plot="mttbar",
                             channel=channel_)
-                hist.Write(name)
+                hist.SetName(name)
+                hist.Write()

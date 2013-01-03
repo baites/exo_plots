@@ -145,7 +145,19 @@ input:
       enable: True
     # Signals
     #
+    - name: MC.ZP500w5
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP750w7p5
+      events: null
+      xsection: null
+      enable: True
     - name: MC.ZP1000w10
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP1250w12p5
       events: null
       xsection: null
       enable: True
@@ -161,7 +173,23 @@ input:
       events: null
       xsection: null
       enable: True
+    - name: MC.ZP4000w40
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP500w50
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP750w75
+      events: null
+      xsection: null
+      enable: True
     - name: MC.ZP1000w100
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP1250w125
       events: null
       xsection: null
       enable: True
@@ -174,6 +202,10 @@ input:
       xsection: null
       enable: True
     - name: MC.ZP3000w300
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.ZP4000w400
       events: null
       xsection: null
       enable: True
@@ -194,6 +226,10 @@ input:
       xsection: null
       enable: True
     - name: MC.RSG3500
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.RSG4000
       events: null
       xsection: null
       enable: True
@@ -248,55 +284,104 @@ channel:
       fill: True
       line: null
     # 
-    #     
+    #
+    #
+    - name: zp500w5
+      inputs: [MC.ZP500w5]
+      legend: !!str "Z' 0.50 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 1
+    - name: zp750w7p5
+      inputs: [MC.ZP750w7p5]
+      legend: !!str "Z' 0.75 TeV/c^{2} (1%)"
+      color: [*gray, 3] 
+      fill: False
+      line: 1    
     - name: zp1000w10
       inputs: [MC.ZP1000w10]
       legend: !!str "Z' 1.0 TeV/c^{2} (1%)"
       color: [*gray, 3] 
       fill: False
       line: 1
+    - name: zp1250w12p5
+      inputs: [MC.ZP1250w12p5]
+      legend: !!str "Z' 1.25 TeV/c^{2} (1%)"
+      color: [*gray, 3] 
+      fill: False
+      line: 2
     - name: zp1500w15
       inputs: [MC.ZP1500w15]
       legend: !!str "Z' 1.5 TeV/c^{2} (1%)"
       color: [*gray, 3] 
       fill: False
-      line: 2
+      line: 3
     - name: zp2000w20
       inputs: [MC.ZP2000w20]
       legend: !!str "Z' 2.0 TeV/c^{2} (1%)"
       color: [*gray, 3]
       fill: False
-      line: 3
+      line: 4
     - name: zp3000w30
       inputs: [MC.ZP3000w30]
       legend: !!str "Z' 3.0 TeV/c^{2} (1%)"
       color: [*gray, 3]
       fill: False
-      line: 4
+      line: 5
+    - name: zp4000w40
+      inputs: [MC.ZP4000w40]
+      legend: !!str "Z' 4.0 TeV/c^{2} (1%)"
+      color: [*gray, 3]
+      fill: False
+      line: 6
+    - name: zp500w50
+      inputs: [MC.ZP500w50]
+      legend: !!str "Z' 0.50 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 1
+    - name: zp750w75
+      inputs: [MC.ZP750w75]
+      legend: !!str "Z' 0.75 TeV/c^{2} (10%)"
+      color: [*gray, 3] 
+      fill: False
+      line: 1
     - name: zp1000w100
       inputs: [MC.ZP1000w100]
       legend: !!str "Z' 1.0 TeV/c^{2} (10%)"
       color: [*gray, 3] 
       fill: False
       line: 1
+    - name: zp1250w125
+      inputs: [MC.ZP1250w125]
+      legend: !!str "Z' 1.25 TeV/c^{2} (10%)"
+      color: [*gray, 3] 
+      fill: False
+      line: 2
     - name: zp1500w150
       inputs: [MC.ZP1500w150]
       legend: !!str "Z' 1.5 TeV/c^{2} (10%)"
       color: [*gray, 3] 
       fill: False
-      line: 2
+      line: 3
     - name: zp2000w200
       inputs: [MC.ZP2000w200]
       legend: !!str "Z' 2.0 TeV/c^{2} (10%)"
       color: [*gray, 3]
       fill: False
-      line: 3
+      line: 4
     - name: zp3000w300
       inputs: [MC.ZP3000w300]
       legend: !!str "Z' 3.0 TeV/c^{2} (10%)"
       color: [*gray, 3]
       fill: False
-      line: 4
+      line: 5
+    - name: zp4000w400
+      inputs: [MC.ZP4000w400]
+      legend: !!str "Z' 4.0 TeV/c^{2} (10%)"
+      color: [*gray, 3]
+      fill: False
+      line: 6
     - name: rsg1000
       inputs: [MC.RSG1000]
       legend: !!str "Z' 1.0 TeV/c^{2} (RSG)"
@@ -327,7 +412,12 @@ channel:
       color: [*gray, 3]
       fill: False
       line: 5
-
+    - name: rsg4000
+      inputs: [MC.RSG4000]
+      legend: !!str "Z' 4.0 TeV/c^{2} (RSG)"
+      color: [*gray, 3]
+      fill: False
+      line: 6
 
     # Data channels
     #
@@ -360,24 +450,34 @@ order:
     - diboson
     - ttbar
     - qcd
+    - zp500w5
+    - zp750w7p5
     - zp1000w10
     - zp1500w15
     - zp2000w20
     - zp3000w30
+    - zp4000w40
+    - zp500w50
+    - zp750w75
     - zp1000w100
     - zp1500w150
     - zp2000w200
     - zp3000w300
+    - zp4000w400
     - rsg1000
     - rsg1500
     - rsg2000
     - rsg3000
     - rsg3500
+    - rsg4000
     - data
+
 expand:
    # mc: !!str '^(ttbar|wjets|stop|zjets|diboson|bkgs)$'
    mc: !!str '^(ttbar|wjets|stop|zjets|diboson)$'
    zp1p: !!str '^(zp1000w10|zp1500w15|zp2000w20|zp3000w30)$'
    zp10p: !!str '^(zp1000w100|zp1500w150|zp2000w200|zp3000w300)$'
    rsg: !!str '^(rsg1000|rsg1500|rsg2000|rsg3000|rsg3500)'
-
+   zp1pfull: !!str '^(zp500w5|zp750w7p5|zp1000w10|zp1250w12p5|zp1500w15|zp2000w20|zp3000w30|zp4000w40)$'
+   zp10pfull: !!str '^(zp500w50|zp750w75|zp1000w100|zp1250w125|zp1500w150|zp2000w200|zp3000w300|zp4000w400)$'
+   rsgfull: !!str '^(rsg1000|rsg1500|rsg2000|rsg3000|rsg3500|rsg4000)'
