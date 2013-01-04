@@ -19,13 +19,11 @@ def main():
     verbose = False
     try:
         opt_parser = parser()
-        opt_parser.remove_option('--plots')
         opt_parser.remove_option("--label")
         opt_parser.remove_option("--sub-label")
         opt_parser.remove_option("-s")
         opt_parser.remove_option("--log")
         opt_parser.remove_option("--bg-error")
-        opt_parser.remove_option("--channel-scale")
         opt_parser.add_option("--theta-prefix",
                               action="store", default="el",
                               help="theta plots prefix")
@@ -53,7 +51,6 @@ def main():
         # import templates only here otherwise PyROOT inhercepts --help option
         import theta.templates
 
-        options.plots = "/mttbar_after_htlep"
         app = theta.templates.Input(options, args, config_)
         app.run()
     except HelpExit:
