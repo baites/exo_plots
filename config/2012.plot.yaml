@@ -50,7 +50,7 @@ plot:
       units: null
       title: !!str "N_{jets}"
     - name: /Chi2/M_ttbar_rec
-      rebin: 2
+      rebin: null
       range: null
       units: *mass_gev
       title: !!str "M_{t#bar{t}}"
