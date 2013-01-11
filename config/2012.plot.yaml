@@ -19,13 +19,8 @@ units:
 # the items are required. Prefix each entry with x and y in the 2D case.
 #
 plot:
-    - name: /Event_LJetsel/MET
-      rebin: null
-      range: null
-      units: null
-      title: !!str "#slash{E}_{T}"
     - name: /Event/MET
-      rebin: 16
+      rebin: 2
       range: null
       units: null
       title: !!str "#slash{E}_{T}"
@@ -50,7 +45,7 @@ plot:
       units: null
       title: !!str "N_{jets}"
     - name: /Chi2/M_ttbar_rec
-      rebin: null
+      rebin: 2
       range: null
       units: *mass_gev
       title: !!str "M_{t#bar{t}}"
@@ -80,42 +75,42 @@ plot:
       units: null
       title: !!str "#chi^{2}"
     - name: /Jets/pt_jet1_lx
-      rebin: null
+      rebin: 2
       range: null
       units: *momentum_gev
       title: !!str "jet1 P_{T}"
     - name: /Jets/pt_jet2_lx
-      rebin: null
+      rebin: 2
       range: null
       units: *momentum_gev
       title: !!str "jet2 P_{T}"
     - name: /Jets/pt_jet3_lx
-      rebin: null
+      rebin: 2
       range: null
       units: *momentum_gev
       title: !!str "jet3 P_{T}"
     - name: /Jets/pt_jet4_lx
-      rebin: null
+      rebin: 2
       range: null
       units: *momentum_gev
       title: !!str "jet4 P_{T}"
     - name: /Jets/eta_1
-      rebin: null
+      rebin: 4
       range: null
       units: null
       title: !!str "jet1 #eta"
     - name: /Jets/eta_2
-      rebin: null
+      rebin: 4
       range: null
       units: null
       title: !!str "jet2 #eta"
     - name: /Jets/eta_3
-      rebin: null
+      rebin: 4
       range: null
       units: null
       title: !!str "jet3 #eta"
     - name: /Jets/eta_4
-      rebin: null
+      rebin: 4
       range: null
       units: null
       title: !!str "jet4 #eta"
