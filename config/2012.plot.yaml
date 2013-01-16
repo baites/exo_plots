@@ -20,7 +20,7 @@ units:
 #
 plot:
     - name: /Event/MET
-      rebin: 2
+      rebin: 2 
       range: null
       units: null
       title: !!str "#slash{E}_{T}"
@@ -69,11 +69,6 @@ plot:
       range: null
       units: *momentum_gev
       title: !!str "tophad P_{T}"
-    - name: /Chi2/Discriminator
-      rebin: null
-      range: null
-      units: null
-      title: !!str "#chi^{2}"
     - name: /Jets/pt_jet1_lx
       rebin: 2
       range: null
@@ -114,6 +109,26 @@ plot:
       range: null
       units: null
       title: !!str "jet4 #eta"
+    - name: /Jets/phi_1
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "jet1 #phi"
+    - name: /Jets/phi_2
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "jet2 #phi"
+    - name: /Jets/phi_3
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "jet3 #phi"
+    - name: /Jets/phi_4
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "jet4 #phi"
     - name: /Electron/number
       rebin: null
       range: null
@@ -124,18 +139,48 @@ plot:
       range: null
       units: *momentum_gev
       title: !!str "electron P_{T}"
-    - name: /Electron_Chi2Cuts/pT
-      rebin: 4
-      range: null
-      units: *momentum_gev
-      title: !!str "electron P_{T}"
     - name: /Electron/eta
       rebin: 4
       range: null
       units: null
       title: !!str "electron #eta"
-    - name: /Chi2_NoCuts/Discriminator_3
+    - name: /Electron/phi
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "electron #phi"
+    - name: /Muon/number
+      rebin: null
+      range: null
+      units: null
+      title: !!str "N muon"
+    - name: /Muon/pT
+      rebin: 4
+      range: null
+      units: *momentum_gev
+      title: !!str "muon P_{T}"
+    - name: /Muon/eta
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "muon #eta"
+    - name: /Muon/phi
+      rebin: 4
+      range: null
+      units: null
+      title: !!str "muon #phi"
+    - name: /Chi2/Discriminator
+      rebin: null
+      range: null
+      units: null
+      title: !!str "#chi^{2}"
+    - name: /Chi2/Discriminator_3
       rebin: 8
       range: null
       units: null
-      title: !!str "#Chi^2"
+      title: !!str "#chi^{2}"
+    - name: /Chi2/Discriminator_2
+      rebin: 2
+      range: null
+      units: null
+      title: !!str "#chi^{2}"

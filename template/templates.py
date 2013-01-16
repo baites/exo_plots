@@ -336,7 +336,7 @@ class Templates(object):
         h_axis.Draw('9 same')
 
         if legend:
-            self.draw_legend(legend, width=0.34 if signal else 0.29)
+            #self.draw_legend(legend, width=0.34 if signal else 0.29)
             canvas.objects["legend"] = legend
 
         # Add experiment label
