@@ -85,6 +85,79 @@ input:
       events: null
       xsection: null
       enable: True
+
+    - name: MC.DYJets_10to50_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DYJets_50toInf_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY1Jets_50toInf_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY2Jets_50toInf_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY3Jets_50toInf_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY4Jets_50toInf_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DYJets_10to50_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DYJets_50toInf_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY1Jets_50toInf_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY2Jets_50toInf_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY3Jets_50toInf_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY4Jets_50toInf_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DYJets_10to50_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DYJets_50toInf_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY1Jets_50toInf_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY2Jets_50toInf_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY3Jets_50toInf_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.DY4Jets_50toInf_LFlavor
+      events: null
+      xsection: null
+      enable: True
     # W + jets
     #
     - name: MC.WJets
@@ -104,6 +177,67 @@ input:
       xsection: null
       enable: True
     - name: MC.W4Jets
+      events: null
+      xsection: null
+      enable: True
+
+    - name: MC.WJets_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W1Jets_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W2Jets_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W3Jets_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W4Jets_BFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.WJets_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W1Jets_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W2Jets_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W3Jets_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W4Jets_CFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.WJets_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W1Jets_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W2Jets_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W3Jets_LFlavor
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.W4Jets_LFlavor
       events: null
       xsection: null
       enable: True
@@ -264,10 +398,31 @@ channel:
       color: [*green, -3]
       fill: True
       line: null
+    - name: wb
+      inputs: [MC.W1Jets_BFlavor, MC.W2Jets_BFlavor, MC.W3Jets_BFlavor, MC.W4Jets_BFlavor]
+      #inputs: [MC.WJets_BFlavor]
+      legend: !!str "W#rightarrowl#nu (+b)"
+      color: [*green, -1]
+      fill: True
+      line: null
+    - name: wc
+      inputs: [MC.W1Jets_CFlavor, MC.W2Jets_CFlavor, MC.W3Jets_CFlavor, MC.W4Jets_CFlavor]
+      #inputs: [MC.WJets_CFlavor]
+      legend: !!str "W#rightarrowl#nu (+c)"
+      color: [*green, -2]
+      fill: True
+      line: null
+    - name: wlight
+      inputs: [MC.W1Jets_LFlavor, MC.W2Jets_LFlavor, MC.W3Jets_LFlavor, MC.W4Jets_LFlavor]
+      #inputs: [MC.WJets_LFlavor]
+      legend: !!str "W#rightarrowl#nu (+light)"
+      color: [*green, -3]
+      fill: True
+      line: null
     - name: zjets
       #inputs: [MC.DYJets_10to50, MC.DY1Jets_50toInf, MC.DY2Jets_50toInf, MC.DY3Jets_50toInf, MC.DY4Jets_50toInf]
       inputs: [MC.DY1Jets_50toInf, MC.DY2Jets_50toInf, MC.DY3Jets_50toInf, MC.DY4Jets_50toInf]
-      # inputs: [MC.DYJets_10to50, MC.DYJets_50toInf]
+      #inputs: [MC.DYJets_10to50, MC.DYJets_50toInf]
       legend: !!str "Z/#gamma*#rightarrowl^{+}l^{-}"
       color: [*azure, -2]
       fill: True
@@ -445,7 +600,9 @@ channel:
 #
 order:
     - bkgs
-    - wjets
+    - wlight
+    - wc
+    - wb
     - zjets
     - stop
     - diboson
@@ -475,7 +632,7 @@ order:
 
 expand:
    # mc: !!str '^(ttbar|wjets|stop|zjets|diboson|bkgs)$'
-   mc: !!str '^(ttbar|wjets|stop|zjets|diboson)$'
+   mc: !!str '^(ttbar|wlight|wc|wb|stop|zjets|diboson)$'
    zp1p: !!str '^(zp1000w10|zp1500w15|zp2000w20|zp3000w30)$'
    zp10p: !!str '^(zp1000w100|zp1500w150|zp2000w200|zp3000w300)$'
    rsg: !!str '^(rsg1000|rsg1500|rsg2000|rsg3000|rsg3500)'

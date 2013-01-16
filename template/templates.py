@@ -424,7 +424,7 @@ class Templates(object):
 
     def draw_experiment_label(self, is_data):
         if is_data:
-            label = "CMS, {0:.1f} fb^".format(
+            label = "CMS Preliminary, {0:.1f} fb^".format(
                         self._channel_config["luminosity"] / 1000) + "{-1}"
         else:
             label = "CMS Simulation"
