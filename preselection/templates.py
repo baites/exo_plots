@@ -242,6 +242,8 @@ class Templates(templates.Templates):
                     else:
                         met["mc"] = plot_.Clone()
 
+            print (met.keys())
+
             missing_channels = set(["data", "qcd", "mc"]) - set(met.keys())
             if missing_channels:
                 raise RuntimeError("channels {0!r} are not loaded".format(

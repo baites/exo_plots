@@ -108,4 +108,9 @@ def parser():
             action="store_true", default=False,
             help="Plot graphs in log scale")
 
+    parser_.add_option(
+            "--ratio",
+            action="store_true", default=False,
+            help="Plot ratio between data and MC.")
+
     return parser_

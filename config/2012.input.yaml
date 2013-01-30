@@ -51,6 +51,10 @@ input:
       events: null
       xsection: null
       enable: True
+    - name: MC.TTbar_0to700
+      events: null
+      xsection: null
+      enable: True
     - name: MC.TTbar_700to1000
       events: null
       xsection: null
@@ -140,6 +144,52 @@ input:
       xsection: null
       enable: True
     - name: MC.ZZ
+      events: null
+      xsection: null
+      enable: True
+    # QCD
+    # 
+    - name: MC.QCD_Pt_20_30_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_30_80_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_80_170_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_170_250_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_350_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_20_30_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_30_80_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_80_170_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_170_250_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_250_350_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_350_EMEnriched
       events: null
       xsection: null
       enable: True
@@ -251,7 +301,7 @@ channel:
     # Define how inputs can be grouped into channels
     # color is specified by [base, shift] 
     - name: ttbar
-      inputs: [MC.TTbar, MC.TTbar_700to1000, MC.TTbar_1000toInf]
+      inputs: [MC.TTbar_0to700, MC.TTbar_700to1000, MC.TTbar_1000toInf]
       # inputs: [MC.TTbar]
       legend: !!str "t#bar{t}"
       color: [*red, -3]
@@ -282,6 +332,12 @@ channel:
       inputs: [MC.WW, MC.ZZ]
       legend: !!str "Diboson"
       color: [*orange, -3]
+      fill: True
+      line: null
+    - name: mc_qcd
+      inputs: [MC.QCD_Pt_20_30_BCtoE, MC.QCD_Pt_30_80_BCtoE, MC.QCD_Pt_80_170_BCtoE, MC.QCD_Pt_170_250_BCtoE, MC.QCD_Pt_350_BCtoE,  MC.QCD_Pt_20_30_EMEnriched,  MC.QCD_Pt_30_80_EMEnriched,  MC.QCD_Pt_80_170_EMEnriched,  MC.QCD_Pt_170_250_EMEnriched,  MC.QCD_Pt_250_350_EMEnriched,  MC.QCD_Pt_350_EMEnriched]
+      legend: !!str "MC QCD"
+      color: [*yellow, 1] 
       fill: True
       line: null
     # 
@@ -428,7 +484,7 @@ channel:
       color: [*black, 0] 
       fill: False
       line: null
-    - name: qcd
+    - name: data_qcd
       inputs: [DATA.QCD]
       legend: !!str "QCD data-driven"
       color: [*yellow, 1]
@@ -450,7 +506,7 @@ order:
     - stop
     - diboson
     - ttbar
-    - qcd
+    - mc_qcd
     - zp500w5
     - zp750w7p5
     - zp1000w10
@@ -475,7 +531,7 @@ order:
 
 expand:
    # mc: !!str '^(ttbar|wjets|stop|zjets|diboson|bkgs)$'
-   mc: !!str '^(ttbar|wjets|stop|zjets|diboson)$'
+   mc: !!str '^(ttbar|wjets|stop|zjets|diboson|mc_qcd)$'
    zp1p: !!str '^(zp1000w10|zp1500w15|zp2000w20|zp3000w30)$'
    zp10p: !!str '^(zp1000w100|zp1500w150|zp2000w200|zp3000w300)$'
    rsg: !!str '^(rsg1000|rsg1500|rsg2000|rsg3000|rsg3500)'

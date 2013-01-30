@@ -27,6 +27,9 @@ def main():
         opt_parser.add_option("--theta-prefix",
                               action="store", default="el",
                               help="theta plots prefix")
+        opt_parser.add_option("--theta-postfix",
+                              action="store", default="",
+                              help="theta plots postfix")
         opt_parser.add_option('-o', "--output",
                               action='store', default='theta_input.root',
                               help="output filename")

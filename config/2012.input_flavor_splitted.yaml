@@ -51,6 +51,10 @@ input:
       events: null
       xsection: null
       enable: True
+    - name: MC.TTbar_0to700
+      events: null
+      xsection: null
+      enable: True
     - name: MC.TTbar_700to1000
       events: null
       xsection: null
@@ -85,7 +89,6 @@ input:
       events: null
       xsection: null
       enable: True
-
     - name: MC.DYJets_10to50_BFlavor
       events: null
       xsection: null
@@ -277,6 +280,52 @@ input:
       events: null
       xsection: null
       enable: True
+    # QCD
+    #
+    - name: MC.QCD_Pt_20_30_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_30_80_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_80_170_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_170_250_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_350_BCtoE
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_20_30_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_30_80_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_80_170_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_170_250_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_250_350_EMEnriched
+      events: null
+      xsection: null
+      enable: True
+    - name: MC.QCD_Pt_350_EMEnriched
+      events: null
+      xsection: null
+      enable: True
     # Signals
     #
     - name: MC.ZP500w5
@@ -385,7 +434,7 @@ channel:
     # Define how inputs can be grouped into channels
     # color is specified by [base, shift] 
     - name: ttbar
-      inputs: [MC.TTbar, MC.TTbar_700to1000, MC.TTbar_1000toInf]
+      inputs: [MC.TTbar_0to700, MC.TTbar_700to1000, MC.TTbar_1000toInf]
       # inputs: [MC.TTbar]
       legend: !!str "t#bar{t}"
       color: [*red, -3]
@@ -439,7 +488,12 @@ channel:
       color: [*orange, -3]
       fill: True
       line: null
-    # 
+    - name: qcd
+      inputs: [MC.QCD_Pt_20_30_BCtoE, MC.QCD_Pt_30_80_BCtoE, MC.QCD_Pt_80_170_BCtoE, MC.QCD_Pt_170_250_BCtoE, MC.QCD_Pt_350_BCtoE,  MC.QCD_Pt_20_30_EMEnriched,  MC.QCD_Pt_30_80_EMEnriched,  MC.QCD_Pt_80_170_EMEnriched,  MC.QCD_Pt_170_250_EMEnriched,  MC.QCD_Pt_250_350_EMEnriched,  MC.QCD_Pt_350_EMEnriched]
+      legend: !!str "MC QCD"
+      color: [*yellow, 1] 
+      fill: True
+      line: null
     #
     #
     - name: zp500w5
@@ -574,7 +628,6 @@ channel:
       color: [*gray, 3]
       fill: False
       line: 6
-
     # Data channels
     #
     - name: data
@@ -583,7 +636,7 @@ channel:
       color: [*black, 0] 
       fill: False
       line: null
-    - name: qcd
+    - name: data_qcd
       inputs: [DATA.QCD]
       legend: !!str "QCD data-driven"
       color: [*yellow, 1]

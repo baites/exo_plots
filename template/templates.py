@@ -8,7 +8,7 @@ Copyright 2012, All rights reserved
 from __future__ import print_function, division
 
 import itertools
-import os
+import os, array
 
 import ROOT
 
@@ -130,6 +130,7 @@ class Templates(object):
         self._legend_valign = "top"
 
         self._log = options.log
+        self._ratio= options.ratio
 
     @property
     def plots(self):
@@ -284,6 +285,11 @@ class Templates(object):
         name = 'c_' + plot_name.lstrip('/').replace('/', '_')
         canvas = ROOT.TCanvas(name, "")
 
+        if self._ratio:
+            canvas.Divide(1,2)
+            canvas.cd(1)
+            ROOT.gPad.SetPad(0, 0.3, 1, 1)
+
         canvas.objects = {
                 "background": background,
                 "data": data,
@@ -349,7 +355,28 @@ class Templates(object):
             canvas.objects["sub-label"] = self.draw_sub_label()
 
         if self._log:
-            canvas.SetLogy()
+            ROOT.gPad.SetLogy()
+
+        if self._ratio:
+            canvas.cd(2)
+            ROOT.gPad.SetPad(0, 0, 1, 0.3)
+            ratio, error = self.get_ratio(background, data)
+            canvas.objects["ratio"] = ratio
+            canvas.objects["ratio_error"] = error
+            r_axis = h_axis.Clone()
+            canvas.objects["raxis"] = r_axis
+            r_axis.GetXaxis().SetTitle('')
+            r_axis.GetXaxis().SetLabelSize(2*r_axis.GetXaxis().GetLabelSize())
+            r_axis.GetYaxis().SetTitle('data / bkg')
+            r_axis.GetYaxis().SetTitleSize(2*r_axis.GetYaxis().GetTitleSize())
+            r_axis.GetYaxis().SetTitleOffset(0.5*r_axis.GetYaxis().GetTitleOffset())
+            r_axis.GetYaxis().SetLabelSize(2*r_axis.GetYaxis().GetLabelSize())
+            r_axis.SetMinimum(0.0)   
+            r_axis.SetMaximum(2.0)
+            r_axis.Draw('9')
+            error.Draw('9 same e2')
+            ratio.Draw('9 same')
+            r_axis.Draw('9 same')
 
         # re-draw everything for nice look
         canvas.Update()
@@ -390,6 +417,37 @@ class Templates(object):
             hist.SetFillColor(ROOT.kGray + 3)
 
         return hist
+
+    def get_ratio(self, background, data):
+        ''' Calculate data/bkg ratio '''
+        ratio = None
+        error = None
+        if background.GetHists():
+            bg = None
+            for bg_ in background.GetHists():
+                if not bg:
+                    bg = bg_.Clone()
+                    bg.SetDirectory(0)
+                else:
+                    bg.Add(bg_)
+
+            ratio = data.Clone()
+            error = data.Clone()
+            ratio.Divide(bg)
+            for i in range(ratio.GetNbinsX()):
+                error.SetBinContent(i+1,1.0)
+                if bg.GetBinContent(i+1) > 0:
+                    error.SetBinError(i+1,bg.GetBinError(i+1)/bg.GetBinContent(i+1))
+                    ratio.SetBinError(i+1,data.GetBinError(i+1)/bg.GetBinContent(i+1))
+                else:
+                    error.SetBinError(i+1, 0.0)
+            ratio.GetYaxis().SetRangeUser(0,2)
+            error.SetMarkerSize(0)
+            error.SetLineWidth(2)
+            error.SetLineColor(ROOT.kGray)
+            error.SetFillStyle(1001)
+            error.SetFillColor(ROOT.kGray)
+        return ratio, error
 
     def draw_legend(self, legend, width=0.29):
         if "right" == self._legend_align:

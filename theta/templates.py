@@ -23,7 +23,6 @@ class Input(templates.Templates):
             # Map channel type to channel name to be used in plot name
 
             # Backgrounds
-            "wjets": "wlight",
             "zjets": "zlight",
             "stop": "singletop",
             "qcd": "eleqcd",
@@ -54,6 +53,7 @@ class Input(templates.Templates):
         templates.Templates.__init__(self, options, args, config)
 
         self._theta_prefix = options.theta_prefix
+        self._theta_postfix = options.theta_postfix
         self._output = options.output
         self.__plots = options.plots
 
@@ -64,7 +64,14 @@ class Input(templates.Templates):
             channels = self.plots[self.__plots]
             for channel_, hist in channels.items():
                 channel_ = self.channel_names.get(channel_, channel_)
-                name = "{prefix}_{plot}__{channel}".format(
+                if self._theta_postfix != "":
+                    name = "{prefix}_{plot}__{channel}__{postfix}".format(
+                            prefix=self._theta_prefix,
+                            plot="mttbar",
+                            channel=channel_,
+                            postfix=self._theta_postfix)
+                else:
+                    name = "{prefix}_{plot}__{channel}".format(
                             prefix=self._theta_prefix,
                             plot="mttbar",
                             channel=channel_)
